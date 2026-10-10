@@ -6,9 +6,10 @@ import { pageHead } from '@/components/bmc/metadata';
 import car from '@/assets/bmc-grand-tourer.jpg';
 import craft from '@/assets/bmc-craft.jpg';
 export const Route = createFileRoute('/studio')({head:()=>pageHead('The co-creation studio','Explore bespoke paints, leathers, rare veneers and personal monograms with BMC’s illustrative digital commission studio.'),component:Studio});
-const paints=[{id:'champagne',name:'Champagne Pearl',cost:12000},{id:'onyx',name:'Obsidian Black',cost:8500},{id:'forest',name:'British Racing Green',cost:14000},{id:'bordeaux',name:'Bordeaux Heritage',cost:16000}];
-const leathers=[{id:'cognac',name:'Saddle Cognac',cost:18000},{id:'ivory',name:'Arctic Ivory',cost:21000},{id:'noir',name:'Midnight Noir',cost:16500}];
-const woods=[{id:'walnut',name:'Burr Walnut',cost:9000},{id:'ebony',name:'Macassar Ebony',cost:15000},{id:'ash',name:'Figured Ash',cost:11000}];
+type Finish={id:string;name:string;cost:number};
+const paints:[Finish,...Finish[]]=[{id:'champagne',name:'Champagne Pearl',cost:12000},{id:'onyx',name:'Obsidian Black',cost:8500},{id:'forest',name:'British Racing Green',cost:14000},{id:'bordeaux',name:'Bordeaux Heritage',cost:16000}];
+const leathers:[Finish,...Finish[]]=[{id:'cognac',name:'Saddle Cognac',cost:18000},{id:'ivory',name:'Arctic Ivory',cost:21000},{id:'noir',name:'Midnight Noir',cost:16500}];
+const woods:[Finish,...Finish[]]=[{id:'walnut',name:'Burr Walnut',cost:9000},{id:'ebony',name:'Macassar Ebony',cost:15000},{id:'ash',name:'Figured Ash',cost:11000}];
 function Studio(){
  const [paint,setPaint]=useState(paints[0]); const [leather,setLeather]=useState(leathers[0]); const [wood,setWood]=useState(woods[0]); const [monogram,setMonogram]=useState(''); const [tab,setTab]=useState('exterior'); const [view,setView]=useState('exterior'); const [role,setRole]=useState('Client');
  const total=385000+paint.cost+leather.cost+wood.cost+(monogram?2500:0);
