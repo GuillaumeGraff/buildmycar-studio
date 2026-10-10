@@ -4,4 +4,5 @@
 - [x] Certified story and provenance example showcase
 - [x] Invitation-only Owners’ Circle login and member area
 - [x] Verify navigation, configuration and tablet presentation
+- [x] Public team page (/team) with the six named roles, linked in the menu
 - [ ] Connect shared co-creation sessions and verified vehicle records — requires BMC collaboration workflow and real commission content
