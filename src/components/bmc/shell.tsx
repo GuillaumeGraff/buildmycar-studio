@@ -23,15 +23,15 @@ export function Header({ signedIn }: { signedIn: boolean }) {
         <nav className="main" aria-label="Main">
           {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }}>{l.label}</Link>)}
         </nav>
-        <button className="menu-btn" aria-expanded={open} onClick={() => setOpen(true)}>Menu</button>
+        <button className="menu-btn" aria-expanded={open} aria-controls="menu-panel" onClick={() => setOpen(o => !o)}>{open ? 'Close' : 'Menu'}</button>
       </div>
+      {open && <nav id="menu-panel" className="menu-panel" aria-label="Menu">
+        <Link to="/" onClick={() => setOpen(false)}>Home</Link>
+        {links.map(l => <Link key={l.to} to={l.to} onClick={() => setOpen(false)}>{l.label}</Link>)}
+        <Link to={signedIn ? '/circle' : '/auth'} onClick={() => setOpen(false)}>Owners’ Circle</Link>
+      </nav>}
     </header>
-    {open && <div className="menu-panel">
-      <button className="close" onClick={() => setOpen(false)}>Close</button>
-      <Link to="/" onClick={() => setOpen(false)}>Home</Link>
-      {links.map(l => <Link key={l.to} to={l.to} onClick={() => setOpen(false)}>{l.label}</Link>)}
-      <Link to={signedIn ? '/circle' : '/auth'} onClick={() => setOpen(false)}>Owners’ Circle</Link>
-    </div>}
+    {open && <div className="menu-backdrop" onClick={() => setOpen(false)} />}
   </>;
 }
 
