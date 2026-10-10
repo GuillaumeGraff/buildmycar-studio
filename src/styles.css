@@ -44,6 +44,21 @@
 .hero-title { font-size:80px; line-height:1.02; max-width:620px; margin-top:25px; }
 .hero-title em { color:var(--primary); font-weight:400; }
 .hero-foot { position:absolute; left:5%; right:5%; bottom:35px; display:flex; justify-content:space-between; align-items:end; }
+.hero-stage { position:absolute; z-index:1; pointer-events:none; right:3%; bottom:110px; width:min(62%,980px); }
+.hero-car svg { width:100%; height:auto; display:block; overflow:visible; }
+.hero-car .ln { fill:none; stroke:var(--primary); stroke-width:1.15; stroke-linecap:round; stroke-dasharray:1; stroke-dashoffset:1; animation:car-draw 3.4s cubic-bezier(.65,.05,.2,1) .2s forwards; }
+.hero-car .lnm { fill:none; stroke:var(--primary); stroke-width:1.1; }
+.hero-car .fine { stroke-width:.7; opacity:.7; animation-delay:1.1s; }
+.hero-car .late { animation-delay:1.8s; animation-duration:2.2s; }
+.hero-car .lacquer { opacity:0; animation:car-fade 2.4s ease 3s forwards; }
+.hero-car .sweep { transform:translateX(-420px); animation:car-sweep 7s cubic-bezier(.45,0,.25,1) 3.6s infinite; }
+.hero-car .lamp { opacity:0; animation:car-lamp 1.6s ease 3.3s forwards; }
+.hero-car .mirror { opacity:0; animation:car-mirror 2.4s ease 3s forwards; }
+@keyframes car-draw { to { stroke-dashoffset:0; } }
+@keyframes car-fade { to { opacity:1; } }
+@keyframes car-mirror { to { opacity:.1; } }
+@keyframes car-lamp { 0% { opacity:0; } 40% { opacity:1; } 60% { opacity:.55; } 100% { opacity:1; } }
+@keyframes car-sweep { 0% { transform:translateX(-420px); } 45%,100% { transform:translateX(1100px); } }
 .section-wrap { padding:85px 7%; max-width:1600px; margin:auto; }
 .page-intro { padding:65px 5% 40px; }
 .page-intro h1 { font-size:56px; margin:14px 0; }
@@ -67,6 +82,6 @@
 .team-plate::after { content:''; position:absolute; inset:13px; border:1px solid color-mix(in oklab,var(--border) 60%,transparent); }
 .team-plate span { font-family:var(--font-display); font-size:58px; letter-spacing:4px; color:var(--primary); }
 @media(max-width:640px) { .team-plate { aspect-ratio:1/1; } .team-plate span { font-size:46px; } }
-@media(max-width:1024px) { .site-header { height:85px; gap:20px; } .site-header nav { gap:24px; } .brand-caption { letter-spacing:1.5px; white-space:nowrap; } .nav-link { font-size:9px; letter-spacing:1px; white-space:nowrap; } .hero-title { font-size:67px; max-width:500px; } .hero-copy { padding-top:90px; } .luxury-hero { min-height:580px; } .hero-image { object-position:60% center; } }
-@media(max-width:640px) { .hero-title { font-size:51px; } .hero-copy { padding-top:80px; } .luxury-hero { min-height:630px; height:calc(100svh - 115px); } .hero-image { object-position:67% center; opacity:.65; } .section-wrap { padding:55px 6%; } .editorial-heading { font-size:38px; } .page-intro h1 { font-size:42px; } .hero-foot { bottom:25px; } }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
+@media(max-width:1024px) { .site-header { height:85px; gap:20px; } .site-header nav { gap:24px; } .brand-caption { letter-spacing:1.5px; white-space:nowrap; } .nav-link { font-size:9px; letter-spacing:1px; white-space:nowrap; } .hero-title { font-size:67px; max-width:500px; } .hero-copy { padding-top:90px; } .luxury-hero { min-height:580px; } .hero-image { object-position:60% center; } .hero-stage { width:72%; bottom:100px; } }
+@media(max-width:640px) { .hero-title { font-size:51px; } .hero-copy { padding-top:80px; } .luxury-hero { min-height:630px; height:calc(100svh - 115px); } .hero-image { object-position:67% center; opacity:.65; } .hero-stage { left:4%; right:4%; width:auto; bottom:95px; } .hero-car .ln,.hero-car .lnm { stroke-width:2.6; } .hero-car .ln.fine { stroke-width:1.6; } .section-wrap { padding:55px 6%; } .editorial-heading { font-size:38px; } .page-intro h1 { font-size:42px; } .hero-foot { bottom:25px; } }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } .hero-car .ln { stroke-dashoffset:0; } .hero-car .lacquer,.hero-car .lamp { opacity:1; } .hero-car .mirror { opacity:.1; } }
