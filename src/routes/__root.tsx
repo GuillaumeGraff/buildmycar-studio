@@ -92,6 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&family=Mrs+Saint+Delafield&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -131,9 +132,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Header signedIn={signedIn} />
-      <main><Outlet /></main>
-      <Footer />
+      <div className="atelier">
+        <Header signedIn={signedIn} />
+        <main><Outlet /></main>
+        <Footer />
+      </div>
       <Toaster />
     </QueryClientProvider>
   );

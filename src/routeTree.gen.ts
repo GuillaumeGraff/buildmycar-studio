@@ -12,10 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
-import { Route as ProvenanceRouteImport } from './routes/provenance'
+import { Route as ConfigureRouteImport } from './routes/configure'
+import { Route as HeritageRouteImport } from './routes/heritage'
+import { Route as LegalRouteImport } from './routes/legal'
+import { Route as MaisonRouteImport } from './routes/maison'
+import { Route as PressRouteImport } from './routes/press'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as StudioRouteImport } from './routes/studio'
-import { Route as TeamRouteImport } from './routes/team'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 
 const IndexRoute = IndexRouteImport.update({
@@ -32,24 +35,39 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProvenanceRoute = ProvenanceRouteImport.update({
-  id: '/provenance',
-  path: '/provenance',
+const ConfigureRoute = ConfigureRouteImport.update({
+  id: '/configure',
+  path: '/configure',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HeritageRoute = HeritageRouteImport.update({
+  id: '/heritage',
+  path: '/heritage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MaisonRoute = MaisonRouteImport.update({
+  id: '/maison',
+  path: '/maison',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PressRoute = PressRouteImport.update({
+  id: '/press',
+  path: '/press',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StudioRoute = StudioRouteImport.update({
-  id: '/studio',
-  path: '/studio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TeamRoute = TeamRouteImport.update({
-  id: '/team',
-  path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
@@ -61,19 +79,25 @@ const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/provenance': typeof ProvenanceRoute
+  '/configure': typeof ConfigureRoute
+  '/heritage': typeof HeritageRoute
+  '/legal': typeof LegalRoute
+  '/maison': typeof MaisonRoute
+  '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/studio': typeof StudioRoute
-  '/team': typeof TeamRoute
   '/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/provenance': typeof ProvenanceRoute
+  '/configure': typeof ConfigureRoute
+  '/heritage': typeof HeritageRoute
+  '/legal': typeof LegalRoute
+  '/maison': typeof MaisonRoute
+  '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/studio': typeof StudioRoute
-  '/team': typeof TeamRoute
   '/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRoutesById {
@@ -81,10 +105,13 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
-  '/provenance': typeof ProvenanceRoute
+  '/configure': typeof ConfigureRoute
+  '/heritage': typeof HeritageRoute
+  '/legal': typeof LegalRoute
+  '/maison': typeof MaisonRoute
+  '/press': typeof PressRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
-  '/studio': typeof StudioRoute
-  '/team': typeof TeamRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRouteTypes {
@@ -92,29 +119,38 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
-    | '/provenance'
+    | '/configure'
+    | '/heritage'
+    | '/legal'
+    | '/maison'
+    | '/press'
+    | '/privacy'
     | '/reset-password'
-    | '/studio'
-    | '/team'
     | '/circle'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
-    | '/provenance'
+    | '/configure'
+    | '/heritage'
+    | '/legal'
+    | '/maison'
+    | '/press'
+    | '/privacy'
     | '/reset-password'
-    | '/studio'
-    | '/team'
     | '/circle'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
-    | '/provenance'
+    | '/configure'
+    | '/heritage'
+    | '/legal'
+    | '/maison'
+    | '/press'
+    | '/privacy'
     | '/reset-password'
-    | '/studio'
-    | '/team'
     | '/_authenticated/circle'
   fileRoutesById: FileRoutesById
 }
@@ -122,10 +158,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
-  ProvenanceRoute: typeof ProvenanceRoute
+  ConfigureRoute: typeof ConfigureRoute
+  HeritageRoute: typeof HeritageRoute
+  LegalRoute: typeof LegalRoute
+  MaisonRoute: typeof MaisonRoute
+  PressRoute: typeof PressRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
-  StudioRoute: typeof StudioRoute
-  TeamRoute: typeof TeamRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -151,11 +190,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/provenance': {
-      id: '/provenance'
-      path: '/provenance'
-      fullPath: '/provenance'
-      preLoaderRoute: typeof ProvenanceRouteImport
+    '/configure': {
+      id: '/configure'
+      path: '/configure'
+      fullPath: '/configure'
+      preLoaderRoute: typeof ConfigureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/heritage': {
+      id: '/heritage'
+      path: '/heritage'
+      fullPath: '/heritage'
+      preLoaderRoute: typeof HeritageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/maison': {
+      id: '/maison'
+      path: '/maison'
+      fullPath: '/maison'
+      preLoaderRoute: typeof MaisonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/press': {
+      id: '/press'
+      path: '/press'
+      fullPath: '/press'
+      preLoaderRoute: typeof PressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -163,20 +237,6 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/studio': {
-      id: '/studio'
-      path: '/studio'
-      fullPath: '/studio'
-      preLoaderRoute: typeof StudioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/team': {
-      id: '/team'
-      path: '/team'
-      fullPath: '/team'
-      preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/circle': {
@@ -204,10 +264,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
-  ProvenanceRoute: ProvenanceRoute,
+  ConfigureRoute: ConfigureRoute,
+  HeritageRoute: HeritageRoute,
+  LegalRoute: LegalRoute,
+  MaisonRoute: MaisonRoute,
+  PressRoute: PressRoute,
+  PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
-  StudioRoute: StudioRoute,
-  TeamRoute: TeamRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
