@@ -9,6 +9,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        atelier: "border border-primary/50 text-primary bg-transparent rounded-none uppercase text-[9px] tracking-[1.6px] hover:bg-accent h-11 px-5",
+        commission: "bg-primary text-primary-foreground rounded-none uppercase text-[9px] tracking-[1.6px] hover:bg-primary/90 h-12 px-6",
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:

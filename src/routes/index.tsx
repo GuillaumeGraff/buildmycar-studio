@@ -1,24 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowRight, ArrowDown, ArrowUpRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { pageHead } from '@/components/bmc/metadata';
+import car from '@/assets/bmc-grand-tourer.jpg';
+import craft from '@/assets/bmc-craft.jpg';
+export const Route = createFileRoute('/')({head:()=>pageHead('Bespoke, beyond compare','Since 1981, BuildMyCar has united human craftsmanship and digital precision in 20–30 bespoke luxury vehicles each year.'),component:Index});
+function Index(){return <>
+ <section className="luxury-hero"><img src={car} width={1920} height={1024} className="hero-image" alt="Champagne silver BMC bespoke grand tourer in a private atelier"/><div className="hero-shade"/><div className="hero-copy reveal"><div className="eyebrow flex items-center gap-4"><span className="w-8 h-px bg-primary"/>THE ART OF BESPOKE MOTORING</div><h1 className="hero-title">Not simply built.<br/><em>Personally created.</em></h1><p className="mt-7 max-w-sm text-muted-foreground text-[12px] leading-7">Where Human Craftsmanship<br/>Meets Digital Precision.</p><div className="flex flex-wrap gap-5 mt-9"><Button asChild variant="commission"><Link to="/studio">Begin your commission <ArrowRight/></Link></Button><Button variant="ghost" className="text-[9px] uppercase tracking-[1.6px] h-12" onClick={()=>document.getElementById('heritage')?.scrollIntoView({behavior:'smooth'})}>Discover our heritage <ArrowUpRight/></Button></div></div><div className="hero-foot"><div className="flex gap-9 sm:gap-14"><div><span className="font-display text-2xl">1981</span><p className="text-[8px] tracking-[2px] text-muted-foreground mt-2">A LEGACY BEGINS</p></div><div className="border-l border-border pl-9 sm:pl-14"><span className="font-display text-2xl">20–30</span><p className="text-[8px] tracking-[2px] text-muted-foreground mt-2">CREATIONS. EACH YEAR.</p></div></div><Button variant="ghost" size="icon" aria-label="Explore the heritage" onClick={()=>document.getElementById('heritage')?.scrollIntoView({behavior:'smooth'})}><ArrowDown/></Button></div></section>
+ <section id="heritage" className="section-wrap"><div className="grid md:grid-cols-[.8fr_1.2fr] gap-12 md:gap-24 items-start"><div><p className="eyebrow mb-6">A TRADITION OF THE EXTRAORDINARY</p><h2 className="editorial-heading">Four decades.<br/>One uncompromising<br/><em className="text-primary">pursuit.</em></h2></div><div className="pt-2"><p className="text-muted-foreground leading-8 max-w-xl">Since 1981, BuildMyCar has pursued a singular idea: the most remarkable automobile is the one that could only belong to you. Not a model to choose. A personal vision to bring to life.</p><p className="text-muted-foreground leading-8 max-w-xl mt-5">Just 20 to 30 commissions leave our atelier each year. Each shaped by human hands, informed by digital precision, and made without compromise.</p><div className="flex items-center gap-3 mt-8 text-[9px] text-primary tracking-[2px]"><span className="w-10 h-px bg-primary"/>RARE BY INTENTION. UNIQUE BY NATURE.</div></div></div><img src={craft} width={1200} height={800} loading="lazy" alt="An artisan hand-stitching a bespoke leather seat" className="mt-16 w-full h-[350px] md:h-[420px] object-cover object-center"/><div className="flex justify-between mt-4 text-[8px] tracking-[2px] text-muted-foreground"><span>THE ATELIER · HUMAN HANDS, EXCEPTIONAL DETAIL</span><span>01 / 03</span></div></section>
+ <section className="section-wrap border-t border-border"><p className="eyebrow mb-5">YOUR JOURNEY, REIMAGINED</p><div className="flex justify-between items-end mb-10"><h2 className="editorial-heading">Beyond the automobile.</h2><span className="hidden md:block text-[10px] text-muted-foreground">A personal world, built around you.</span></div><div className="grid md:grid-cols-3 gap-5">{[{to:'/studio',title:'The co-creation studio',label:'01 · YOUR VISION',img:car},{to:'/provenance',title:'Every detail, a story',label:'02 · YOUR LEGACY',img:craft},{to:'/auth',title:'The Owners’ Circle',label:'03 · YOUR WORLD',img:car}].map(item=><Link to={item.to as '/studio'|'/provenance'|'/auth'} key={item.to} className="portal-card"><img src={item.img} loading="lazy" width={1200} height={800} alt={item.title}/><div className="portal-caption"><p className="eyebrow mb-3">{item.label}</p><div className="flex justify-between items-center"><h3 className="text-3xl">{item.title}</h3><ArrowUpRight className="text-primary" size={18}/></div></div></Link>)}</div></section>
+ </>}
