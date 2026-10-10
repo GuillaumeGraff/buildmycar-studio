@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
 import { Car } from '@/components/atelier/car';
@@ -11,10 +11,59 @@ type Selection = { paint: string; wheel: string; leather: string; material: stri
 const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '' };
 const top = () => window.scrollTo({ top: 0 });
 
+// Studio lighting for the configurator stage.
+const LIGHTS = [
+  { id: 'day', name: 'Daylight' },
+  { id: 'dusk', name: 'Dusk' },
+  { id: 'night', name: 'Night' },
+] as const;
+type Light = (typeof LIGHTS)[number]['id'];
+
+// A commission is shared as a link: /configure?c=gt.jade.wire.cognac.walnut.ABC
+const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono].join('.');
+function decode(code: string): { model: ModelId; sel: Selection } | null {
+  const [model, paint, wheel, leather, material, mono = ''] = code.split('.');
+  if (!model || !(model in MODELS)) return null;
+  const valid = (key: 'paint' | 'wheel' | 'leather' | 'material', id?: string) => STEPS.find(st => st.key === key)!.opts!.some(o => o.id === id) ? id! : DEFAULTS[key];
+  return { model: model as ModelId, sel: { paint: valid('paint', paint), wheel: valid('wheel', wheel), leather: valid('leather', leather), material: valid('material', material), mono: mono.replace(/[^A-Z]/g, '').slice(0, 3) } };
+}
+
+async function share(model: ModelId, sel: Selection) {
+  const url = `${window.location.origin}/configure?c=${encode(model, sel)}`;
+  const title = `My BMC ${MODELS[model].name}`;
+  try {
+    if (navigator.share && window.matchMedia('(pointer: coarse)').matches) { await navigator.share({ title, url }); return; }
+    await navigator.clipboard.writeText(url);
+    toast('Link copied · anyone with it sees your commission');
+  } catch (e) {
+    if ((e as Error).name !== 'AbortError') toast('Could not copy the link', { description: url });
+  }
+}
+
+// Workshop stages as a share of the build time, from sign-off to handover.
+const STAGES = [
+  { at: 0, name: 'Design sign-off', note: 'Final drawings and materials approved together' },
+  { at: 0.12, name: 'Chassis & coachwork', note: 'Aluminium panels shaped by hand on wooden bucks' },
+  { at: 0.45, name: 'Paint', note: 'Each coat laid and rubbed by hand' },
+  { at: 0.65, name: 'Interior', note: 'Hides cut, stitched and fitted' },
+  { at: 0.88, name: 'Road test', note: 'Five hundred kilometres before the final polish' },
+  { at: 1, name: 'Handover', note: 'At the Munich atelier, or at your door' },
+];
+const monthYear = (weeksFromNow: number) => new Date(Date.now() + weeksFromNow * 7 * 864e5).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
 function Configure() {
   const [model, setModel] = useState<ModelId | null>(null);
   const [step, setStep] = useState(0);
   const [sel, setSel] = useState<Selection>(DEFAULTS);
+  const [light, setLight] = useState<Light>('day');
+
+  // Open a shared commission straight on its summary.
+  useEffect(() => {
+    const code = new URLSearchParams(window.location.search).get('c');
+    const shared = code && decode(code);
+    if (!shared) return;
+    setModel(shared.model); setSel(shared.sel); setStep(STEPS.length - 1);
+  }, []);
 
   if (!model) return <div className="page">
     <div className="wrap page-head">
@@ -41,7 +90,13 @@ function Configure() {
     </div>
     <div className="wrap config">
       <div className="viewer">
-        <div className="stage">{sel.mono && <span className="mono">{sel.mono}</span>}<Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/></div>
+        <div className={`stage ${light}`}>{sel.mono && <span className="mono">{sel.mono}</span>}<Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/></div>
+        <div className="viewer-tools">
+          <div className="lights" role="group" aria-label="Studio lighting">
+            {LIGHTS.map(l => <button key={l.id} aria-pressed={light === l.id} onClick={() => setLight(l.id)}>{l.name}</button>)}
+          </div>
+          <button className="link" onClick={() => void share(model, sel)}>Share</button>
+        </div>
         <p className="summary-line">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} wheels · {opt('leather', sel.leather).name} · {opt('material', sel.material).name}</p>
         <div className="est"><span className="label">Estimate</span><b>{eur(total)}</b></div>
       </div>
@@ -95,8 +150,17 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
       <li><span>Leather</span><span>{opt('leather', sel.leather).name}</span></li>
       <li><span>Materials</span><span>{opt('material', sel.material).name}</span></li>
       <li><span>Monogram</span><span>{sel.mono || 'None'}</span></li>
-      <li><span>Delivery</span><span>About {m.weeks} weeks</span></li>
     </ul>
+    <div className="stack" style={{ gap: 18 }}>
+      <span className="label">Your build, week by week</span>
+      <ol className="journey">
+        {STAGES.map(st => <li key={st.name}>
+          <time>{st.at === 0 ? 'On signing' : monthYear(Math.round(m.weeks * st.at) + 2)}</time>
+          <b>{st.name}</b><small>{st.note}</small>
+        </li>)}
+      </ol>
+      <p className="muted" style={{ fontSize: 13 }}>About {m.weeks} weeks from sign-off, if you commission today. Clients are invited to the atelier at every stage.</p>
+    </div>
     <form className="stack" noValidate onSubmit={submit}>
       <div className="entry"><label htmlFor="cname">Your name</label><input id="cname" autoComplete="name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}/></div>
       <div className="entry"><label htmlFor="cmail">Email</label><input id="cmail" type="email" autoComplete="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}/></div>

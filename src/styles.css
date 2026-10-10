@@ -93,7 +93,10 @@
 .atelier button, .atelier input, .atelier select, .atelier textarea { font: inherit; color: inherit; }
 .atelier button { cursor: pointer; background: none; border: 0; padding: 0; }
 .atelier a { color: inherit; }
-.atelier :focus-visible { outline: 1px solid var(--gold); outline-offset: 4px; }
+.atelier :focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+.atelier main:focus { outline: 0; }
+.atelier .skip { position: absolute; left: 16px; top: -100px; z-index: 40; padding: 12px 18px; background: var(--gold); color: var(--gold-ink); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; text-decoration: none; }
+.atelier .skip:focus { top: calc(12px + env(safe-area-inset-top, 0px)); }
 .atelier ::selection { background: var(--gold); color: var(--gold-ink); }
 .atelier .wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding-inline: 32px; }
 .atelier .narrow { max-width: 760px; }
@@ -114,21 +117,22 @@
 .atelier .btn:disabled { opacity: .4; cursor: default; }
 .atelier .btn:disabled:hover { background: none; color: var(--gold); border-color: var(--gold-deep); }
 .atelier .btn.solid:disabled:hover { background: var(--gold); color: var(--gold-ink); }
-.atelier .link { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--gold-deep); padding-bottom: 4px; align-self: flex-start; }
+.atelier .link { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); border-bottom: 1px solid var(--gold-deep); padding: 0 0 4px; min-height: 44px; display: inline-flex; align-items: flex-end; align-self: flex-start; }
 .atelier header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: rgba(10,10,10,.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--hair); }
 .atelier .bar { display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 24px; }
 .atelier .mark { display: flex; flex-direction: column; align-items: flex-start; line-height: 1; gap: 6px; }
 .atelier .mark b { font-family: var(--display); font-weight: 500; font-size: 26px; letter-spacing: .3em; }
-.atelier .mark span { font-size: 8px; letter-spacing: .34em; color: var(--stone); text-transform: uppercase; }
+.atelier .mark span { font-size: 11px; letter-spacing: .28em; color: var(--stone); text-transform: uppercase; }
 .atelier nav.main { display: flex; gap: 32px; }
 .atelier nav.main a { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--stone); padding: 6px 0; border-bottom: 1px solid transparent; transition: color .3s; white-space: nowrap; }
 .atelier nav.main a:hover { color: var(--ivory); }
 .atelier nav.main a[aria-current="page"] { color: var(--gold); border-bottom-color: var(--gold-deep); }
-.atelier .menu-btn { display: none; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.atelier .menu-btn { display: none; min-height: 44px; padding: 0 0 0 16px; font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
 .atelier .menu-backdrop { position: fixed; inset: 0; z-index: 15; background: rgba(0,0,0,.35); }
-.atelier .menu-panel { position: absolute; top: calc(100% + 8px); right: 16px; min-width: 220px; padding: 18px 26px; background: #0e0e0e; border: 1px solid var(--hair); display: flex; flex-direction: column; align-items: flex-end; gap: 14px; box-shadow: 0 24px 48px rgba(0,0,0,.5); animation: menu-in .2s ease-out; }
-.atelier .menu-panel a { font-family: var(--display); font-size: 22px; color: var(--ivory); }
-.atelier .menu-panel a:last-child { padding-top: 14px; border-top: 1px solid var(--hair); width: 100%; text-align: right; font-family: var(--body); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.atelier .menu-panel { position: absolute; top: calc(100% + 8px); right: 16px; min-width: 220px; padding: 18px 26px; background: #0e0e0e; border: 1px solid var(--hair); display: flex; flex-direction: column; align-items: flex-end; gap: 2px; box-shadow: 0 24px 48px rgba(0,0,0,.5); animation: menu-in .2s ease-out; }
+.atelier .menu-panel a { font-family: var(--display); font-size: 22px; color: var(--ivory); min-height: 44px; display: flex; align-items: center; justify-content: flex-end; }
+.atelier .menu-panel a[aria-current="page"] { color: var(--gold); }
+.atelier .menu-panel a:last-child { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--hair); width: 100%; text-align: right; font-family: var(--body); font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
 @keyframes menu-in { from { opacity: 0; transform: translateY(-6px); } }
 .atelier main { min-height: 70vh; }
 .atelier .page { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
@@ -208,9 +212,9 @@
 .atelier .opt em { font-style: normal; font-size: 12px; color: var(--gold); white-space: nowrap; }
 .atelier .nav-row { display: flex; justify-content: space-between; gap: 12px; align-items: center; flex-wrap: wrap; }
 .atelier .entry { display: flex; flex-direction: column; gap: 8px; }
-.atelier .entry label { font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--stone); }
+.atelier .entry label { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--stone); }
 .atelier .entry input, .atelier .entry textarea, .atelier .entry select { background: transparent; border: 0; border-bottom: 1px solid var(--gold-deep); padding: 10px 0; color: var(--ivory); font-size: 16px; border-radius: 0; }
-.atelier .entry input:focus, .atelier .entry textarea:focus { outline: 0; border-bottom-color: var(--gold); }
+.atelier .entry input:focus, .atelier .entry textarea:focus { outline: 0; border-bottom-color: var(--gold); box-shadow: 0 1px 0 var(--gold); }
 .atelier .entry input.monofield { font-family: var(--display); font-style: italic; font-size: 34px; color: var(--gold); letter-spacing: .14em; text-transform: uppercase; }
 .atelier .recap { list-style: none; margin: 0; padding: 0; }
 .atelier .recap li { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--hair); font-size: 14px; }
@@ -239,13 +243,13 @@
 .atelier .legal ul { padding-left: 18px; margin: 8px 0 0; display: flex; flex-direction: column; gap: 6px; }
 .atelier footer { border-top: 1px solid var(--hair); padding-block: 56px calc(40px + env(safe-area-inset-bottom, 0px)); }
 .atelier .foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
-.atelier .foot h4 { margin: 0 0 14px; font-size: 10px; font-weight: 400; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.atelier .foot h4 { margin: 0 0 14px; font-size: 11px; font-weight: 400; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
 .atelier .foot a, .atelier .foot button, .atelier .foot span { display: block; font-size: 13px; color: var(--stone); padding: 4px 0; text-align: left; }
 .atelier .foot a:hover, .atelier .foot button:hover { color: var(--ivory); }
 .atelier .fine-print { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--hair); font-size: 12px; color: var(--stone); }
 .atelier .cookie { position: fixed; left: 24px; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 25; max-width: 400px; background: var(--char); border: 1px solid var(--gold-deep); padding: 22px; display: flex; flex-direction: column; gap: 14px; font-size: 13px; color: var(--stone); }
 .atelier .cookie .row { display: flex; gap: 10px; flex-wrap: wrap; }
-.atelier .cookie .btn { padding: 11px 18px; }
+.atelier .cookie .btn { padding: 11px 18px; min-height: 44px; }
 @media (max-width: 1060px) {
   .atelier nav.main { gap: 20px; }
   .atelier nav.main a { letter-spacing: .16em; }
@@ -282,6 +286,10 @@
   .atelier .opt em { grid-column: 2; }
   .atelier .cookie { left: 16px; right: 16px; max-width: none; }
 }
+@media (pointer: coarse) {
+  .atelier .foot a, .atelier .foot button { padding: 11px 0; }
+  .atelier nav.main a { padding-block: 13px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .atelier *, .atelier *::before { animation: none !important; transition: none !important; }
   .atelier .anim .ln, .atelier .portrait .s { stroke-dashoffset: 0; }
@@ -293,6 +301,41 @@
 .atelier nav.main a { color: var(--stone); }
 .atelier nav.main a[aria-current="page"] { color: var(--gold); }
 .atelier .consent { font-size: 12px; color: var(--stone); display: flex; gap: 10px; align-items: flex-start; }
-.atelier .consent input { margin-top: 4px; }
+.atelier .consent { font-size: 13px; cursor: pointer; }
+.atelier .consent input { margin: 0; width: 22px; height: 22px; flex: none; accent-color: var(--gold); }
 .atelier .form-error { font-size: 13px; color: var(--gold); }
 .atelier { background: var(--black); color: var(--ivory); min-height: 100vh; }
+
+/* Studio lighting on the configurator stage */
+.atelier .stage { transition: background .8s ease; overflow: hidden; }
+.atelier .stage.day { background: radial-gradient(ellipse at 50% 30%, #3a3731, #161513 70%); }
+.atelier .stage.dusk { background: radial-gradient(ellipse at 15% 85%, rgba(214,140,70,.38), transparent 60%), radial-gradient(ellipse at 50% 70%, #2a1d16, #0d0a09 75%); }
+.atelier .stage.night { background: radial-gradient(ellipse at 50% 70%, #101216, #040405 75%); }
+.atelier .stage.night .car { filter: brightness(.7); }
+.atelier .stage .car { transition: filter .8s ease; }
+.atelier .stage .lamp { transition: opacity .8s ease; opacity: .25; }
+.atelier .stage.dusk .lamp { opacity: .7; }
+.atelier .stage.night .lamp { opacity: 1; }
+.atelier .stage::after { content: ""; position: absolute; right: -10%; top: 44%; width: 40%; height: 30%; background: radial-gradient(ellipse at 0% 50%, rgba(255,240,205,.3), transparent 70%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%); mask-image: linear-gradient(90deg, transparent, #000 30%); opacity: 0; transition: opacity .8s ease; pointer-events: none; }
+.atelier .stage.night::after { opacity: 1; }
+.atelier .viewer-tools { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.atelier .lights { display: flex; border: 1px solid var(--hair); }
+.atelier .lights button { min-height: 44px; padding: 0 16px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--stone); transition: color .3s, background .3s; }
+.atelier .lights button + button { border-left: 1px solid var(--hair); }
+.atelier .lights button:hover { color: var(--ivory); }
+.atelier .lights button[aria-pressed="true"] { color: var(--gold-ink); background: var(--gold); }
+
+/* Build calendar on the summary */
+.atelier .journey { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 1px solid var(--gold-deep); display: flex; flex-direction: column; gap: 22px; }
+.atelier .journey li { position: relative; display: flex; flex-direction: column; gap: 2px; }
+.atelier .journey li::before { content: ""; position: absolute; left: -27px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--black); border: 1px solid var(--gold); }
+.atelier .journey li:first-child::before, .atelier .journey li:last-child::before { background: var(--gold); }
+.atelier .journey time { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+.atelier .journey b { font-family: var(--display); font-weight: 400; font-size: 22px; }
+.atelier .journey small { color: var(--stone); font-size: 13px; }
+@media (max-width: 640px) {
+  .atelier .lights { flex: 1; }
+  .atelier .lights button { flex: 1; padding: 0 8px; letter-spacing: .12em; }
+}
+.atelier p .link { display: inline; min-height: 0; }
+.atelier .door .link { min-height: 0; }
