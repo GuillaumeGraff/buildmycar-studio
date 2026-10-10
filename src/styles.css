@@ -63,6 +63,10 @@
 .car-onyx { filter:brightness(.53) saturate(.4); }
 .material-sample { height:70px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:28px; color:var(--primary); }
 .reveal { animation:reveal .8s ease-out both; } @keyframes reveal { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
+.team-plate { position:relative; aspect-ratio:4/5; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; background:radial-gradient(circle at 50% 32%, color-mix(in oklab,var(--accent) 70%,transparent), var(--card) 72%); }
+.team-plate::after { content:''; position:absolute; inset:13px; border:1px solid color-mix(in oklab,var(--border) 60%,transparent); }
+.team-plate span { font-family:var(--font-display); font-size:58px; letter-spacing:4px; color:var(--primary); }
+@media(max-width:640px) { .team-plate { aspect-ratio:16/10; } .team-plate span { font-size:44px; } }
 @media(max-width:1024px) { .site-header { height:85px; gap:20px; } .site-header nav { gap:24px; } .brand-caption { letter-spacing:1.5px; white-space:nowrap; } .nav-link { font-size:9px; letter-spacing:1px; white-space:nowrap; } .hero-title { font-size:67px; max-width:500px; } .hero-copy { padding-top:90px; } .luxury-hero { min-height:580px; } .hero-image { object-position:60% center; } }
 @media(max-width:640px) { .hero-title { font-size:51px; } .hero-copy { padding-top:80px; } .luxury-hero { min-height:630px; height:calc(100svh - 115px); } .hero-image { object-position:67% center; opacity:.65; } .section-wrap { padding:55px 6%; } .editorial-heading { font-size:38px; } .page-intro h1 { font-size:42px; } .hero-foot { bottom:25px; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }

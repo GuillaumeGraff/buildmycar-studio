@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ProvenanceRouteImport } from './routes/provenance'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StudioRouteImport } from './routes/studio'
+import { Route as TeamRouteImport } from './routes/team'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 
 const IndexRoute = IndexRouteImport.update({
@@ -46,6 +47,11 @@ const StudioRoute = StudioRouteImport.update({
   path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeamRoute = TeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
   id: '/circle',
   path: '/circle',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/provenance': typeof ProvenanceRoute
   '/reset-password': typeof ResetPasswordRoute
   '/studio': typeof StudioRoute
+  '/team': typeof TeamRoute
   '/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRoutesByTo {
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/provenance': typeof ProvenanceRoute
   '/reset-password': typeof ResetPasswordRoute
   '/studio': typeof StudioRoute
+  '/team': typeof TeamRoute
   '/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRoutesById {
@@ -76,14 +84,28 @@ export interface FileRoutesById {
   '/provenance': typeof ProvenanceRoute
   '/reset-password': typeof ResetPasswordRoute
   '/studio': typeof StudioRoute
+  '/team': typeof TeamRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/provenance' | '/reset-password' | '/studio' | '/circle'
+    | '/'
+    | '/auth'
+    | '/provenance'
+    | '/reset-password'
+    | '/studio'
+    | '/team'
+    | '/circle'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/provenance' | '/reset-password' | '/studio' | '/circle'
+  to:
+    | '/'
+    | '/auth'
+    | '/provenance'
+    | '/reset-password'
+    | '/studio'
+    | '/team'
+    | '/circle'
   id:
     | '__root__'
     | '/'
@@ -92,6 +114,7 @@ export interface FileRouteTypes {
     | '/provenance'
     | '/reset-password'
     | '/studio'
+    | '/team'
     | '/_authenticated/circle'
   fileRoutesById: FileRoutesById
 }
@@ -102,6 +125,7 @@ export interface RootRouteChildren {
   ProvenanceRoute: typeof ProvenanceRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   StudioRoute: typeof StudioRoute
+  TeamRoute: typeof TeamRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -148,6 +172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/team': {
+      id: '/team'
+      path: '/team'
+      fullPath: '/team'
+      preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/circle': {
       id: '/_authenticated/circle'
       path: '/circle'
@@ -176,6 +207,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProvenanceRoute: ProvenanceRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   StudioRoute: StudioRoute,
+  TeamRoute: TeamRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
