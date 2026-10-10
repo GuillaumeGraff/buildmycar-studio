@@ -60,9 +60,9 @@
 .swatch-champagne { background:var(--paint-champagne); } .swatch-onyx { background:var(--paint-onyx); } .swatch-forest { background:var(--paint-forest); } .swatch-bordeaux { background:var(--paint-bordeaux); }
 .swatch-cognac { background:var(--leather-cognac); } .swatch-ivory { background:var(--leather-ivory); } .swatch-noir { background:var(--leather-noir); }
 .swatch-walnut { background:var(--wood-walnut); } .swatch-ebony { background:var(--wood-ebony); } .swatch-ash { background:var(--wood-ash); }
-.car-onyx { filter:brightness(.53) saturate(.4); } .car-forest { filter:sepia(.6) hue-rotate(75deg) saturate(.6) brightness(.75); } .car-bordeaux { filter:sepia(.6) hue-rotate(305deg) saturate(.8) brightness(.8); }
+.car-onyx { filter:brightness(.53) saturate(.4); }
 .material-sample { height:70px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:28px; color:var(--primary); }
 .reveal { animation:reveal .8s ease-out both; } @keyframes reveal { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
-@media(max-width:1024px) { .site-header { height:85px; } .hero-title { font-size:67px; max-width:500px; } .hero-copy { padding-top:90px; } .luxury-hero { min-height:580px; } .hero-image { object-position:60% center; } }
+@media(max-width:1024px) { .site-header { height:85px; gap:20px; } .site-header nav { gap:24px; } .brand-caption { letter-spacing:1.5px; white-space:nowrap; } .nav-link { font-size:9px; letter-spacing:1px; white-space:nowrap; } .hero-title { font-size:67px; max-width:500px; } .hero-copy { padding-top:90px; } .luxury-hero { min-height:580px; } .hero-image { object-position:60% center; } }
 @media(max-width:640px) { .hero-title { font-size:51px; } .hero-copy { padding-top:80px; } .luxury-hero { min-height:630px; height:calc(100svh - 115px); } .hero-image { object-position:67% center; opacity:.65; } .section-wrap { padding:55px 6%; } .editorial-heading { font-size:38px; } .page-intro h1 { font-size:42px; } .hero-foot { bottom:25px; } }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; } }
