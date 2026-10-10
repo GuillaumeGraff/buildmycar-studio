@@ -1,0 +1,11 @@
+CREATE TABLE public.concierge_requests (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL, subject text NOT NULL, message text NOT NULL, status text NOT NULL DEFAULT 'received', created_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT, INSERT ON public.concierge_requests TO authenticated;
+GRANT ALL ON public.concierge_requests TO service_role;
+ALTER TABLE public.concierge_requests ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Members read own requests" ON public.concierge_requests FOR SELECT TO authenticated USING (auth.uid() = user_id);
+CREATE POLICY "Members submit own requests" ON public.concierge_requests FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id AND status = 'received');
+CREATE TABLE public.member_commissions (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL, title text NOT NULL, reference text NOT NULL, stage text NOT NULL DEFAULT 'Design consultation', progress integer NOT NULL DEFAULT 0, next_update text, created_at timestamptz NOT NULL DEFAULT now());
+GRANT SELECT ON public.member_commissions TO authenticated;
+GRANT ALL ON public.member_commissions TO service_role;
+ALTER TABLE public.member_commissions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Members read own commissions" ON public.member_commissions FOR SELECT TO authenticated USING (auth.uid() = user_id);
