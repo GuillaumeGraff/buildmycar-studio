@@ -20,6 +20,11 @@ const ARTISANS: Record<string, { name: string; craft: string; city: string; work
   pearl: { name: 'Rami Haddad', craft: 'Mother-of-pearl inlay master', city: 'Dubai studio', work: 'I will set the shell by hand, piece by piece, in the fascia and the sill plates' },
   alu: { name: 'Elena Brandt', craft: 'Metal finisher', city: 'Munich atelier', work: 'I will brush the aluminium by hand in one direction, so it catches the light like silk' },
 };
+// Where the car is on its way to you; the studio shows it in the design stage.
+const STAGES = ['Design', 'Coachwork', 'Paint', 'Interior', 'Road test', 'Handover'];
+const NOW = 0;
+const ago = (days: number) => { const d = new Date(); d.setDate(d.getDate() - days); return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); };
+
 const FALLBACK = { model: 'gt' as ModelId, sel: { ...DEFAULTS, paint: 'jade' } };
 
 function Studio() {
@@ -48,6 +53,12 @@ function Room({ model, sel, own }: { model: ModelId; sel: Selection; own: boolea
     { from: 'client', text: `Could the ${material.name.toLowerCase()} carry something personal, very discreet, that only I would notice?` },
     { from: 'artisan', text: `${artisan.work}, with your initials hidden where your hand rests. First sample here.`, swatch: material.hex },
   ]);
+  // Feedback from the team, newest first.
+  const updates = [
+    { when: ago(2), who: designer.name.split(' ')[0], text: `The full-size model of your ${m.name} is shaped. We lowered the waistline by 8 mm, as you asked.` },
+    { when: ago(6), who: artisan.name.split(' ')[0], text: `The first ${material.name.toLowerCase()} sample is cut for your fascia. It travels to you with Thursday’s session.` },
+    { when: ago(11), who: 'The atelier', text: `${paint.name} mixed for your car alone. Three test panels are drying in Munich.` },
+  ];
   const [draft, setDraft] = useState('');
   const [decision, setDecision] = useState<'open' | 'approved' | 'changes'>('open');
 
@@ -69,7 +80,10 @@ function Room({ model, sel, own }: { model: ModelId; sel: Selection; own: boolea
         {RENDERS[model]?.[sel.paint] ? <div className="stage-photo"><div className="layers"><img className="car on" src={RENDERS[model]![sel.paint]} alt={`Your BMC ${m.name} in ${paint.name}`}/></div></div>
           : <div className="fit-stage day"><div className="wrap"><Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/></div></div>}
         <div className="room-meta">
-          <span className="label">Your {m.name} · in design</span>
+          <span className="label">Your {m.name} · in {STAGES[NOW]!.toLowerCase()}</span>
+          <ol className="build-progress" aria-label="Progress">
+            {STAGES.map((st, i) => <li key={st} className={i < NOW ? 'done' : i === NOW ? 'now' : undefined} aria-current={i === NOW ? 'step' : undefined}>{st}</li>)}
+          </ol>
           <ul className="recap">
             <li><span>Finish</span><span>{paint.name} · {leather.name}</span></li>
             <li><span>Designer</span><span>{designer.name}, Munich</span></li>
@@ -81,6 +95,11 @@ function Room({ model, sel, own }: { model: ModelId; sel: Selection; own: boolea
         </div>
       </div>
       <div className="room-feed">
+        <section className="updates" aria-label="Latest from your team">
+          <span className="label">Latest from your team</span>
+          <ol>{updates.map(u => <li key={u.when + u.who}><time>{u.when}</time><p><b>{u.who}</b> · {u.text}</p></li>)}</ol>
+        </section>
+        <span className="label">Your conversation</span>
         <ol className="feed">
           {messages.map((m, i) => <li key={i} className={m.from}>
             <span className="who">{people[m.from]}</span>

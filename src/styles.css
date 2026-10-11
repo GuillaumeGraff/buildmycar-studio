@@ -917,3 +917,17 @@
 
 /* Studio: your car's photo in its own shape, no black bands */
 .atelier .room-car .stage-photo { aspect-ratio: 1376 / 768; max-height: none; }
+
+/* Studio: where your car is, and what the team has done since you last looked */
+.atelier .build-progress { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.atelier .build-progress li { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--stone); padding-top: 8px; border-top: 2px solid var(--hair); text-align: center; }
+.atelier .build-progress li.done { border-color: var(--gold-deep); }
+.atelier .build-progress li.now { border-color: var(--gold); color: var(--gold); }
+.atelier .updates { display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--hair); margin-bottom: 4px; }
+.atelier .updates ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.atelier .updates li { display: grid; grid-template-columns: 54px 1fr; gap: 12px; align-items: baseline; }
+.atelier .updates time { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
+.atelier .updates p { font-size: 14px; line-height: 1.5; color: var(--stone); margin: 0; }
+.atelier .updates b { color: var(--ivory); font-weight: 400; }
+@media (max-width: 640px) { .atelier .build-progress li { font-size: 8px; letter-spacing: .08em; } .atelier .updates p { font-size: 13px; } }
+@media (max-width: 640px) { .atelier .room { gap: 28px; } }
