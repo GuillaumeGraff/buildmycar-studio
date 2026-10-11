@@ -92,7 +92,7 @@ export const seat = (id?: string) => SEATS.find(s => s.id === id) ?? SEATS[0]!;
 export const opt = (key: StepKey, id: string): Option => STEPS.find(s => s.key === key)!.opts!.find(o => o.id === id)!;
 
 export type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string; character?: string | undefined; seat?: string | undefined; sound?: string | undefined };
-export const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '', seat: 'smooth', sound: 'salon' };
+export const DEFAULTS: Selection = { paint: 'argent', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '', seat: 'smooth', sound: 'salon' };
 
 // A car is shared as a link: /configure?c=gt.jade.wire.cognac.walnut..velvet.quilted
 export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono, s.character ?? '', s.seat && s.seat !== 'smooth' ? s.seat : '', s.sound && s.sound !== 'salon' ? s.sound : ''].join('.').replace(/\.+$/, '');

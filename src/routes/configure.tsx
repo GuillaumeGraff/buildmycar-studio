@@ -167,7 +167,7 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
 }
 
 // The car in its studio, or the empty studio while its photographs are being made.
-function Hero({ model, active = true, paint = 'bordeaux' }: { model: ModelId; active?: boolean; paint?: string }) {
+function Hero({ model, active = true, paint = 'argent' }: { model: ModelId; active?: boolean; paint?: string }) {
   const renders = RENDERS[model];
   if (renders) return <img src={renders[paint] ?? Object.values(renders)[0]} alt={`BMC ${MODELS[model].name}`} draggable={false}/>;
   // Until its photographs exist, the car is drawn in gold in the empty studio, redrawn each time it comes into view.
