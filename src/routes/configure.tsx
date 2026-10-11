@@ -34,7 +34,7 @@ const STAGES = [
 ];
 const monthYear = (weeksFromNow: number) => new Date(Date.now() + weeksFromNow * 7 * 864e5).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
-const CHAPTERS: Record<string, string> = { paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', mono: 'Monogram', summary: 'Your car' };
+const CHAPTERS: Record<string, string> = { paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', summary: 'Your car' };
 const IDS = Object.keys(MODELS) as ModelId[];
 const still = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -82,14 +82,6 @@ function Configure() {
             <Swatch o={o} step={st.key}/>
           </button>)}
         </div>
-        <p className="muted hint">{st.intro}</p>
-      </>}
-
-      {st.key === 'mono' && <>
-        <span className="label">{st.title}</span>
-        <label className="mono-seal" htmlFor="mono">
-          <input id="mono" maxLength={3} autoComplete="off" placeholder="ABC" aria-label="Your initials" value={sel.mono} onChange={e => setSel({ ...sel, mono: e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 3) })}/>
-        </label>
         <p className="muted hint">{st.intro}</p>
       </>}
 
@@ -171,7 +163,7 @@ function Count({ value }: { value: string }) {
 function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; step: StepKey; onSwipe?: ((dir: number) => void) | undefined }) {
   const start = useRef<number | null>(null);
   const renders = RENDERS[model];
-  const shown: StepKey = step === 'mono' ? 'leather' : step;
+  const shown = step;
   const detail = DETAILS[shown];
   const layers: { group: string; id: string; src: string }[] = [
     ...(renders ? Object.entries(renders).map(([id, src]) => ({ group: 'car', id, src })) : [{ group: 'car', id: 'studio', src: STUDIO }]),
@@ -192,8 +184,7 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
         className={`${l.group}${l.group === group && l.id === active ? ' on' : ''}`}/>)}
     </div>
     {group === 'car' && !renders && <span className="veil">Being photographed in the atelier</span>}
-    {step === 'mono' && sel.mono && <span className="stitch" aria-hidden="true">{sel.mono}</span>}
-    <span className="stage-caption">{step === 'mono' ? 'Embroidered in the seat' : detail ? detail.caption : `${MODELS[model].name} · ${MODELS[model].category}`}</span>
+    <span className="stage-caption">{detail ? detail.caption : `${MODELS[model].name} · ${MODELS[model].category}`}</span>
   </div>;
 }
 
@@ -208,7 +199,7 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
     <div className="stack" style={{ gap: 14 }}>
       <span className="label">Your {m.category}</span>
       <h2 className="choice-name">The {m.name}</h2>
-      <p className="muted">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} · {opt('leather', sel.leather).name} · {opt('material', sel.material).name}{sel.mono ? ` · ${sel.mono}` : ''}</p>
+      <p className="muted">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} · {opt('leather', sel.leather).name} · {opt('material', sel.material).name}</p>
     </div>
     <dl className="specs">{m.specs.map(s => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}{s.unit && <small>{s.unit}</small>}</dd></div>)}</dl>
     <p className="muted">{m.engine}</p>

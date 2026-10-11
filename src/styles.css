@@ -368,10 +368,6 @@
 .atelier .arrow { width: 44px; height: 44px; font-family: var(--display); font-size: 34px; line-height: 1; color: var(--stone); transition: color .3s; }
 .atelier .arrow:hover { color: var(--gold); }
 .atelier .hint { font-size: 14px; max-width: 46ch; }
-.atelier .mono-seal { width: 190px; height: 190px; border-radius: 50%; border: 1px solid var(--gold-deep); display: grid; place-items: center; margin-block: 12px; cursor: text; transition: border-color .4s; }
-.atelier .mono-seal:focus-within { border-color: var(--gold); }
-.atelier .mono-seal input { width: 80%; text-align: center; background: transparent; border: 0; outline: 0; font-family: var(--display); font-style: italic; font-size: 54px; color: var(--gold); letter-spacing: .1em; text-transform: uppercase; }
-.atelier .mono-seal input::placeholder { color: var(--hair); }
 .atelier .choice .nav-row { width: 100%; margin-top: 28px; border-top: 1px solid var(--hair); padding-top: 12px; }
 
 /* Booking */
@@ -620,7 +616,6 @@
 .atelier .stage-photo .layers img.on { opacity: 1; transform: none; }
 .atelier .stage-photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 65%, rgba(10,10,10,.7)); }
 .atelier .stage-caption { position: absolute; left: max(16px, 5%); bottom: 14px; z-index: 1; font-size: 10px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
-.atelier .stitch { position: absolute; left: 70%; top: 34%; translate: -50% -50%; z-index: 1; font-family: var(--display); font-style: italic; font-size: clamp(38px, 11vw, 92px); letter-spacing: .06em; color: rgba(236, 220, 178, .92); text-shadow: 0 1px 0 rgba(0,0,0,.5), 0 -1px 0 rgba(255,255,255,.18), 0 0 18px rgba(0,0,0,.25); animation: rise .8s cubic-bezier(.2,.7,.2,1) both; pointer-events: none; }
 .atelier .swatch i { background-size: cover; background-position: center; }
 .atelier .swatch i.wheel { background-size: 320%; background-position: 53% 53%; }
 .atelier .swatch i.lacquer { background-image: radial-gradient(circle at 32% 26%, rgba(255,255,255,.34), transparent 46%), radial-gradient(circle at 70% 80%, rgba(0,0,0,.35), transparent 60%); }

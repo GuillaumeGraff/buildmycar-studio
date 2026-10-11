@@ -2,7 +2,7 @@
 export type ModelId = 'gt' | 'roadster' | 'brake' | 'saloon' | 'hyper';
 export type Option = { id: string; name: string; note: string; hex: string; spokes?: number; w?: number };
 export type Spec = { label: string; value: string; unit?: string };
-export type StepKey = 'paint' | 'wheel' | 'leather' | 'material' | 'mono' | 'summary';
+export type StepKey = 'paint' | 'wheel' | 'leather' | 'material' | 'summary';
 export type Step = { key: StepKey; title: string; intro: string; opts?: Option[] };
 
 // The five BMC cars. `body`, `glass` and `door` are the gold line drawing used on the home page.
@@ -54,7 +54,6 @@ export const STEPS: Step[] = [
     { id: 'ebony', name: 'Macassar ebony', note: 'Certified reclaimed', hex: '#2b211b' },
     { id: 'pearl', name: 'Mother-of-pearl inlay', note: 'Set by hand in the fascia', hex: '#d9d4c8' },
     { id: 'alu', name: 'Brushed aluminium', note: 'Machined, no veneer', hex: '#7c7f80' }] },
-  { key: 'mono', title: 'Your monogram', intro: 'Up to three initials, embroidered in the headrests and engraved on the sill plates.' },
   { key: 'summary', title: 'Your creation', intro: 'A first sketch of your car. The atelier will refine every line with you.' },
 ];
 
