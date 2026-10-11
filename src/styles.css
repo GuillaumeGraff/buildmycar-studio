@@ -845,3 +845,7 @@
   .atelier .era-card.on { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .atelier .era-in > * { animation: none; } }
+
+/* Rendezvous: the showroom cities sit straight under the showroom choice */
+.atelier .places .showroom-cities { grid-column: 1 / -1; animation: rise .5s cubic-bezier(.2,.7,.2,1) both; }
+@media (max-width: 640px) { .atelier .places .showroom-cities { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } }

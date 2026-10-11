@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useMemo, useState, type FormEvent } from 'react';
+import { Fragment, useMemo, useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
 import { TEAM, MODELS, decode, opt } from '@/components/atelier/data';
@@ -126,11 +126,14 @@ function Book() {
       <fieldset>
         <legend className="label">Where</legend>
         <div className="places">
-          {PLACES.map(p => <button type="button" key={p.id} className="place" aria-pressed={place === p.id} onClick={() => setPlace(p.id)}><b>{p.name}</b><small>{p.note}</small></button>)}
+          {PLACES.map(p => <Fragment key={p.id}>
+            <button type="button" className="place" aria-pressed={place === p.id} onClick={() => setPlace(p.id)}><b>{p.name}</b><small>{p.note}</small></button>
+            {/* The city opens right under the showroom choice, where the eye already is. */}
+            {p.id === 'showroom' && place === 'showroom' && <div className="chips showroom-cities" role="radiogroup" aria-label="Showroom">
+              {SHOWROOMS.map(a => <button type="button" role="radio" aria-checked={showroom === a.id} key={a.id} className="chip" onClick={() => setShowroom(a.id)}>{a.name}<small>{a.note}</small></button>)}
+            </div>}
+          </Fragment>)}
         </div>
-        {place === 'showroom' && <div className="chips" role="radiogroup" aria-label="Showroom">
-          {SHOWROOMS.map(a => <button type="button" role="radio" aria-checked={showroom === a.id} key={a.id} className="chip" onClick={() => setShowroom(a.id)}>{a.name}<small>{a.note}</small></button>)}
-        </div>}
       </fieldset>
       {home ? <fieldset>
         <legend className="label">Which week</legend>
