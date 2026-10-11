@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { Fragment, useMemo, useState, type FormEvent } from 'react';
+import { Fragment, useMemo, useRef, useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
 import { TEAM, MODELS, decode, opt } from '@/components/atelier/data';
@@ -36,6 +36,7 @@ function nextWeeks() {
   d.setDate(d.getDate() + ((8 - d.getDay()) % 7 || 7) + 7);
   return Array.from({ length: 6 }, (_, i) => new Date(d.getTime() + i * 7 * 864e5));
 }
+const STAGES = ['With', 'Where', 'When', 'You'] as const;
 const TIMES = ['10:00', '11:30', '14:00', '16:30'];
 
 // The next ten weekdays, starting tomorrow.
@@ -70,6 +71,7 @@ function Book() {
   const [time, setTime] = useState(TIMES[0]!);
   const [form, setForm] = useState({ name: '', email: '', note: '', consent: false });
   const [error, setError] = useState('');
+  const [stage, setStage] = useState(0);
   const [sent, setSent] = useState<{ when: Date; ics: string } | null>(null);
 
   const host = who === null ? 'Your client director' : TEAM[who]!.name;
@@ -108,61 +110,78 @@ function Book() {
     <p className="disclaimer">This is a prototype, so no meeting was actually booked and no message was sent.</p>
   </div></div>;
 
-  return <div className="page">
-    <div className="wrap narrow page-head">
-      <span className="label">Your private rendezvous</span>
-      <h2>Every car begins <em>with a conversation.</em></h2>
-      <p className="lead">Choose who you would like to meet, where and when. There is no commitment at this stage.</p>
-      {commission && <p className="commission-note">About your {MODELS[commission.model].name} in {opt('paint', commission.sel.paint).name}, with {opt('leather', commission.sel.leather).name} and {opt('material', commission.sel.material).name}.</p>}
-    </div>
-    <form className="wrap narrow booking" noValidate onSubmit={submit}>
-      <fieldset>
-        <legend className="label">With</legend>
-        <div className="chips">
-          <button type="button" className="chip" aria-pressed={who === null} onClick={() => setWho(null)}>Whoever suits best</button>
-          {TEAM.map((t, i) => <button type="button" key={t.name} className="chip" aria-pressed={who === i} onClick={() => setWho(i)}>{t.name.split(' ')[0]}<small>{t.role}</small><small className="langs">{t.languages.join(' · ')}</small></button>)}
+  // One choice per screen: each pick moves on by itself, Back or a swipe returns.
+  const advance = () => window.setTimeout(() => setStage(s => Math.min(s + 1, STAGES.length - 1)), 380);
+  const swipe = useRef<number | null>(null);
+  const stageName = STAGES[stage]!;
+
+  return <div className="page rdv">
+    <nav className="chapters wrap narrow" aria-label="Rendezvous steps">
+      <div className="chapters-head">
+        {stage > 0 ? <button type="button" className="chapters-car" onClick={() => setStage(stage - 1)}>‹ Back</button> : <span className="chapters-car">Private rendezvous</span>}
+        <span key={stageName} className="chapters-now">{stageName}<small>{stage + 1} / {STAGES.length}</small></span>
+      </div>
+      <div className="chapters-bar">
+        {STAGES.map((n, i) => <button type="button" key={n} className="chapter" aria-label={n} aria-current={i === stage ? 'step' : undefined} data-done={i < stage || undefined} onClick={() => setStage(i)}/>)}
+      </div>
+    </nav>
+    <form className="wrap narrow booking" noValidate onSubmit={submit}
+      onTouchStart={e => { swipe.current = e.touches[0]!.clientX; }}
+      onTouchEnd={e => {
+        const dx = e.changedTouches[0]!.clientX - (swipe.current ?? 0);
+        swipe.current = null;
+        if (Math.abs(dx) > 60 && !(e.target as HTMLElement).closest('.dates')) setStage(s => Math.max(0, Math.min(STAGES.length - 1, s + (dx < 0 ? 1 : -1))));
+      }}>
+      <div className="rdv-stage" key={stage}>
+      {stage === 0 && <fieldset>
+        <h2 className="rdv-title">Every car begins <em>with a conversation.</em></h2>
+        <legend className="label">Who would you like to meet?</legend>
+        {commission && <p className="commission-note">About your {MODELS[commission.model].name} in {opt('paint', commission.sel.paint).name}.</p>}
+        <div className="chips team-chips">
+          <button type="button" className="chip" aria-pressed={who === null} onClick={() => { setWho(null); advance(); }}>Whoever suits best<small>Your client director</small></button>
+          {TEAM.map((t, i) => <button type="button" key={t.name} className="chip" aria-pressed={who === i} onClick={() => { setWho(i); advance(); }}>{t.name.split(' ')[0]}<small>{t.role}</small><small className="langs">{t.languages.join(' · ')}</small></button>)}
         </div>
-      </fieldset>
-      <fieldset>
-        <legend className="label">Where</legend>
+      </fieldset>}
+      {stage === 1 && <fieldset>
+        <legend className="label">Where?</legend>
         <div className="places">
           {PLACES.map(p => <Fragment key={p.id}>
-            <button type="button" className="place" aria-pressed={place === p.id} onClick={() => setPlace(p.id)}><b>{p.name}</b><small>{p.note}</small></button>
+            <button type="button" className="place" aria-pressed={place === p.id} onClick={() => { setPlace(p.id); if (p.id !== 'showroom') advance(); }}><b>{p.name}</b><small>{p.note}</small></button>
             {/* The city opens right under the showroom choice, where the eye already is. */}
             {p.id === 'showroom' && place === 'showroom' && <div className="chips showroom-cities" role="radiogroup" aria-label="Showroom">
-              {SHOWROOMS.map(a => <button type="button" role="radio" aria-checked={showroom === a.id} key={a.id} className="chip" onClick={() => setShowroom(a.id)}>{a.name}<small>{a.note}</small></button>)}
+              {SHOWROOMS.map(a => <button type="button" role="radio" aria-checked={showroom === a.id} key={a.id} className="chip" onClick={() => { setShowroom(a.id); advance(); }}>{a.name}<small>{a.note}</small></button>)}
             </div>}
           </Fragment>)}
         </div>
-      </fieldset>
-      {home ? <fieldset>
-        <legend className="label">Which week</legend>
-        <div className="chips" role="radiogroup" aria-label="Week">
-          {weeks.map((w, i) => <button type="button" role="radio" aria-checked={week === i} key={w.toISOString()} className="chip" onClick={() => setWeek(i)}>Week of {w.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</button>)}
+      </fieldset>}
+      {stage === 2 && (home ? <fieldset>
+        <legend className="label">Which week?</legend>
+        <div className="chips week-chips" role="radiogroup" aria-label="Week">
+          {weeks.map((w, i) => <button type="button" role="radio" aria-checked={week === i} key={w.toISOString()} className="chip" onClick={() => { setWeek(i); advance(); }}>Week of {w.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</button>)}
         </div>
         <p className="muted hint">Your client director will call to agree the day and time with you.</p>
       </fieldset> : <fieldset>
-        <legend className="label">When</legend>
+        <legend className="label">When?</legend>
         <div className="dates" role="radiogroup" aria-label="Day">
           {days.map((d, i) => <button type="button" role="radio" aria-checked={day === i} key={d.toISOString()} className="date" onClick={() => setDay(i)}>
             <small>{d.toLocaleDateString('en-GB', { weekday: 'short' })}</small><b>{d.getDate()}</b><small>{d.toLocaleDateString('en-GB', { month: 'short' })}</small>
           </button>)}
         </div>
         <div className="chips times" role="radiogroup" aria-label="Time">
-          {TIMES.map(t => <button type="button" role="radio" aria-checked={time === t} key={t} className="chip" onClick={() => setTime(t)}>{t}</button>)}
+          {TIMES.map(t => <button type="button" role="radio" aria-checked={time === t} key={t} className="chip" onClick={() => { setTime(t); advance(); }}>{t}</button>)}
         </div>
-      </fieldset>}
-      <fieldset className="stack">
-        <legend className="label">You</legend>
+        <p className="muted hint">Choose a day, then a time.</p>
+      </fieldset>)}
+      {stage === 3 && <fieldset className="stack">
+        <legend className="label">Your details</legend>
+        <p className="rdv-summary">{host} · {placeName} · {home ? `Week of ${weeks[week]!.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}` : `${longDate(days[day]!)} at ${time}`}</p>
         <div className="entry"><label htmlFor="bname">Your name</label><input id="bname" autoComplete="name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}/></div>
         <div className="entry"><label htmlFor="bmail">Email</label><input id="bmail" type="email" autoComplete="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}/></div>
-        <div className="entry"><label htmlFor="bnote">Anything we should know (optional)</label><textarea id="bnote" rows={3} value={form.note} onChange={e => setForm({ ...form, note: e.target.value })}/></div>
+        <div className="entry"><label htmlFor="bnote">Anything we should know (optional)</label><input id="bnote" value={form.note} onChange={e => setForm({ ...form, note: e.target.value })}/></div>
         <label className="consent"><input type="checkbox" checked={form.consent} onChange={e => setForm({ ...form, consent: e.target.checked })}/> <span>I agree that BuildMyCar uses these details to arrange this meeting, as described in the <Link to="/privacy" className="link">privacy policy</Link>.</span></label>
-      </fieldset>
-      <div className="confirm">
-        <p>{host} · {placeName} · {home ? `Week of ${weeks[week]!.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}` : `${longDate(days[day]!)} at ${time}`}</p>
         {error && <p role="alert" className="form-error">{error}</p>}
         <button className="btn solid" type="submit">Request my private appointment</button>
+      </fieldset>}
       </div>
     </form>
   </div>;
