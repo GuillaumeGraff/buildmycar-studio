@@ -3,7 +3,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
 import { persona, personaSearch, EVENTS } from '@/components/atelier/platform';
-import { PersonaBar, DemoNote } from '@/components/atelier/personas';
+import { DemoNote } from '@/components/atelier/personas';
 
 export const Route = createFileRoute('/owners-circle')({
   validateSearch: personaSearch,
@@ -65,7 +65,6 @@ function CircleInside({ p, leave }: { p: ReturnType<typeof persona>; leave: () =
       <span className="label">The Owners’ Circle</span>
       <h2>After the car, <em>the circle.</em></h2>
       <p className="lead">A private circle for BMC owners: rare events, a concierge who knows the car, and the first word on the next car.</p>
-      <PersonaBar to="/owners-circle" current={p.id}/>
       <button className="link" onClick={leave}>Sign out</button>
     </div>
     <section className="flush"><div className="wrap circle">
@@ -74,7 +73,7 @@ function CircleInside({ p, leave }: { p: ReturnType<typeof persona>; leave: () =
         <div className="chips continents" role="radiogroup" aria-label="Continent">
           {EVENTS.map((c, i) => <button type="button" role="radio" aria-checked={region === i} key={c.continent} className="chip" onClick={() => setRegion(i)}>{c.continent}</button>)}
         </div>
-        {EVENTS[region]!.events.map(e => <div className="event" key={e.name}><time>{e.date}</time><div><h3>{e.name}</h3><p className="muted">{e.place}</p></div>
+        {EVENTS[region]!.events.map(e => <div className="event" key={e.name}><time>{e.date}</time><div><h3>{e.name}</h3><p className="event-place">{e.place}</p><p className="muted event-bmc">{e.bmc}</p></div>
           <button className="link" onClick={() => toast('Place reserved', { description: e.name })}>Reserve</button></div>)}
       </div>
       <div className="stack">
@@ -88,7 +87,7 @@ function CircleInside({ p, leave }: { p: ReturnType<typeof persona>; leave: () =
     </div></section>
     <section><div className="wrap quote">
       <span className="label">Your next car</span>
-      <blockquote>Two build slots remain for 2030.</blockquote>
+      <blockquote>Two build slots remain for 2028.</blockquote>
       <Link to="/book" className="btn solid">Reserve a conversation</Link>
       <p className="muted" style={{ fontSize: 13 }}>Members already sign in through the <Link to="/auth" className="link">Owners’ Circle login</Link>.</p>
       <DemoNote/>

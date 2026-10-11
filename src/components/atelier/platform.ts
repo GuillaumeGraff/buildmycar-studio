@@ -104,27 +104,29 @@ export const personaSearch = (s: Record<string, unknown>): { p?: PersonaId | und
   return { p: typeof p === 'string' && p in PERSONAS ? (p as PersonaId) : undefined };
 };
 
-// Private events open to every member, wherever they live, set around the great weeks of each city. Illustrative.
-export const EVENTS: { continent: string; events: { date: string; name: string; place: string }[] }[] = [
+// Private events open to every member, wherever they live, set around the great weeks of each city,
+// each with what BMC itself does there. Illustrative.
+export type CircleEvent = { date: string; name: string; place: string; bmc: string };
+export const EVENTS: { continent: string; events: CircleEvent[] }[] = [
   { continent: 'Europe', events: [
-    { date: 'April', name: 'Design Week salon', place: 'Milan · Design Week' },
-    { date: 'May', name: 'Grand Prix terrace', place: 'Monaco · Grand Prix weekend' },
-    { date: 'September', name: 'Atelier open evening', place: 'Munich · next year’s cars in build' },
-    { date: 'October', name: 'Fashion Week dinner', place: 'Paris · Fashion Week' },
+    { date: 'April', name: 'Design Week salon', place: 'Milan · Design Week', bmc: 'BMC takes a palazzo in Brera for the week. Owners preview next year’s leathers and woods with our artisans, then dine in the courtyard.' },
+    { date: 'May', name: 'Grand Prix terrace', place: 'Monaco · Grand Prix weekend', bmc: 'Our terrace above the harbour for qualifying and the race, and an owners’ convoy along the Corniche on Sunday morning.' },
+    { date: 'September', name: 'Atelier open evening', place: 'Munich · the BMC atelier', bmc: 'The one night a year the atelier opens to owners: next year’s cars in build, and the hands that build them.' },
+    { date: 'October', name: 'Fashion Week dinner', place: 'Paris · Fashion Week', bmc: 'An owners’ dinner on the Left Bank with the couture ateliers whose craft inspires our trims, and one car shown in private.' },
   ] },
   { continent: 'Middle East', events: [
-    { date: 'January', name: 'Desert drive at dawn', place: 'Dubai · Al Qudra at sunrise' },
-    { date: 'April', name: 'Art week evening', place: 'Dubai · Art Dubai week' },
-    { date: 'December', name: 'Season finale', place: 'Abu Dhabi · Grand Prix, Yas Marina' },
+    { date: 'January', name: 'Desert drive at dawn', place: 'Dubai · Al Qudra', bmc: 'Six owners and their BMCs on a sunrise run into the dunes, breakfast in the desert, our engineers along for the drive.' },
+    { date: 'March', name: 'Collectors’ evening', place: 'Dubai · Art Dubai week', bmc: 'BMC shows one commissioned car beside the artist who designed its interior, for owners and their guests.' },
+    { date: 'December', name: 'Season finale', place: 'Abu Dhabi · Grand Prix', bmc: 'A BMC suite above Yas Marina for the last race of the year, and a track morning for owners the day after.' },
   ] },
   { continent: 'Asia', events: [
-    { date: 'February', name: 'Lantern evening', place: 'Shanghai · The Bund' },
-    { date: 'March', name: 'Art fair preview', place: 'Hong Kong · Art Basel week' },
-    { date: 'September', name: 'Night race suite', place: 'Singapore · Grand Prix, Marina Bay' },
+    { date: 'February', name: 'Lantern evening', place: 'Shanghai · The Bund', bmc: 'Owners meet the Fuzhou lacquer masters who work with BMC, and a jade-lacquered car is unveiled by lantern light.' },
+    { date: 'March', name: 'Art fair preview', place: 'Hong Kong · Art Basel week', bmc: 'A private walk through the fair before it opens, then an owners’ dinner above Victoria Harbour with our designers.' },
+    { date: 'September', name: 'Night race suite', place: 'Singapore · Grand Prix', bmc: 'The BMC suite over Marina Bay for the night race, with a late supper for owners after the chequered flag.' },
   ] },
   { continent: 'Americas', events: [
-    { date: 'February', name: 'Fashion Week dinner', place: 'New York · Fashion Week' },
-    { date: 'August', name: 'Car Week breakfast', place: 'Monterey · Car Week, Pebble Beach' },
-    { date: 'December', name: 'Art week evening', place: 'Miami Beach · Art Basel week' },
+    { date: 'February', name: 'Fashion Week dinner', place: 'New York · Fashion Week', bmc: 'An owners’ dinner in Tribeca before the shows, with a first look at the cars BMC will build next year.' },
+    { date: 'August', name: 'Car Week breakfast', place: 'Monterey · Pebble Beach', bmc: 'BMC’s breakfast on the lawn, a convoy along 17-Mile Drive, and our team caring for owners’ cars all week.' },
+    { date: 'December', name: 'Collectors’ evening', place: 'Miami Beach · Art Basel week', bmc: 'One commissioned car shown beside the work that inspired it, for owners and the collectors they bring.' },
   ] },
 ];

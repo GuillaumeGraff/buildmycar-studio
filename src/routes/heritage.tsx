@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
+import { useEffect, useRef, useState } from 'react';
 import { pageHead } from '@/components/bmc/metadata';
 import roadster from '@/assets/renders/roadster-argent.jpg';
 import alu from '@/assets/details/material-alu.jpg';
@@ -27,6 +28,30 @@ const HANDS = [
 ];
 
 function Heritage() {
+  const track = useRef<HTMLOListElement>(null);
+  const [active, setActive] = useState(0);
+  // Counts each time a chapter swipes into view, so its words rise in again, as on the Maison.
+  const [seen, setSeen] = useState<number[]>(() => ERAS.map(() => 0));
+
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const i = Number((e.target as HTMLElement).dataset['i']);
+      setActive(i);
+      setSeen(s => s.map((n, j) => (j === i ? n + 1 : n)));
+    }), { root: el, threshold: 0.6 });
+    el.querySelectorAll('.era-card').forEach(m => io.observe(m));
+    return () => io.disconnect();
+  }, []);
+
+  const go = (i: number) => {
+    const el = track.current;
+    const target = el?.children[(i + ERAS.length) % ERAS.length] as HTMLElement | undefined;
+    if (el && target) el.scrollTo({ left: target.offsetLeft - el.offsetLeft, behavior: 'smooth' });
+  };
+
   return <div className="page">
     <div className="wrap page-head heritage-head">
       <span className="label">Heritage · Munich since 1981</span>
@@ -34,13 +59,17 @@ function Heritage() {
       <p className="lead">The most remarkable car is the one that could only belong to you.</p>
     </div>
     <div className="wrap">
-      <ol className="eras-rail" aria-label="Our story">
-        {ERAS.map(e => <li className="era-card" key={e.year}>
+      <ol className="eras-rail" ref={track} aria-label="Our story">
+        {ERAS.map((e, i) => <li className={`era-card${active === i ? ' on' : ''}`} key={e.year} data-i={i}>
           <img src={e.img} alt="" loading="lazy"/>
-          <div><time>{e.year}</time><h3>{e.title}</h3><p>{e.text}</p></div>
+          <div className="era-in" key={seen[i]}><time>{e.year}</time><h3>{e.title}</h3><p>{e.text}</p></div>
         </li>)}
       </ol>
-      <p className="muted rail-hint">Swipe through four decades</p>
+      <div className="team-nav era-nav">
+        <button className="arrow" aria-label="Previous chapter" onClick={() => go(active - 1)}>‹</button>
+        <span className="count"><b>{ERAS[active]!.year}</b> · {String(active + 1).padStart(2, '0')} / {String(ERAS.length).padStart(2, '0')}</span>
+        <button className="arrow" aria-label="Next chapter" onClick={() => go(active + 1)}>›</button>
+      </div>
     </div>
     <section><div className="wrap">
       <span className="label">The hands behind each car</span>

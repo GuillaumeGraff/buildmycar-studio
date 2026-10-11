@@ -25,15 +25,19 @@ async function share(model: ModelId, sel: Selection) {
 }
 
 // Workshop stages as a share of the build time, from sign-off to handover.
+// From the first conversation to the keys: about eight months of design together, then the build itself.
+const DESIGN = 8;
 const STAGES = [
-  { at: 0, name: 'Design sign-off', note: 'Final drawings and materials approved together' },
-  { at: 0.12, name: 'Chassis & coachwork', note: 'Aluminium panels shaped by hand on wooden bucks' },
-  { at: 0.45, name: 'Paint', note: 'Each coat laid and rubbed by hand' },
-  { at: 0.65, name: 'Interior', note: 'Hides cut, stitched and fitted' },
-  { at: 0.88, name: 'Road test', note: 'Five hundred kilometres before the final polish' },
-  { at: 1, name: 'Handover', note: 'At the Munich atelier, or at your door' },
+  { design: 0, name: 'First conversation', note: 'With your client director and a designer, in Munich or wherever you are' },
+  { design: 3, name: 'Sketches & proposals', note: 'Three directions drawn for you alone, then one chosen together' },
+  { design: DESIGN, name: 'Full-size model & sign-off', note: 'Your car at full size in clay, every material approved in hand' },
+  { build: 0.06, name: 'Chassis & coachwork', note: 'Aluminium panels shaped by hand on a wooden buck made for your car' },
+  { build: 0.42, name: 'Paint', note: 'Each coat laid and rubbed by hand, over many weeks' },
+  { build: 0.62, name: 'Interior', note: 'Hides chosen, cut, stitched and fitted by one trimmer' },
+  { build: 0.88, name: 'Road test', note: 'A thousand kilometres on road and track before the final polish' },
+  { build: 1, name: 'Handover', note: 'A private handover at the Munich atelier, or at your door' },
 ];
-const monthYear = (weeksFromNow: number) => new Date(Date.now() + weeksFromNow * 7 * 864e5).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+const monthYear = (monthsFromNow: number) => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + monthsFromNow); return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }); };
 
 const CHAPTERS: Record<string, string> = { paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', sound: 'Sound', summary: 'Your car' };
 const IDS = Object.keys(MODELS) as ModelId[];
@@ -219,14 +223,14 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
     <dl className="specs">{m.specs.map(s => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}{s.unit && <small>{s.unit}</small>}</dd></div>)}</dl>
     <p className="muted">{m.engine}</p>
     <div className="stack" style={{ gap: 18, textAlign: 'left' }}>
-      <span className="label">Your build, month by month</span>
+      <span className="label">From first sketch to your keys</span>
       <ol className="journey">
         {STAGES.map(s => <li key={s.name}>
-          <time>{s.at === 0 ? 'On signing' : monthYear(Math.round(m.weeks * s.at) + 2)}</time>
+          <time>{s.design === 0 ? 'Today' : monthYear(s.design ?? Math.round(DESIGN + (m.months - DESIGN) * s.build!))}</time>
           <b>{s.name}</b><small>{s.note}</small>
         </li>)}
       </ol>
-      <p className="muted" style={{ fontSize: 13 }}>About {m.weeks} weeks from sign-off, if you begin today. An illustrative estimate.</p>
+      <p className="muted" style={{ fontSize: 13 }}>About {m.months} months from the first conversation, if you begin today, as build slots allow. An illustrative estimate.</p>
     </div>
     <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Start your creation</Link>
   </div>;
