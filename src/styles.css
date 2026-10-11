@@ -575,3 +575,5 @@
   .atelier nav.main { gap: 22px; }
   .atelier nav.main a { letter-spacing: .16em; }
 }
+.atelier .member .langs { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-deep); }
+.atelier .chip small.langs { color: var(--gold-deep); letter-spacing: .06em; }

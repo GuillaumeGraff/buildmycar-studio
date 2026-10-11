@@ -53,7 +53,7 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     passport: { chassis: 'BMC-2027-014', delivered: 'March 2028', hours: 5200, origins: [{ what: 'Walnut burl', from: 'One tree, Freudenstadt, Black Forest' }, { what: 'Cognac hides', from: 'Single tannery, Bavaria' }, { what: 'Atelier Noir', from: '14 coats, Munich paint shop' }], owners: ['Klaus Brenner, from 2028'], services: ['2029 · First service, Munich', '2031 · Concours preparation, Villa d’Este'] },
     events: [{ date: 'May', name: 'Concours d’Elegance', place: 'Villa d’Este, Lake Como · private enclosure' }, { date: 'September', name: 'Atelier open evening', place: 'Munich · see the 2029 cars in build' }],
     journey: [
-      { step: 'Discover', text: 'Meets the Managing Director at a Munich concours and visits the atelier.', to: '/book' },
+      { step: 'Discover', text: 'Meets Guillaume, our Client Director for Europe, at a Munich concours and visits the atelier.', to: '/book' },
       { step: 'Configure', text: 'Starts from the Grand Tourer in Atelier Noir with wire wheels, close to his 1960s cars.', to: '/configure' },
       { step: 'Co-create', text: 'Works in person and in the studio with a designer and a Black Forest marquetry master.', to: '/studio' },
       { step: 'Passport', text: 'Receives a certified passport, and asks for his four classic cars to be documented too.', to: '/passport' },
@@ -75,7 +75,7 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     passport: { chassis: 'BMC-2027-019', delivered: 'June 2028', hours: 4300, origins: [{ what: 'Saddle leather', from: 'Hand-stitched in Bologna' }, { what: 'Aluminium', from: 'Machined in Munich, no veneer' }, { what: '1981 Argent', from: 'The founding silver, 12 coats' }], owners: ['Rachel Morgan, from 2028'], services: ['2028 · Delivered to Malibu by enclosed transport', '2029 · Service at home by a travelling technician'] },
     events: [{ date: 'August', name: 'Monterey Car Week breakfast', place: 'Pebble Beach · owners only' }, { date: 'November', name: 'Pacific Coast drive', place: 'Big Sur · two days with other owners' }],
     journey: [
-      { step: 'Discover', text: 'Hears about BMC from an owner and books a video call the same evening.', to: '/book' },
+      { step: 'Discover', text: 'Hears about BMC from an owner and books a video call with Candice the same evening.', to: '/book' },
       { step: 'Configure', text: 'Shapes a Roadster in 1981 Argent on her phone between two meetings.', to: '/configure' },
       { step: 'Co-create', text: 'Approves every choice in the studio, with a Bologna leather master joining by video.', to: '/studio' },
       { step: 'Passport', text: 'Follows the build week by week and receives the passport with the car.', to: '/passport' },
@@ -97,7 +97,7 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     passport: { chassis: 'BMC-2027-021 & 022', delivered: 'October 2028', hours: 10400, origins: [{ what: 'Mother-of-pearl', from: 'Set by hand in Dubai' }, { what: 'Bordeaux Velours', from: 'Deep tinted clear, Munich' }, { what: 'Ivoire calf', from: 'Bavarian tannery' }], owners: ['The Al Mansouri family office, from 2028'], services: ['2028 · Climate-controlled storage, Dubai', '2029 · Summer storage and service, Munich'] },
     events: [{ date: 'January', name: 'Desert drive at dawn', place: 'Al Qudra · six owners, one breakfast' }, { date: 'June', name: 'Summer in Munich', place: 'Atelier visit and Alpine passes' }],
     journey: [
-      { step: 'Discover', text: 'Is introduced by a Circle member, then visited at home by the client director.', to: '/book' },
+      { step: 'Discover', text: 'Is introduced by a Circle member, then visited at home by Nicolas, in Arabic.', to: '/book' },
       { step: 'Configure', text: 'Chooses two Shooting Brakes in Bordeaux Velours, one for each brother.', to: '/configure' },
       { step: 'Co-create', text: 'Shapes two family inlays with a mother-of-pearl master, every session private.', to: '/studio' },
       { step: 'Passport', text: 'Holds two linked passports in the family office, shared only with the insurer.', to: '/passport' },
@@ -109,7 +109,7 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     need: 'Co-creation that honours Chinese craft and symbols, as Hongqi does, with a European house.',
     model: 'gt', sel: { paint: 'jade', wheel: 'classic', leather: 'celadon', material: 'ebony', mono: 'LW' },
     artisan: { name: 'Lin Yuhua', craft: 'Fuzhou lacquer master', city: 'Fuzhou' },
-    language: 'Mandarin, with a BMC interpreter', session: 'Wednesday · 16:00 Shanghai, 10:00 Munich',
+    language: 'Mandarin, with Sharmaine', session: 'Wednesday · 16:00 Shanghai, 10:00 Munich',
     studio: [
       { from: 'designer', text: 'Li Wei, here is the Grand Tourer in Imperial Jade. We kept the bonnet long, as you asked.' },
       { from: 'client', text: 'Beautiful. Could the lacquer carry a cloud pattern, very faint, only visible in the sun?' },
@@ -119,7 +119,7 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     passport: { chassis: 'BMC-2027-018', delivered: 'August 2028, on the 8th', hours: 6100, origins: [{ what: 'Imperial Jade', from: 'Fuzhou lacquer, 40 coats by Lin Yuhua' }, { what: 'Macassar ebony', from: 'Certified reclaimed' }, { what: 'Céladon nappa', from: 'Vegetable tanned, Bavaria' }], owners: ['Li Wei, from 2028'], services: ['2028 · Delivery ceremony, the Bund, Shanghai', '2029 · Service by the BMC partner in Shanghai'] },
     events: [{ date: 'February', name: 'Lantern evening', place: 'The Bund, Shanghai · owners and artisans' }, { date: 'April', name: 'Fuzhou lacquer workshop', place: 'Two days with Lin Yuhua' }],
     journey: [
-      { step: 'Discover', text: 'Meets BMC at a private Shanghai salon and books a Mandarin video session.', to: '/book' },
+      { step: 'Discover', text: 'Meets Sharmaine at a private Shanghai salon and books a first session in Mandarin.', to: '/book' },
       { step: 'Configure', text: 'Starts from the Grand Tourer in Imperial Jade with Céladon leather.', to: '/configure' },
       { step: 'Co-create', text: 'Co-creates with a Munich designer and a Fuzhou lacquer master, in Mandarin.', to: '/studio' },
       { step: 'Passport', text: 'Receives a bilingual passport that tells the lacquer’s story, and a delivery on the 8th.', to: '/passport' },
