@@ -5,7 +5,7 @@ import { Car } from '@/components/atelier/car';
 import { MODELS, opt } from '@/components/atelier/data';
 import { persona, personaSearch } from '@/components/atelier/platform';
 import { DemoNote } from '@/components/atelier/personas';
-import { MembersGate, MembersNav } from '@/components/atelier/members';
+import { MembersGate, MembersRoom } from '@/components/atelier/members';
 
 export const Route = createFileRoute('/passport')({
   validateSearch: personaSearch,
@@ -20,14 +20,7 @@ function Passport() {
 
 function Certificate({ p }: { p: ReturnType<typeof persona> }) {
   const pp = p.passport;
-  return <div className="page">
-    <div className="wrap page-head">
-      <span className="label">Digital passport</span>
-      <h2>The story of the car, <em>certified.</em></h2>
-      <p className="lead">Who made it, from what, and who has owned it. Signed by the atelier and kept for the life of the car.</p>
-      <MembersNav p={p}/>
-    </div>
-    <div className="wrap narrow">
+  return <MembersRoom p={p} title={<>The <em>passport.</em></>}>
       <article className="passport">
         <header>
           <div><span className="label">Certificate</span><h3>{pp.chassis}</h3></div>
@@ -52,6 +45,5 @@ function Certificate({ p }: { p: ReturnType<typeof persona> }) {
         </div>
       </article>
       <DemoNote/>
-    </div>
-  </div>;
+  </MembersRoom>;
 }

@@ -47,18 +47,31 @@ export function MembersGate({ p, children }: { p: P; children: ReactNode }) {
   </div></div>;
 }
 
-// The three members' rooms, one tap apart, and the way out.
+// One quiet frame for the three members' rooms: who you are, where you are, the way out.
 // Your car is your own commission; the passport and the circle follow the example client.
 const ROOMS = [
   { to: '/passport', label: 'Passport' },
   { to: '/owners-circle', label: 'Circle' },
 ] as const;
 
-export function MembersNav({ p }: { p: P }) {
+export function MembersRoom({ p, title, wide, children }: { p: P; title: ReactNode; wide?: boolean; children: ReactNode }) {
   const { leave } = useMember();
-  return <nav className="members-nav" aria-label="Owners’ Circle">
-    <Link to="/studio" activeProps={{ 'aria-current': 'page' }} activeOptions={{ includeSearch: false }}>Your car</Link>
-    {ROOMS.map(r => <Link key={r.to} to={r.to} search={{ p: p.id }} activeProps={{ 'aria-current': 'page' }} activeOptions={{ includeSearch: false }}>{r.label}</Link>)}
-    <button className="sign-out" onClick={leave}>Sign out</button>
-  </nav>;
+  return <div className="page members">
+    <div className={`wrap members-head${wide ? '' : ' narrow'}`}>
+      <div className="members-top"><span className="label">The Owners’ Circle</span><button className="sign-out" onClick={leave}>Sign out</button></div>
+      <h2>{title}</h2>
+      <nav className="members-nav" aria-label="Owners’ Circle">
+        <Link to="/studio" activeProps={{ 'aria-current': 'page' }} activeOptions={{ includeSearch: false }}>Your car</Link>
+        {ROOMS.map(r => <Link key={r.to} to={r.to} search={{ p: p.id }} activeProps={{ 'aria-current': 'page' }} activeOptions={{ includeSearch: false }}>{r.label}</Link>)}
+      </nav>
+    </div>
+    <div className={`wrap members-body${wide ? '' : ' narrow'}`}>{children}</div>
+  </div>;
+}
+
+// A row of quiet text tabs, used inside a room so it never runs long.
+export function Tabs<T extends string>({ items, value, onChange, label, small }: { items: readonly T[]; value: T; onChange: (v: T) => void; label: string; small?: boolean }) {
+  return <div className={`tabs${small ? ' small' : ''}`} role="tablist" aria-label={label}>
+    {items.map(it => <button key={it} type="button" role="tab" aria-selected={value === it} onClick={() => onChange(it)}>{it}</button>)}
+  </div>;
 }
