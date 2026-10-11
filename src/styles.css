@@ -802,12 +802,10 @@
 .atelier .era-card time { font-family: var(--display); font-weight: 300; font-size: 40px; line-height: 1; color: var(--gold); }
 .atelier .era-card h3 { font-size: 24px; }
 .atelier .era-card p { color: var(--stone); font-size: 14px; line-height: 1.6; }
-.atelier .rail-hint { font-size: 12px; letter-spacing: .08em; margin-top: 8px; }
 .atelier .hands { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 28px; }
 .atelier .hands div { border-top: 1px solid var(--hair); padding-top: 14px; }
 .atelier .hands dt { font-family: var(--display); font-size: 44px; line-height: 1.1; color: var(--ivory); }
 .atelier .hands dd { margin: 4px 0 0; color: var(--stone); font-size: 13px; }
-@media (min-width: 641px) { .atelier .rail-hint { display: none; } }
 @media (max-width: 640px) {
   .atelier .heritage-head { padding-bottom: 20px; }
   .atelier .eras-rail { grid-auto-columns: 84%; gap: 12px; scrollbar-width: none; }
@@ -817,3 +815,33 @@
   .atelier .hands { grid-template-columns: 1fr 1fr; gap: 16px; }
   .atelier .hands dt { font-size: 34px; }
 }
+
+/* Showroom: cars cross-fade in place, so jumping from the first to the last never slides past the others */
+.atelier .slide { transform: none; opacity: 0; transition: opacity .9s ease; }
+.atelier .slide.on { opacity: 1; transform: translateX(var(--drag, 0px)); }
+.atelier .slide img { transform: scale(1.03); transition: transform 1.2s cubic-bezier(.2,.7,.2,1), filter .9s ease; }
+.atelier .slides.dragging .slide.on { transition: none; }
+
+/* Owners' Circle: what BMC does at each event */
+.atelier .event-place { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-top: 4px; }
+.atelier .event-bmc { font-size: 14px; line-height: 1.55; margin-top: 6px; max-width: 52ch; }
+@media (max-width: 640px) {
+  .atelier .continents ~ .event { grid-template-columns: minmax(0, 1fr); gap: 2px; padding: 16px 0; }
+  .atelier .continents ~ .event .link { justify-self: start; margin-top: 8px; }
+  .atelier .event-bmc { font-size: 13px; }
+}
+
+/* Heritage: chapters swipe like the Maison, the one in view lit, its words rising in */
+.atelier .era-in > * { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+.atelier .era-in > h3 { animation-delay: .15s; }
+.atelier .era-in > p { animation-delay: .3s; }
+.atelier .era-nav { display: flex; justify-content: center; align-items: center; gap: 28px; margin-top: 18px; }
+.atelier .era-nav .arrow { display: block; }
+.atelier .era-nav .count { font-family: var(--display); font-size: 20px; color: var(--stone); font-variant-numeric: lining-nums tabular-nums; }
+.atelier .era-nav .count b { font-weight: 400; color: var(--gold); }
+@media (max-width: 640px) {
+  .atelier .eras-rail { margin-inline: -20px; padding-inline: 20px; scroll-padding-inline: 20px; }
+  .atelier .era-card { opacity: .3; transform: scale(.94); transform-origin: left center; transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+  .atelier .era-card.on { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .atelier .era-in > * { animation: none; } }
