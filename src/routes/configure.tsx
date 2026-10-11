@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
 import { Car } from '@/components/atelier/car';
+import { RENDERS } from '@/components/atelier/renders';
 import { MODELS, STEPS, MONOGRAM_COST, DEFAULTS, opt, eur, encode, decode, type ModelId, type Option, type Selection } from '@/components/atelier/data';
 
 export const Route = createFileRoute('/configure')({ head: () => pageHead('Configure your car', 'Choose a silhouette, then shape your BMC finish by finish. An illustrative design study.'), component: Configure });
@@ -16,6 +17,7 @@ const LIGHTS = [
   { id: 'night', name: 'Night' },
 ] as const;
 type Light = (typeof LIGHTS)[number]['id'];
+type View = 'render' | 'sketch';
 
 async function share(model: ModelId, sel: Selection) {
   const url = `${window.location.origin}/configure?c=${encode(model, sel)}`;
@@ -49,6 +51,7 @@ function Configure() {
   const [step, setStep] = useState(0);
   const [sel, setSel] = useState<Selection>(DEFAULTS);
   const [light, setLight] = useState<Light>('day');
+  const [view, setView] = useState<View>('render');
 
   // Open a shared commission straight on its summary.
   useEffect(() => {
@@ -95,11 +98,14 @@ function Configure() {
       {STEPS.map((s, i) => <button key={s.key} className="chapter" aria-current={i === step ? 'step' : undefined} data-done={i < step || undefined} onClick={() => setStep(i)}>{CHAPTERS[s.key]}</button>)}
     </nav>
 
-    <Stage model={model} sel={sel} light={light} onSwipe={st.opts ? cycle : undefined}/>
+    <Stage model={model} sel={sel} light={light} view={view} onSwipe={st.opts ? cycle : undefined}/>
     <div className="wrap stage-tools">
       <div className="lights" role="group" aria-label="Studio lighting">
         {LIGHTS.map(l => <button key={l.id} aria-pressed={light === l.id} onClick={() => setLight(l.id)}>{l.name}</button>)}
       </div>
+      {RENDERS[model] && <div className="lights" role="group" aria-label="View">
+        {(['render', 'sketch'] as const).map(v => <button key={v} aria-pressed={view === v} onClick={() => setView(v)}>{v === 'render' ? 'Render' : 'Sketch'}</button>)}
+      </div>}
       <span className="price">{eur(total)}</span>
     </div>
 
@@ -137,18 +143,30 @@ function Configure() {
   </div>;
 }
 
-function Stage({ model, sel, light, onSwipe }: { model: ModelId; sel: Selection; light: Light; onSwipe?: ((dir: number) => void) | undefined }) {
+function Stage({ model, sel, light, view, onSwipe }: { model: ModelId; sel: Selection; light: Light; view: View; onSwipe?: ((dir: number) => void) | undefined }) {
   const start = useRef<number | null>(null);
-  return <div className={`fit-stage ${light}`}
+  const renders = RENDERS[model];
+  // The car first draws itself in gold, then the sketch gives way to the render.
+  const [revealed, setRevealed] = useState(false);
+  useEffect(() => {
+    if (!renders) return;
+    const t = window.setTimeout(() => setRevealed(true), window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 2600);
+    return () => window.clearTimeout(t);
+  }, [renders]);
+  const real = renders && view === 'render';
+  return <div className={`fit-stage ${light}${real ? ' real' : ''}${real && revealed ? ' revealed' : ''}`}
     onTouchStart={e => { start.current = e.touches[0]!.clientX; }}
     onTouchEnd={e => {
       const dx = e.changedTouches[0]!.clientX - (start.current ?? 0);
       start.current = null;
       if (onSwipe && Math.abs(dx) > 40) onSwipe(dx < 0 ? 1 : -1);
     }}>
-    <div className="wrap">
+    {real && <div className="render" aria-hidden={!revealed}>
+      {Object.entries(renders).map(([paint, src]) => <img key={paint} src={src} alt={paint === sel.paint ? `BMC ${MODELS[model].name} in ${opt('paint', paint).name}` : ''} className={paint === sel.paint ? 'on' : ''} decoding="async"/>)}
+    </div>}
+    <div className="wrap sketch">
       {sel.mono && <span className="mono">{sel.mono}</span>}
-      <Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/>
+      {real ? <Car model={model} animated/> : <Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/>}
     </div>
   </div>;
 }
