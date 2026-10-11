@@ -39,7 +39,7 @@ export type Persona = {
 
 export const PERSONAS: Record<PersonaId, Persona> = {
   europe: {
-    id: 'europe', name: 'Klaus Brenner', age: 61, city: 'Munich', region: 'European collector', tagline: 'Owns four coachbuilt cars from the 1960s and wants his first new one.',
+   id: 'europe', name: 'Klaus Brenner', age: 61, city: 'Munich', region: 'EUROPEAN CLIENT', tagline: 'Owns four coachbuilt cars from the 1960s and wants his first new one.',
     need: 'Provenance, history and a car that will hold its value for his children.',
     model: 'gt', sel: { paint: 'noir', wheel: 'wire', leather: 'cognac', material: 'walnut', mono: 'KB' },
     artisan: { name: 'Johann Keller', craft: 'Marquetry master', city: 'Black Forest' },
@@ -83,7 +83,7 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     ],
   },
   uae: {
-    id: 'uae', name: 'Omar Al Mansouri', age: 38, city: 'Dubai', region: 'New UAE client', tagline: 'Runs a family office and orders cars for himself and his brother.',
+   id: 'uae', name: 'Omar Al Mansouri', age: 38, city: 'Dubai', region: 'UAE CLIENT', tagline: 'Runs a family office and orders cars for himself and his brother.',
     need: 'Absolute privacy, home visits and pieces that carry the family’s story.',
     model: 'brake', sel: { paint: 'bordeaux', wheel: 'classic', leather: 'ivoire', material: 'pearl', mono: 'OAM' },
     artisan: { name: 'Rami Haddad', craft: 'Mother-of-pearl inlay master', city: 'Damascus tradition, Dubai studio' },
@@ -105,7 +105,7 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     ],
   },
   china: {
-    id: 'china', name: 'Li Wei', age: 35, city: 'Shanghai', region: 'New Chinese client', tagline: 'First-generation collector who wants a European car that speaks of China.',
+   id: 'china', name: 'Li Wei', age: 35, city: 'Shanghai', region: 'CHINESE CLIENT', tagline: 'First-generation collector who wants a European car that speaks of China.',
     need: 'Co-creation that honours Chinese craft and symbols, as Hongqi does, with a European house.',
     model: 'gt', sel: { paint: 'jade', wheel: 'classic', leather: 'celadon', material: 'ebony', mono: 'LW' },
     artisan: { name: 'Lin Yuhua', craft: 'Fuzhou lacquer master', city: 'Fuzhou' },
