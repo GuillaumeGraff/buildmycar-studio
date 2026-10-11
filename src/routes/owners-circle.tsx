@@ -69,7 +69,7 @@ function CircleInside({ p, leave }: { p: ReturnType<typeof persona>; leave: () =
     </div>
     <section className="flush"><div className="wrap circle">
       <div className="stack">
-        <span className="label">For {p.name}, near {p.city}</span>
+        <span className="label">Coming up near {p.city}</span>
         {p.events.map(e => <div className="event" key={e.name}><time>{e.date}</time><div><h3>{e.name}</h3><p className="muted">{e.place}</p></div>
           <button className="link" onClick={() => toast('Place reserved', { description: e.name })}>Reserve</button></div>)}
       </div>

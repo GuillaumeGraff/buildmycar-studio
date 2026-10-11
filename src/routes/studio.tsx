@@ -46,7 +46,7 @@ function Room({ id }: { id: string }) {
         {RENDERS[p.model]?.[p.sel.paint] ? <div className="stage-photo"><div className="layers"><img className="car on" src={RENDERS[p.model]![p.sel.paint]} alt={`BMC ${MODELS[p.model].name}`}/></div></div>
           : <div className="fit-stage day"><div className="wrap"><Car model={p.model} paint={p.sel.paint} wheel={p.sel.wheel} leather={p.sel.leather}/></div></div>}
         <div className="room-meta">
-          <span className="label">{MODELS[p.model].name} · for {p.name}</span>
+          <span className="label">{MODELS[p.model].name} · example client, {p.city}</span>
           <ul className="recap">
             <li><span>Client</span><span>{p.name}, {p.city}</span></li>
             <li><span>Designer</span><span>{designer.name}, Munich</span></li>
