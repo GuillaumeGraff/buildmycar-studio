@@ -40,15 +40,12 @@ function Home() {
 }
 
 // From sketch to car: each BMC draws itself in gold, then its photograph develops in the same frame, like a print.
-// Swipe, or tap a line below, to move to the next car; each one draws itself again.
 const HERO_CARS = Object.keys(MODELS) as ModelId[];
 const HERO_FINISH: Record<ModelId, string> = { gt: 'argent', roadster: 'bordeaux', brake: 'jade', saloon: 'noir', hyper: 'noir' };
 function HeroCars() {
   const [i, setI] = useState(0);
-  const [run, setRun] = useState(0);
   const [phase, setPhase] = useState<'sketch' | 'photo' | 'leaving'>('sketch');
   const [still, setStill] = useState(false);
-  const from = useRef<number | null>(null);
   useEffect(() => { setStill(window.matchMedia('(prefers-reduced-motion: reduce)').matches); }, []);
   useEffect(() => {
     if (still) return;
@@ -57,33 +54,15 @@ function HeroCars() {
     const out = window.setTimeout(() => setPhase('leaving'), 11000);
     const next = window.setTimeout(() => setI(n => (n + 1) % HERO_CARS.length), 11900);
     return () => { window.clearTimeout(photo); window.clearTimeout(out); window.clearTimeout(next); };
-  }, [i, run, still]);
-  const go = (n: number) => { setI((n + HERO_CARS.length) % HERO_CARS.length); setRun(r => r + 1); };
+  }, [i, still]);
   const k = HERO_CARS[i]!;
   const finish = HERO_FINISH[k];
   return <div className={`hero-car ${phase}`}>
-    <div className="hero-frame" role="group" aria-roledescription="carousel" aria-label="The BMC cars"
-      onPointerDown={e => { from.current = e.clientX; }}
-      onPointerCancel={() => { from.current = null; }}
-      onPointerUp={e => {
-        if (from.current === null) return;
-        const dx = e.clientX - from.current;
-        from.current = null;
-        if (Math.abs(dx) > 40) go(i + (dx < 0 ? 1 : -1));
-      }}>
-      {HERO_CARS.map(id => RENDERS[id]?.[HERO_FINISH[id]] && <img key={id} className={`hero-print${id === k ? ' on' : ''}`} src={RENDERS[id]![HERO_FINISH[id]]} alt={id === k ? `BMC ${MODELS[id].name} in ${opt('paint', HERO_FINISH[id]).name}` : ''} decoding="async" draggable={false}/>)}
-      <div className="hero-sketch-line"><Car key={`${k}-${run}`} model={k} animated/></div>
-      <button className="hero-arrow prev" aria-label="Previous car" onClick={() => go(i - 1)}>‹</button>
-      <button className="hero-arrow next" aria-label="Next car" onClick={() => go(i + 1)}>›</button>
-      <div className="hero-caption">
-        <p className="hero-car-name" key={`n-${k}`} aria-live="polite"><em>{MODELS[k].name}</em> · {MODELS[k].category}{phase === 'photo' && <span className="hero-finish"> · {opt('paint', finish).name}</span>}</p>
-        <div className="hero-dots">
-          {HERO_CARS.map((id, n) => <button key={id} aria-label={`Show the ${MODELS[id].name}`} aria-current={n === i ? 'true' : undefined} onClick={() => go(n)}>
-            <i key={n === i ? `${run}-${i}` : undefined} className={n === i && !still ? 'run' : undefined}/>
-          </button>)}
-        </div>
-      </div>
+    <div className="hero-frame">
+      {HERO_CARS.map(id => RENDERS[id]?.[HERO_FINISH[id]] && <img key={id} className={`hero-print${id === k ? ' on' : ''}`} src={RENDERS[id]![HERO_FINISH[id]]} alt={id === k ? `BMC ${MODELS[id].name} in ${opt('paint', HERO_FINISH[id]).name}` : ''} decoding="async"/>)}
+      <div className="hero-sketch-line"><Car key={k} model={k} animated/></div>
     </div>
+    <p className="hero-car-name" key={`n-${k}`}><em>{MODELS[k].name}</em> · {MODELS[k].category}{phase === 'photo' && <span className="hero-finish"> · {opt('paint', finish).name}</span>}</p>
   </div>;
 }
 
