@@ -180,6 +180,6 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
       </ol>
       <p className="muted" style={{ fontSize: 13 }}>About {m.weeks} weeks from sign-off, if you commission today. Illustrative estimate before taxes; the atelier confirms the final price.</p>
     </div>
-    <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Book a meeting to begin</Link>
+    <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Begin your commission</Link>
   </div>;
 }

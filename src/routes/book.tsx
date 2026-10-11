@@ -11,7 +11,7 @@ export const Route = createFileRoute('/book')({
     const w = Number(s['with']);
     return { c: typeof s['c'] === 'string' ? s['c'] : undefined, with: s['with'] !== undefined && Number.isInteger(w) && w >= 0 && w < TEAM.length ? w : undefined };
   },
-  head: () => pageHead('Book a meeting', 'Meet the BuildMyCar team at the Munich atelier, by video or at your home to begin a commission.'),
+  head: () => pageHead('Begin your commission', 'Meet the BuildMyCar team at the Munich atelier, by video or at your home to begin a commission.'),
   component: Book,
 });
 
@@ -69,12 +69,12 @@ function Book() {
     const when = new Date(days[day]!);
     when.setHours(h!, min!);
     setSent({ when, ics: icsFile(when, `BuildMyCar · meeting with ${host}`, placeName) });
-    toast('Meeting requested');
+    toast('Appointment requested');
     window.scrollTo({ top: 0 });
   };
 
   if (sent) return <div className="page"><div className="wrap narrow page-head booked">
-    <span className="label">Meeting requested</span>
+    <span className="label">Appointment requested</span>
     <h2>Until {sent.when.toLocaleDateString('en-GB', { weekday: 'long' })}, <em>{form.name.trim().split(' ')[0]}.</em></h2>
     <p className="lead">{host} will meet you {where.phrase} on {longDate(sent.when)} at {time}. A confirmation will follow by email.</p>
     <div className="row-gap">
@@ -86,7 +86,7 @@ function Book() {
 
   return <div className="page">
     <div className="wrap narrow page-head">
-      <span className="label">Book a meeting</span>
+      <span className="label">Begin your commission</span>
       <h2>Every car begins <em>with a conversation.</em></h2>
       <p className="lead">Choose who you would like to meet, where and when. There is no commitment at this stage.</p>
       {commission && <p className="commission-note">About your {MODELS[commission.model].name} in {opt('paint', commission.sel.paint).name}, with {opt('leather', commission.sel.leather).name} and {opt('material', commission.sel.material).name}.</p>}
@@ -126,7 +126,7 @@ function Book() {
       <div className="confirm">
         <p>{host} · {placeName} · {longDate(days[day]!)} at {time}</p>
         {error && <p role="alert" className="form-error">{error}</p>}
-        <button className="btn solid" type="submit">Request this meeting</button>
+        <button className="btn solid" type="submit">Request my private appointment</button>
       </div>
     </form>
   </div>;

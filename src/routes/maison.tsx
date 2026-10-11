@@ -55,7 +55,7 @@ function Maison() {
         <span className="count"><b>{String(active + 1).padStart(2, '0')}</b> / {String(TEAM.length).padStart(2, '0')}</span>
         <button className="arrow" aria-label="Next person" onClick={() => go(active + 1)}>›</button>
       </div>
-      <div className="team-cta"><h3>Begin a project with the team.</h3><Link to="/book" className="btn solid">Book a meeting</Link></div>
+      <div className="team-cta"><h3>Begin a project with the team.</h3><Link to="/book" className="btn solid">Begin your commission</Link></div>
     </div>
   </div>;
 }
