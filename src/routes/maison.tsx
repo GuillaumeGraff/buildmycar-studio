@@ -46,7 +46,7 @@ function Maison() {
             <Portrait sketch={t.sketch}/>
             <h3>{t.name}</h3><span className="role">{t.role}</span><p>{t.text}</p>
             <span className="sig">{t.name.split(' ')[0]}</span>
-            <Link to="/book" search={{ with: i }} className="link">Meet {t.name.split(' ')[0]}</Link>
+            {t.bookable && <Link to="/book" search={{ with: i }} className="link">Meet {t.name.split(' ')[0]}</Link>}
           </div>
         </article>)}
       </div>

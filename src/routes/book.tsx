@@ -9,7 +9,7 @@ type Search = { c?: string | undefined; with?: number | undefined };
 export const Route = createFileRoute('/book')({
   validateSearch: (s: Record<string, unknown>): Search => {
     const w = Number(s['with']);
-    return { c: typeof s['c'] === 'string' ? s['c'] : undefined, with: s['with'] !== undefined && Number.isInteger(w) && w >= 0 && w < TEAM.length ? w : undefined };
+    return { c: typeof s['c'] === 'string' ? s['c'] : undefined, with: s['with'] !== undefined && Number.isInteger(w) && w >= 0 && w < TEAM.length && TEAM[w]!.bookable ? w : undefined };
   },
   head: () => pageHead('Begin your commission', 'Meet the BuildMyCar team at the Munich atelier, by video or at your home to begin a commission.'),
   component: Book,
@@ -96,7 +96,7 @@ function Book() {
         <legend className="label">With</legend>
         <div className="chips">
           <button type="button" className="chip" aria-pressed={who === null} onClick={() => setWho(null)}>Whoever suits best</button>
-          {TEAM.map((t, i) => <button type="button" key={t.name} className="chip" aria-pressed={who === i} onClick={() => setWho(i)}>{t.name.split(' ')[0]}<small>{t.role}</small></button>)}
+          {TEAM.map((t, i) => t.bookable && <button type="button" key={t.name} className="chip" aria-pressed={who === i} onClick={() => setWho(i)}>{t.name.split(' ')[0]}<small>{t.role}</small></button>)}
         </div>
       </fieldset>
       <fieldset>
