@@ -17,9 +17,13 @@ import { Route as ConfigureRouteImport } from './routes/configure'
 import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as LegalRouteImport } from './routes/legal'
 import { Route as MaisonRouteImport } from './routes/maison'
+import { Route as OwnersCircleRouteImport } from './routes/owners-circle'
+import { Route as PassportRouteImport } from './routes/passport'
+import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as StudioRouteImport } from './routes/studio'
 import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 
 const IndexRoute = IndexRouteImport.update({
@@ -61,6 +65,21 @@ const MaisonRoute = MaisonRouteImport.update({
   path: '/maison',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OwnersCircleRoute = OwnersCircleRouteImport.update({
+  id: '/owners-circle',
+  path: '/owners-circle',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PassportRoute = PassportRouteImport.update({
+  id: '/passport',
+  path: '/passport',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlatformRoute = PlatformRouteImport.update({
+  id: '/platform',
+  path: '/platform',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PressRoute = PressRouteImport.update({
   id: '/press',
   path: '/press',
@@ -74,6 +93,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
@@ -90,9 +114,13 @@ export interface FileRoutesByFullPath {
   '/heritage': typeof HeritageRoute
   '/legal': typeof LegalRoute
   '/maison': typeof MaisonRoute
+  '/owners-circle': typeof OwnersCircleRoute
+  '/passport': typeof PassportRoute
+  '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/studio': typeof StudioRoute
   '/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRoutesByTo {
@@ -103,9 +131,13 @@ export interface FileRoutesByTo {
   '/heritage': typeof HeritageRoute
   '/legal': typeof LegalRoute
   '/maison': typeof MaisonRoute
+  '/owners-circle': typeof OwnersCircleRoute
+  '/passport': typeof PassportRoute
+  '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/studio': typeof StudioRoute
   '/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRoutesById {
@@ -118,9 +150,13 @@ export interface FileRoutesById {
   '/heritage': typeof HeritageRoute
   '/legal': typeof LegalRoute
   '/maison': typeof MaisonRoute
+  '/owners-circle': typeof OwnersCircleRoute
+  '/passport': typeof PassportRoute
+  '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/studio': typeof StudioRoute
   '/_authenticated/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRouteTypes {
@@ -133,9 +169,13 @@ export interface FileRouteTypes {
     | '/heritage'
     | '/legal'
     | '/maison'
+    | '/owners-circle'
+    | '/passport'
+    | '/platform'
     | '/press'
     | '/privacy'
     | '/reset-password'
+    | '/studio'
     | '/circle'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -146,9 +186,13 @@ export interface FileRouteTypes {
     | '/heritage'
     | '/legal'
     | '/maison'
+    | '/owners-circle'
+    | '/passport'
+    | '/platform'
     | '/press'
     | '/privacy'
     | '/reset-password'
+    | '/studio'
     | '/circle'
   id:
     | '__root__'
@@ -160,9 +204,13 @@ export interface FileRouteTypes {
     | '/heritage'
     | '/legal'
     | '/maison'
+    | '/owners-circle'
+    | '/passport'
+    | '/platform'
     | '/press'
     | '/privacy'
     | '/reset-password'
+    | '/studio'
     | '/_authenticated/circle'
   fileRoutesById: FileRoutesById
 }
@@ -175,9 +223,13 @@ export interface RootRouteChildren {
   HeritageRoute: typeof HeritageRoute
   LegalRoute: typeof LegalRoute
   MaisonRoute: typeof MaisonRoute
+  OwnersCircleRoute: typeof OwnersCircleRoute
+  PassportRoute: typeof PassportRoute
+  PlatformRoute: typeof PlatformRoute
   PressRoute: typeof PressRoute
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  StudioRoute: typeof StudioRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -238,6 +290,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MaisonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/owners-circle': {
+      id: '/owners-circle'
+      path: '/owners-circle'
+      fullPath: '/owners-circle'
+      preLoaderRoute: typeof OwnersCircleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/passport': {
+      id: '/passport'
+      path: '/passport'
+      fullPath: '/passport'
+      preLoaderRoute: typeof PassportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/platform': {
+      id: '/platform'
+      path: '/platform'
+      fullPath: '/platform'
+      preLoaderRoute: typeof PlatformRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/press': {
       id: '/press'
       path: '/press'
@@ -257,6 +330,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/reset-password'
       preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/circle': {
@@ -289,9 +369,13 @@ const rootRouteChildren: RootRouteChildren = {
   HeritageRoute: HeritageRoute,
   LegalRoute: LegalRoute,
   MaisonRoute: MaisonRoute,
+  OwnersCircleRoute: OwnersCircleRoute,
+  PassportRoute: PassportRoute,
+  PlatformRoute: PlatformRoute,
   PressRoute: PressRoute,
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  StudioRoute: StudioRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
