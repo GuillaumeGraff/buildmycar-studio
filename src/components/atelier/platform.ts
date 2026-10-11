@@ -33,7 +33,6 @@ export type Persona = {
   model: ModelId; sel: Selection; artisan: { name: string; craft: string; city: string };
   language: string; session: string; studio: Msg[]; proposal: { title: string; note: string; swatch: string };
   passport: { chassis: string; delivered: string; hours: number; origins: { what: string; from: string }[]; owners: string[]; services: string[] };
-  events: { date: string; name: string; place: string }[];
   journey: { step: string; text: string; to: '/configure' | '/studio' | '/passport' | '/owners-circle' | '/book' }[];
 };
 
@@ -51,7 +50,6 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     ],
     proposal: { title: 'Walnut fascia with brass inlay', note: 'Single-tree burl, typewriter-key brass detail', swatch: '#6b4528' },
     passport: { chassis: 'BMC-2027-014', delivered: 'March 2028', hours: 5200, origins: [{ what: 'Figured walnut', from: 'One tree, Freudenstadt, Black Forest' }, { what: 'Cognac hides', from: 'Single tannery, Bavaria' }, { what: 'Atelier Noir', from: '14 coats, Munich paint shop' }], owners: ['Klaus Brenner, from 2028'], services: ['2029 · First service, Munich', '2031 · Concours preparation, Villa d’Este'] },
-    events: [{ date: 'May', name: 'Concours d’Elegance', place: 'Villa d’Este, Lake Como · private enclosure' }, { date: 'September', name: 'Atelier open evening', place: 'Munich · see the 2029 cars in build' }],
     journey: [
       { step: 'Discover', text: 'Meets Guillaume, our Client Director for Europe, at a Munich concours and visits the atelier.', to: '/book' },
       { step: 'Configure', text: 'Starts from the Grand Tourer in Atelier Noir with wire wheels, close to his 1960s cars.', to: '/configure' },
@@ -73,7 +71,6 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     ],
     proposal: { title: 'Saddle-leather wrap on the aluminium dash', note: 'Hand-stitched, no veneer anywhere', swatch: '#8a5631' },
     passport: { chassis: 'BMC-2027-019', delivered: 'June 2028', hours: 4300, origins: [{ what: 'Saddle leather', from: 'Hand-stitched in Bologna' }, { what: 'Aluminium', from: 'Machined in Munich, no veneer' }, { what: '1981 Argent', from: 'The founding silver, 12 coats' }], owners: ['Rachel Morgan, from 2028'], services: ['2028 · Delivered to Malibu by enclosed transport', '2029 · Service at home by a travelling technician'] },
-    events: [{ date: 'August', name: 'Monterey Car Week breakfast', place: 'Pebble Beach · owners only' }, { date: 'November', name: 'Pacific Coast drive', place: 'Big Sur · two days with other owners' }],
     journey: [
       { step: 'Discover', text: 'Hears about BMC from an owner and books a video call with Candice the same evening.', to: '/book' },
       { step: 'Configure', text: 'Shapes a Roadster in 1981 Argent on her phone between two meetings.', to: '/configure' },
@@ -95,7 +92,6 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     ],
     proposal: { title: 'Falcon and palm inlays, a pair', note: 'Mother-of-pearl, set by hand, two cars', swatch: '#e2ddd1' },
     passport: { chassis: 'BMC-2027-021 & 022', delivered: 'October 2028', hours: 10400, origins: [{ what: 'Mother-of-pearl', from: 'Set by hand in Dubai' }, { what: 'Bordeaux Velours', from: 'Deep tinted clear, Munich' }, { what: 'Ivoire calf', from: 'Bavarian tannery' }], owners: ['The Al Mansouri family office, from 2028'], services: ['2028 · Climate-controlled storage, Dubai', '2029 · Summer storage and service, Munich'] },
-    events: [{ date: 'January', name: 'Desert drive at dawn', place: 'Al Qudra · six owners, one breakfast' }, { date: 'June', name: 'Summer in Munich', place: 'Atelier visit and Alpine passes' }],
     journey: [
       { step: 'Discover', text: 'Is introduced by a Circle member, then visited at home by Nicolas, in Arabic.', to: '/book' },
       { step: 'Configure', text: 'Chooses two Shooting Brakes in Bordeaux Velours, one for each brother.', to: '/configure' },
@@ -117,7 +113,6 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     ],
     proposal: { title: 'Auspicious cloud in the jade lacquer', note: 'Fuzhou lacquer, visible only in direct sun', swatch: '#356b5c' },
     passport: { chassis: 'BMC-2027-018', delivered: 'August 2028, on the 8th', hours: 6100, origins: [{ what: 'Imperial Jade', from: 'Fuzhou lacquer, 40 coats by Lin Yuhua' }, { what: 'Macassar ebony', from: 'Certified reclaimed' }, { what: 'Céladon nappa', from: 'Vegetable tanned, Bavaria' }], owners: ['Li Wei, from 2028'], services: ['2028 · Delivery ceremony, the Bund, Shanghai', '2029 · Service by the BMC partner in Shanghai'] },
-    events: [{ date: 'February', name: 'Lantern evening', place: 'The Bund, Shanghai · owners and artisans' }, { date: 'April', name: 'Fuzhou lacquer workshop', place: 'Two days with Lin Yuhua' }],
     journey: [
       { step: 'Discover', text: 'Meets Sharmaine at a private Shanghai salon and books a first session in Mandarin.', to: '/book' },
       { step: 'Configure', text: 'Starts from the Grand Tourer in Imperial Jade with Céladon leather.', to: '/configure' },
@@ -133,3 +128,27 @@ export const personaSearch = (s: Record<string, unknown>): { p?: PersonaId | und
   const p = s['p'];
   return { p: typeof p === 'string' && p in PERSONAS ? (p as PersonaId) : undefined };
 };
+
+// Private events open to every member, wherever they live. Illustrative.
+export const EVENTS: { continent: string; events: { date: string; name: string; place: string }[] }[] = [
+  { continent: 'Europe', events: [
+    { date: 'February', name: 'Coachwork evening', place: 'Paris · a private viewing of classic coachbuilt cars' },
+    { date: 'May', name: 'Grand Prix terrace', place: 'Monaco · a private terrace above the harbour' },
+    { date: 'September', name: 'Atelier open evening', place: 'Munich · see next year’s cars in build' },
+  ] },
+  { continent: 'Middle East', events: [
+    { date: 'January', name: 'Desert drive at dawn', place: 'Dubai · Al Qudra, six owners, one breakfast' },
+    { date: 'March', name: 'Mother-of-pearl dinner', place: 'Doha · an evening with our inlay masters' },
+    { date: 'December', name: 'Season finale', place: 'Abu Dhabi · a suite above the Yas Marina circuit' },
+  ] },
+  { continent: 'Asia', events: [
+    { date: 'February', name: 'Lantern evening', place: 'Shanghai · The Bund, owners and artisans' },
+    { date: 'April', name: 'Cherry blossom drive', place: 'Tokyo · two days to Hakone and back' },
+    { date: 'September', name: 'Night race suite', place: 'Singapore · Marina Bay, above the grid' },
+  ] },
+  { continent: 'Americas', events: [
+    { date: 'April', name: 'Manhattan dinner', place: 'New York · a private table and the new cars' },
+    { date: 'August', name: 'Car Week breakfast', place: 'Monterey · Pebble Beach, owners only' },
+    { date: 'December', name: 'Art Week evening', place: 'Miami Beach · collectors and their cars' },
+  ] },
+];
