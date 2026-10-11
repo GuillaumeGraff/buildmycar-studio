@@ -845,3 +845,26 @@
   .atelier .era-card.on { opacity: 1; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) { .atelier .era-in > * { animation: none; } }
+
+/* Rendezvous: the showroom cities sit straight under the showroom choice */
+.atelier .places .showroom-cities { grid-column: 1 / -1; animation: rise .5s cubic-bezier(.2,.7,.2,1) both; }
+@media (max-width: 640px) { .atelier .places .showroom-cities { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; } }
+
+/* Heritage on phones: the chapter and its arrows on one screen, as on the Maison */
+@media (max-width: 640px) {
+  .atelier .heritage-head { padding-block: 18px 14px; gap: 8px; }
+  .atelier .heritage-head h2 { font-size: 34px; }
+  .atelier .heritage-head .lead { display: none; }
+  .atelier .era-card img { aspect-ratio: auto; height: 26svh; }
+  .atelier .era-card > div { padding: 12px 16px 14px; gap: 4px; }
+  .atelier .era-card p { font-size: 13px; line-height: 1.5; }
+  .atelier .era-nav { margin-top: 6px; }
+  .atelier .era-nav .arrow { height: 40px; }
+}
+@media (max-width: 640px) and (max-height: 620px) {
+  .atelier .heritage-head h2 { font-size: 28px; }
+  .atelier .era-card img { height: 20svh; }
+  .atelier .era-card time { font-size: 26px; }
+  .atelier .era-card h3 { font-size: 19px; }
+  .atelier .era-card p { font-size: 12px; }
+}
