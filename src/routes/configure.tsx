@@ -5,7 +5,7 @@ import { pageHead } from '@/components/bmc/metadata';
 import { Car } from '@/components/atelier/car';
 import { RENDERS } from '@/components/atelier/renders';
 import { DETAILS, STUDIO } from '@/components/atelier/details';
-import { MODELS, STEPS, CHARACTERS, DEFAULTS, opt, encode, decode, type ModelId, type Option, type Selection, type StepKey } from '@/components/atelier/data';
+import { MODELS, STEPS, CHARACTERS, SEATS, DEFAULTS, opt, seat, encode, decode, type ModelId, type Option, type Selection, type StepKey } from '@/components/atelier/data';
 
 export const Route = createFileRoute('/configure')({ head: () => pageHead('Configure your car', 'Choose one of five BMC cars, then shape it finish by finish. An illustrative design study.'), component: Configure });
 
@@ -35,7 +35,7 @@ const STAGES = [
 ];
 const monthYear = (weeksFromNow: number) => new Date(Date.now() + weeksFromNow * 7 * 864e5).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
-const CHAPTERS: Record<string, string> = { character: 'Character', paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', summary: 'Your car' };
+const CHAPTERS: Record<string, string> = { character: 'Character', paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', sound: 'Sound', summary: 'Your car' };
 const IDS = Object.keys(MODELS) as ModelId[];
 const still = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -78,12 +78,15 @@ function Configure() {
       {current && st.opts && <>
         <span className="label">{st.title}</span>
         <h2 key={current.id} className="choice-name">{current.name}</h2>
-        <p className="muted choice-note">{current.note}</p>
-        <div className="swatches" role="radiogroup" aria-label={st.title}>
+        <p className="muted choice-note">{st.key === 'leather' ? `${seat(sel.seat).name} · ${seat(sel.seat).note}` : current.note}</p>
+        <div className="swatches" role="radiogroup" aria-label={st.key === 'leather' ? 'Leather colour' : st.title}>
           {st.opts.map(o => <button key={o.id} role="radio" aria-checked={o.id === current.id} aria-label={o.name} title={o.name} className="swatch" onClick={() => setSel({ ...sel, [key]: o.id })}>
             <Swatch o={o} step={st.key}/>
           </button>)}
         </div>
+        {st.key === 'leather' && <div className="seat-finish" role="radiogroup" aria-label="Seat finish">
+          {SEATS.map(s => <button key={s.id} role="radio" aria-checked={seat(sel.seat).id === s.id} className={`seat-chip seat-${s.id}`} onClick={() => setSel({ ...sel, seat: s.id })}><i aria-hidden="true"/>{s.name}</button>)}
+        </div>}
         <p className="muted hint">{st.intro}</p>
       </>}
 
@@ -193,7 +196,7 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
   ];
   const group = detail ? shown : 'car';
   const active = group === 'car' ? (renders ? sel.paint : 'studio') : sel[shown as keyof Selection];
-  return <div className={`stage-photo show-${group}${sel.character ? ' mood-' + sel.character : ''}`}
+  return <div className={`stage-photo show-${group} seat-${seat(sel.seat).id}${sel.character ? ' mood-' + sel.character : ''}`}
     onTouchStart={e => { start.current = e.touches[0]!.clientX; }}
     onTouchEnd={e => {
       const dx = e.changedTouches[0]!.clientX - (start.current ?? 0);
@@ -212,6 +215,7 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
 
 function Swatch({ o, step }: { o: Option; step: StepKey }) {
   const src = DETAILS[step]?.images[o.id];
+  if (o.speakers) return <i className="sound"><b>{o.speakers}</b></i>;
   return src ? <i className={step} style={{ backgroundImage: `url(${src})` }}/> : <i className="lacquer" style={{ backgroundColor: o.hex }}/>;
 }
 
@@ -222,7 +226,7 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
       <span className="label">Your {m.category}</span>
       <h2 className="choice-name">The {m.name}</h2>
       {CHARACTERS.find(c => c.id === sel.character) && <p className="tuned-for">Tuned for {CHARACTERS.find(c => c.id === sel.character)!.name}</p>}
-      <p className="muted">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} · {opt('leather', sel.leather).name} · {opt('material', sel.material).name}</p>
+      <p className="muted">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} · {opt('leather', sel.leather).name}, {seat(sel.seat).name.toLowerCase()} · {opt('material', sel.material).name} · {opt('sound', sel.sound ?? 'salon').name} sound</p>
     </div>
     <dl className="specs">{m.specs.map(s => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}{s.unit && <small>{s.unit}</small>}</dd></div>)}</dl>
     <p className="muted">{m.engine}</p>

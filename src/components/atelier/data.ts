@@ -1,8 +1,8 @@
 // Content for the BMC Atelier site. Edit names, specifications and texts here.
 export type ModelId = 'gt' | 'roadster' | 'brake' | 'saloon' | 'hyper';
-export type Option = { id: string; name: string; note: string; hex: string; spokes?: number; w?: number };
+export type Option = { id: string; name: string; note: string; hex: string; spokes?: number; w?: number; speakers?: number };
 export type Spec = { label: string; value: string; unit?: string };
-export type StepKey = 'character' | 'paint' | 'wheel' | 'leather' | 'material' | 'summary';
+export type StepKey = 'character' | 'paint' | 'wheel' | 'leather' | 'material' | 'sound' | 'summary';
 export type Step = { key: StepKey; title: string; intro: string; opts?: Option[] };
 
 // The five BMC cars. `body`, `glass` and `door` draw each one in gold on the home page.
@@ -73,21 +73,34 @@ export const STEPS: Step[] = [
     { id: 'ebony', name: 'Macassar ebony', note: 'Certified reclaimed', hex: '#2b211b' },
     { id: 'pearl', name: 'Mother-of-pearl inlay', note: 'Set by hand in the fascia', hex: '#d9d4c8' },
     { id: 'alu', name: 'Brushed aluminium', note: 'Machined, no veneer', hex: '#7c7f80' }] },
+  { key: 'sound', title: 'Sound', intro: 'One quiet design in every car. What changes is the system behind the grilles, tuned by ear in Munich.', opts: [
+    { id: 'salon', name: 'Salon', note: '16 speakers · 1,200 W · clear and natural, tuned to the cabin', hex: '#b8955a', speakers: 16 },
+    { id: 'concert', name: 'Concert', note: '24 speakers · 2,100 W · ceiling speakers put the stage around you', hex: '#b8955a', speakers: 24 },
+    { id: 'reference', name: 'Reference', note: '34 speakers · 3,200 W · seat exciters, the studio master in your car', hex: '#b8955a', speakers: 34 }] },
   { key: 'summary', title: 'Your creation', intro: 'A first sketch of your car. The atelier will refine every line with you.' },
 ];
 
+// How the seat leather is worked, chosen alongside its colour on the leather step.
+export const SEATS = [
+  { id: 'smooth', name: 'Smooth hide', note: 'The leather left whole, as the tannery delivers it' },
+  { id: 'quilted', name: 'Diamond quilted', note: 'Stitched by hand, a thousand diamonds per seat' },
+  { id: 'perforated', name: 'Perforated', note: 'Drilled in a fine pattern, cool in summer' },
+  { id: 'suede', name: 'Suede', note: 'Brushed to a soft nap, warm to the touch' },
+];
+export const seat = (id?: string) => SEATS.find(s => s.id === id) ?? SEATS[0]!;
+
 export const opt = (key: StepKey, id: string): Option => STEPS.find(s => s.key === key)!.opts!.find(o => o.id === id)!;
 
-export type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string; character?: string | undefined };
-export const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '' };
+export type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string; character?: string | undefined; seat?: string | undefined; sound?: string | undefined };
+export const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '', seat: 'smooth', sound: 'salon' };
 
-// A car is shared as a link: /configure?c=gt.jade.wire.cognac.walnut..velvet
-export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono, s.character ?? ''].join('.').replace(/\.+$/, '');
+// A car is shared as a link: /configure?c=gt.jade.wire.cognac.walnut..velvet.quilted
+export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono, s.character ?? '', s.seat && s.seat !== 'smooth' ? s.seat : '', s.sound && s.sound !== 'salon' ? s.sound : ''].join('.').replace(/\.+$/, '');
 export function decode(code: string): { model: ModelId; sel: Selection } | null {
-  const [model, paint, wheel, leather, material, mono = '', character] = code.split('.');
+  const [model, paint, wheel, leather, material, mono = '', character, seatId, sound] = code.split('.');
   if (!model || !(model in MODELS)) return null;
-  const valid = (key: 'paint' | 'wheel' | 'leather' | 'material', id?: string) => STEPS.find(st => st.key === key)!.opts!.some(o => o.id === id) ? id! : DEFAULTS[key];
-  return { model: model as ModelId, sel: { paint: valid('paint', paint), wheel: valid('wheel', wheel), leather: valid('leather', leather), material: valid('material', material), mono: mono.replace(/[^A-Z]/g, '').slice(0, 3), character: CHARACTERS.some(c => c.id === character) ? character : undefined } };
+  const valid = (key: 'paint' | 'wheel' | 'leather' | 'material' | 'sound', id?: string) => STEPS.find(st => st.key === key)!.opts!.some(o => o.id === id) ? id! : DEFAULTS[key]!;
+  return { model: model as ModelId, sel: { paint: valid('paint', paint), wheel: valid('wheel', wheel), leather: valid('leather', leather), material: valid('material', material), mono: mono.replace(/[^A-Z]/g, '').slice(0, 3), character: CHARACTERS.some(c => c.id === character) ? character : undefined, seat: seat(seatId).id, sound: valid('sound', sound) } };
 }
 
 

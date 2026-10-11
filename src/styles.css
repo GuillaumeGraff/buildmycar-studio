@@ -709,3 +709,15 @@
   .atelier .car-strip button { width: 76px; }
   .atelier .car-strip span { font-size: 13px; }
 }
+
+/* Seat finish chips on the leather step, and the speaker count on the sound step */
+.atelier .seat-finish { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 4px 0 6px; }
+.atelier .seat-chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border: 1px solid var(--hair); border-radius: 999px; font-size: 12px; letter-spacing: .08em; color: var(--ivory); transition: border-color .4s, color .4s; }
+.atelier .seat-chip[aria-checked="true"] { border-color: var(--gold); color: var(--gold); }
+.atelier .seat-chip i { width: 14px; height: 14px; border-radius: 50%; background: currentColor; opacity: .55; }
+.atelier .seat-chip.seat-quilted i { background: repeating-linear-gradient(45deg, transparent 0 3px, currentColor 3px 4px), repeating-linear-gradient(-45deg, transparent 0 3px, currentColor 3px 4px); opacity: .9; }
+.atelier .seat-chip.seat-perforated i { background: radial-gradient(currentColor 1px, transparent 1.4px) 0 0 / 4px 4px; opacity: .9; }
+.atelier .seat-chip.seat-suede i { opacity: .3; filter: blur(.6px); }
+.atelier .swatch i.sound { display: grid; place-items: center; border: 1px solid var(--hair); background: radial-gradient(circle, rgba(184,149,90,.18), transparent 70%); }
+.atelier .swatch i.sound b { font-family: var(--font-display, serif); font-style: italic; font-weight: 400; font-size: 18px; color: var(--ivory); }
+.atelier .swatch[aria-checked="true"] i.sound b { color: var(--gold); }
