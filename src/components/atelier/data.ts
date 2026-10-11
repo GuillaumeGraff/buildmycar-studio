@@ -56,13 +56,14 @@ export function decode(code: string): { model: ModelId; sel: Selection } | null 
 }
 
 
+// `bookable`: client-facing people a client can choose on the booking page.
 export const TEAM = [
-  { name: 'Guillaume Graff', role: 'Managing Director', text: 'Leads the house and its digital atelier.', sketch: 0 },
-  { name: 'Clément Tavernier', role: 'Chief Design Officer', text: 'Guides every commission from first sketch to final sign-off.', sketch: 1 },
-  { name: 'Candice Anguiley Kaack', role: 'Director of Client Experience', text: 'Looks after each client from invitation to delivery and beyond.', sketch: 2 },
-  { name: 'Karl-Henry Sanon', role: 'Head of Craft & Artisans', text: 'Curates the master artisans who join each commission.', sketch: 3 },
-  { name: 'Nicolas Chaumont', role: 'Chief Financial Officer', text: 'Keeps every commission transparent, from estimate to invoice.', sketch: 4 },
-  { name: 'Sharmaine Ng', role: 'Director, Asia & Middle East', text: 'Opens the house to clients in Shanghai, Dubai and beyond.', sketch: 5 },
+  { name: 'Guillaume Graff', role: 'Managing Director', text: 'Leads the house and its digital atelier.', bookable: false, sketch: 0 },
+  { name: 'Clément Tavernier', role: 'Chief Design Officer', text: 'Guides every commission from first sketch to final sign-off.', bookable: true, sketch: 1 },
+  { name: 'Candice Anguiley Kaack', role: 'Director of Client Experience', text: 'Looks after each client from invitation to delivery and beyond.', bookable: true, sketch: 2 },
+  { name: 'Karl-Henry Sanon', role: 'Head of Craft & Artisans', text: 'Curates the master artisans who join each commission.', bookable: true, sketch: 3 },
+  { name: 'Nicolas Chaumont', role: 'Chief Financial Officer', text: 'Keeps every commission transparent, from estimate to invoice.', bookable: false, sketch: 4 },
+  { name: 'Sharmaine Ng', role: 'Director, Asia & Middle East', text: 'Opens the house to clients in Shanghai, Dubai and beyond.', bookable: true, sketch: 5 },
 ];
 
 // Sample quotes written for the prototype: replace with real press coverage before public use.

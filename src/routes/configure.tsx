@@ -68,13 +68,12 @@ function Configure() {
         <span className="label">Begin with a silhouette</span>
         <ul role="list">
           {IDS.map(k => <li key={k}>
-            <button className="silhouette" aria-pressed={preview === k} onMouseEnter={() => setPreview(k)} onFocus={() => setPreview(k)} onClick={() => setPreview(k)}>
-              <span className="name">{MODELS[k].name}</span><span className="from">From {eur(MODELS[k].base)}</span>
+            <button className="silhouette" aria-pressed={preview === k} onMouseEnter={() => setPreview(k)} onFocus={() => setPreview(k)} onClick={() => { setModel(k); setStep(0); setSel(DEFAULTS); top(); }}>
+              <span className="name">{MODELS[k].name}</span><span className="from">From {eur(MODELS[k].base)}<b aria-hidden="true">›</b></span>
             </button>
           </li>)}
         </ul>
         <p className="muted">{MODELS[preview].line}</p>
-        <button className="btn solid" style={{ alignSelf: 'flex-start' }} onClick={() => { setModel(preview); setStep(0); setSel(DEFAULTS); top(); }}>Begin with the {MODELS[preview].name}</button>
       </div>
     </div>
   </div>;
@@ -181,6 +180,6 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
       </ol>
       <p className="muted" style={{ fontSize: 13 }}>About {m.weeks} weeks from sign-off, if you commission today. Illustrative estimate before taxes; the atelier confirms the final price.</p>
     </div>
-    <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Book a meeting to begin</Link>
+    <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Begin your commission</Link>
   </div>;
 }

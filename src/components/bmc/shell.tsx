@@ -30,16 +30,17 @@ export function Header({ signedIn }: { signedIn: boolean }) {
         <Link to="/" className="mark" aria-label="BuildMyCar home"><b>BMC</b><span>BuildMyCar · Est. 1981</span></Link>
         <nav className="main" aria-label="Main">
           {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }}>{l.label}</Link>)}
+          <Link to={signedIn ? '/circle' : '/owners-circle'} activeProps={{ 'aria-current': 'page' }}>Owners’ Circle</Link>
         </nav>
         <div className="bar-end">
-          <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}>Book<span>a meeting</span></Link>
+          <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}><span>Begin your</span>commission</Link>
           <button ref={btn} className="menu-btn" aria-expanded={open} aria-controls="menu-panel" onClick={() => setOpen(o => !o)}>{open ? 'Close' : 'Menu'}</button>
         </div>
       </div>
       {open && <nav ref={panel} id="menu-panel" className="menu-panel" aria-label="Menu">
         <Link to="/" onClick={() => setOpen(false)}>Home</Link>
         {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }} onClick={() => setOpen(false)}>{l.label}</Link>)}
-        <Link to={signedIn ? '/circle' : '/auth'} onClick={() => setOpen(false)}>Owners’ Circle</Link>
+        <Link to={signedIn ? '/circle' : '/owners-circle'} onClick={() => setOpen(false)}>Owners’ Circle</Link>
       </nav>}
     </header>
     {open && <div className="menu-backdrop" onClick={() => setOpen(false)} />}
@@ -62,7 +63,7 @@ export function Footer() {
       <div className="wrap">
         <div className="foot">
           <div><h4>BuildMyCar</h4><span>Coachbuilders since 1981</span><span>Atelier by appointment, Munich</span><span>atelier@buildmycar.example</span></div>
-          <div><h4>The house</h4>{links.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}<Link to="/book">Book a meeting</Link><Link to="/auth">Owners’ Circle</Link></div>
+          <div><h4>The house</h4>{links.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}<Link to="/book">Begin your commission</Link><Link to="/owners-circle">Owners’ Circle</Link></div>
           <div><h4>Information</h4><Link to="/privacy">Privacy policy</Link><Link to="/legal">Legal notice</Link><button onClick={() => setShowCookies(true)}>Cookie settings</button></div>
         </div>
         <div className="fine-print"><span>© 2026 BuildMyCar. All rights reserved.</span><span>Prototype by Yellow Team, ESSEC · illustrative content</span></div>

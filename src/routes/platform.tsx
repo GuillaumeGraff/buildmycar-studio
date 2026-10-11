@@ -52,7 +52,7 @@ function Platform() {
           <span className="label">{String(i + 1).padStart(2, '0')} · {j.step}</span>
           <p>{j.text}</p>
           {j.to === '/configure' ? <a href={`/configure?c=${encode(p.model, p.sel)}`} className="link">See the car</a>
-            : j.to === '/book' ? <Link to="/book" className="link">Book a meeting</Link>
+            : j.to === '/book' ? <Link to="/book" className="link">Begin your commission</Link>
             : <Link to={j.to} search={{ p: p.id }} className="link">Open</Link>}
         </li>)}
       </ol>

@@ -566,3 +566,12 @@
 @media (max-width: 640px) {
   .atelier .foot a, .atelier .foot button { padding-block: 11px; }
 }
+.atelier .silhouette .from b { font-family: var(--display); font-weight: 300; font-size: 26px; line-height: 0; margin-left: 14px; vertical-align: -3px; color: var(--gold); opacity: 0; transition: opacity .4s, margin .4s; }
+.atelier .silhouette:hover .from b, .atelier .silhouette[aria-pressed="true"] .from b { opacity: 1; margin-left: 18px; }
+@media (hover: none) { .atelier .silhouette .from b { opacity: 1; } }
+.atelier .mark span { white-space: nowrap; }
+@media (max-width: 1180px) and (min-width: 901px) {
+  .atelier .book-btn span { display: none; }
+  .atelier nav.main { gap: 22px; }
+  .atelier nav.main a { letter-spacing: .16em; }
+}
