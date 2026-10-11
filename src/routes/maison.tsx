@@ -36,7 +36,7 @@ function Maison() {
   return <div className="page">
     <div className="wrap page-head">
       <span className="label">The Maison</span>
-      <h2>The people behind <em>every commission.</em></h2>
+      <h2>The people behind <em>every car.</em></h2>
       <p className="lead">A small house by design. Six people look after our clients, in their own language, from Munich to Los Angeles, Dubai and Shanghai.</p>
     </div>
     <div className="wrap team-wrap">
@@ -55,7 +55,7 @@ function Maison() {
         <span className="count"><b>{String(active + 1).padStart(2, '0')}</b> / {String(TEAM.length).padStart(2, '0')}</span>
         <button className="arrow" aria-label="Next person" onClick={() => go(active + 1)}>›</button>
       </div>
-      <div className="team-cta"><h3>Begin a project with the team.</h3><Link to="/book" className="btn solid">Begin your commission</Link></div>
+      <div className="team-cta"><h3>Begin a project with the team.</h3><Link to="/book" className="btn solid">Start your creation</Link></div>
     </div>
   </div>;
 }

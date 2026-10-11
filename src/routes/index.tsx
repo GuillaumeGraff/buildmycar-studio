@@ -13,7 +13,7 @@ function Home() {
       <span className="label">BuildMyCar · Coachbuilders since 1981</span>
       <h1>Where human craftsmanship<br/>meets <em>digital precision.</em></h1>
       <div className="hero-car"><Car animated/></div>
-      <div className="row-gap center"><Link to="/configure" className="btn">Configure your car</Link><Link to="/book" className="btn solid">Begin your commission</Link></div>
+      <div className="row-gap center"><Link to="/configure" className="btn">Configure your car</Link><Link to="/book" className="btn solid">Start your creation</Link></div>
     </div></div>
     <section><div className="wrap">
       <span className="label">The house</span>

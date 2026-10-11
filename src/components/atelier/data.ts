@@ -37,7 +37,7 @@ export const STEPS: Step[] = [
     { id: 'pearl', name: 'Mother-of-pearl inlay', note: 'Set by hand in the fascia', hex: '#d9d4c8', cost: 16500 },
     { id: 'alu', name: 'Brushed aluminium', note: 'Machined, no veneer', hex: '#7c7f80', cost: 0 }] },
   { key: 'mono', title: 'Your monogram', intro: 'Up to three initials, embroidered in the headrests and engraved on the sill plates.' },
-  { key: 'summary', title: 'Your commission', intro: 'A first sketch of your car. The atelier will refine every line with you.' },
+  { key: 'summary', title: 'Your creation', intro: 'A first sketch of your car. The atelier will refine every line with you.' },
 ];
 export const MONOGRAM_COST = 1200;
 
@@ -58,10 +58,10 @@ export function decode(code: string): { model: ModelId; sel: Selection } | null 
 
 // Client-facing team. Roles and languages are placeholders: edit them here.
 export const TEAM = [
-  { name: 'Guillaume Graff', role: 'Client Director, Europe', text: 'Welcomes collectors to the Munich atelier and follows every European commission.', languages: ['French', 'German', 'English'], sketch: 0 },
+  { name: 'Guillaume Graff', role: 'Client Director, Europe', text: 'Welcomes collectors to the Munich atelier and follows every European client.', languages: ['French', 'German', 'English'], sketch: 0 },
   { name: 'Clément Tavernier', role: 'Design Director', text: 'Draws each car with its client, from the first sketch to the final sign-off.', languages: ['French', 'English', 'Italian'], sketch: 1 },
   { name: 'Candice Anguiley Kaack', role: 'Client Director, Americas', text: 'Looks after clients in the US, from the first video call to delivery at their door.', languages: ['English', 'French', 'Spanish'], sketch: 2 },
-  { name: 'Karl-Henry Sanon', role: 'Artisans’ Liaison', text: 'Introduces each client to the master artisans who join their commission.', languages: ['French', 'English', 'German'], sketch: 3 },
+  { name: 'Karl-Henry Sanon', role: 'Artisans’ Liaison', text: 'Introduces each client to the master artisans who work on their car.', languages: ['French', 'English', 'German'], sketch: 3 },
   { name: 'Nicolas Chaumont', role: 'Client Director, Middle East', text: 'Visits clients at home in Dubai, Riyadh and Doha, always in private.', languages: ['Arabic', 'French', 'English'], sketch: 4 },
   { name: 'Sharmaine Ng', role: 'Client Director, Greater China', text: 'Opens the house to clients in Shanghai, Hong Kong and Singapore.', languages: ['Mandarin', 'Cantonese', 'English'], sketch: 5 },
 ];

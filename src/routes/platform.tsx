@@ -19,14 +19,14 @@ function Platform() {
       <span className="label">BMC Atelier</span>
       <h2>Your car, before, during <em>and long after.</em></h2>
       <p className="lead">One private place for every BMC client: shape the car with our designers and master artisans, follow its certified story, and join the owners who share it.</p>
-      <div className="row-gap"><Link to="/book" className="btn solid">Begin your commission</Link><Link to="/studio" search={{ p: p.id }} className="link">Enter the studio</Link></div>
+      <div className="row-gap"><Link to="/book" className="btn solid">Start your creation</Link><Link to="/studio" search={{ p: p.id }} className="link">Enter the studio</Link></div>
     </div>
 
     <section className="flush"><div className="wrap">
       <div className="trio">
         <Link to="/studio" search={{ p: p.id }} className="door"><span className="label">During</span><h3>The studio</h3><p>Shape your car with a BMC designer and a master artisan, from wherever you live.</p><span className="link">Enter the studio</span></Link>
         <Link to="/passport" search={{ p: p.id }} className="door"><span className="label">At delivery</span><h3>The passport</h3><p>A certified record of who made your car, from what, and who has owned it.</p><span className="link">Open a passport</span></Link>
-        <Link to="/owners-circle" search={{ p: p.id }} className="door"><span className="label">Long after</span><h3>The Owners’ Circle</h3><p>Rare events, a concierge who knows your car, and the first word on the next commission.</p><span className="link">Visit the circle</span></Link>
+        <Link to="/owners-circle" search={{ p: p.id }} className="door"><span className="label">Long after</span><h3>The Owners’ Circle</h3><p>Rare events, a concierge who knows your car, and the first word on the next car.</p><span className="link">Visit the circle</span></Link>
       </div>
     </div></section>
 
@@ -44,7 +44,7 @@ function Platform() {
           <span className="label">{String(i + 1).padStart(2, '0')} · {j.step}</span>
           <p>{j.text}</p>
           {j.to === '/configure' ? <a href={`/configure?c=${encode(p.model, p.sel)}`} className="link">See the car</a>
-            : j.to === '/book' ? <Link to="/book" className="link">Begin your commission</Link>
+            : j.to === '/book' ? <Link to="/book" className="link">Start your creation</Link>
             : <Link to={j.to} search={{ p: p.id }} className="link">{OPEN[j.to]}</Link>}
         </li>)}
       </ol>

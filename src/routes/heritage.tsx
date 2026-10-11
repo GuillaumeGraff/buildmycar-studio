@@ -4,9 +4,9 @@ import { pageHead } from '@/components/bmc/metadata';
 export const Route = createFileRoute('/heritage')({ head: () => pageHead('Heritage', 'Four decades of coachbuilding in Munich, one client and one car at a time.'), component: Heritage });
 
 const ERAS = [
-  ['1981', 'The first commission', 'A small workshop in Munich builds one car for one client. The rule is set: the car begins with a conversation, not a catalogue.'],
+  ['1981', 'The first car', 'A small workshop in Munich builds one car for one client. The rule is set: the car begins with a conversation, not a catalogue.'],
   ['1990s', 'The coachbuilder’s hand', 'Aluminium bodies are still shaped over wooden bucks, panel by panel. Each car takes more than two thousand hours.'],
-  ['2000s', 'A circle of artisans', 'Leather masters, cabinet makers and lacquer artists join the house, invited one commission at a time.'],
+  ['2000s', 'A circle of artisans', 'Leather masters, cabinet makers and lacquer artists join the house, invited one car at a time.'],
   ['Today', 'The digital atelier', 'Clients co-create from anywhere, and every car receives a certified digital passport that records its story for life.'],
 ];
 

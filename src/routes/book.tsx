@@ -11,7 +11,7 @@ export const Route = createFileRoute('/book')({
     const w = Number(s['with']);
     return { c: typeof s['c'] === 'string' ? s['c'] : undefined, with: s['with'] !== undefined && Number.isInteger(w) && w >= 0 && w < TEAM.length ? w : undefined };
   },
-  head: () => pageHead('Begin your commission', 'Meet the BuildMyCar team at the Munich atelier, by video or at your home to begin a commission.'),
+  head: () => pageHead('Start your creation', 'Meet the BuildMyCar team at the Munich atelier, by video or at your home to begin your car.'),
   component: Book,
 });
 
@@ -86,7 +86,7 @@ function Book() {
 
   return <div className="page">
     <div className="wrap narrow page-head">
-      <span className="label">Begin your commission</span>
+      <span className="label">Start your creation</span>
       <h2>Every car begins <em>with a conversation.</em></h2>
       <p className="lead">Choose who you would like to meet, where and when. There is no commitment at this stage.</p>
       {commission && <p className="commission-note">About your {MODELS[commission.model].name} in {opt('paint', commission.sel.paint).name}, with {opt('leather', commission.sel.leather).name} and {opt('material', commission.sel.material).name}.</p>}

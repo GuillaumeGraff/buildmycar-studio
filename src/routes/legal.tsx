@@ -10,7 +10,7 @@ function Legal() {
       <h3>Publisher</h3><p>BuildMyCar, coachbuilder, Munich, Germany. Contact: atelier@buildmycar.example.</p>
       <h3>Hosting</h3><p>This prototype is hosted for demonstration purposes only.</p>
       <h3>Intellectual property</h3><p>The BMC name, drawings and texts on this site are protected. They may not be reproduced without written permission.</p>
-      <h3>Prices and images</h3><p>Configurations, estimates and drawings are illustrative and do not form an offer. Every commission is confirmed in writing by the atelier.</p>
+      <h3>Prices and images</h3><p>Configurations, estimates and drawings are illustrative and do not form an offer. Every car is confirmed in writing by the atelier.</p>
       <p className="disclaimer">Prototype by Yellow Team, ESSEC hackathon. Company details are placeholders.</p>
     </div>
   </div>;

@@ -7,7 +7,7 @@ import { PersonaBar, DemoNote } from '@/components/atelier/personas';
 
 export const Route = createFileRoute('/owners-circle')({
   validateSearch: personaSearch,
-  head: () => pageHead('The Owners’ Circle', 'After delivery, owners join a private circle of events, services, introductions and their next commission.'),
+  head: () => pageHead('The Owners’ Circle', 'After delivery, owners join a private circle of events, services, introductions and their next car.'),
   component: Circle,
 });
 
@@ -30,7 +30,7 @@ function Circle() {
     <div className="wrap page-head">
       <span className="label">The Owners’ Circle</span>
       <h2>After the car, <em>the circle.</em></h2>
-      <p className="lead">A private circle for BMC owners: rare events, a concierge who knows the car, and the first word on the next commission.</p>
+      <p className="lead">A private circle for BMC owners: rare events, a concierge who knows the car, and the first word on the next car.</p>
       <PersonaBar to="/owners-circle" current={p.id}/>
     </div>
     <section className="flush"><div className="wrap circle">
@@ -49,7 +49,7 @@ function Circle() {
       </div>
     </div></section>
     <section><div className="wrap quote">
-      <span className="label">Your next commission</span>
+      <span className="label">Your next car</span>
       <blockquote>Two build slots remain for 2030.</blockquote>
       <Link to="/book" className="btn solid">Reserve a conversation</Link>
       <p className="muted" style={{ fontSize: 13 }}>Members already sign in through the <Link to="/auth" className="link">Owners’ Circle login</Link>.</p>

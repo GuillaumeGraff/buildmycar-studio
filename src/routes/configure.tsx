@@ -23,7 +23,7 @@ async function share(model: ModelId, sel: Selection) {
   try {
     if (navigator.share && window.matchMedia('(pointer: coarse)').matches) { await navigator.share({ title, url }); return; }
     await navigator.clipboard.writeText(url);
-    toast('Link copied · anyone with it sees your commission');
+    toast('Link copied · anyone with it sees your car');
   } catch (e) {
     if ((e as Error).name !== 'AbortError') toast('Could not copy the link', { description: url });
   }
@@ -40,7 +40,7 @@ const STAGES = [
 ];
 const monthYear = (weeksFromNow: number) => new Date(Date.now() + weeksFromNow * 7 * 864e5).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
 
-const CHAPTERS: Record<string, string> = { paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', mono: 'Monogram', summary: 'Commission' };
+const CHAPTERS: Record<string, string> = { paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', mono: 'Monogram', summary: 'Your car' };
 const IDS = Object.keys(MODELS) as ModelId[];
 
 function Configure() {
@@ -166,7 +166,7 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
   const m = MODELS[model];
   return <div className="stack" style={{ gap: 36 }}>
     <div className="stack" style={{ gap: 14 }}>
-      <span className="label">Your commission</span>
+      <span className="label">Your creation</span>
       <h2 className="choice-name">The {m.name}</h2>
       <p className="muted">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} wheels · {opt('leather', sel.leather).name} · {opt('material', sel.material).name}{sel.mono ? ` · ${sel.mono}` : ''}</p>
     </div>
@@ -178,8 +178,8 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
           <b>{s.name}</b><small>{s.note}</small>
         </li>)}
       </ol>
-      <p className="muted" style={{ fontSize: 13 }}>About {m.weeks} weeks from sign-off, if you commission today. Illustrative estimate before taxes; the atelier confirms the final price.</p>
+      <p className="muted" style={{ fontSize: 13 }}>About {m.weeks} weeks from sign-off, if you begin today. Illustrative estimate before taxes; the atelier confirms the final price.</p>
     </div>
-    <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Begin your commission</Link>
+    <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Start your creation</Link>
   </div>;
 }

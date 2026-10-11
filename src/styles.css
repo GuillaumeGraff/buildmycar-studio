@@ -451,7 +451,8 @@
   .atelier .bar-end { gap: 14px; }
   .atelier .mark span { font-size: 10px; letter-spacing: .2em; white-space: nowrap; }
   .atelier .book-btn { min-height: 38px; padding: 0 14px; }
-  .atelier .book-btn span { display: none; }
+  .atelier .book-btn .long { display: none; }
+  .atelier .book-btn .short { display: inline; }
   .atelier .chapters { gap: 20px; }
   .atelier .fit-stage { padding-block: 28px 12px; }
   .atelier .fit-stage .mono { right: 20px; width: 44px; height: 44px; font-size: 17px; }
@@ -571,9 +572,12 @@
 @media (hover: none) { .atelier .silhouette .from b { opacity: 1; } }
 .atelier .mark span { white-space: nowrap; }
 @media (max-width: 1180px) and (min-width: 901px) {
-  .atelier .book-btn span { display: none; }
+  .atelier .book-btn .long { display: none; }
+  .atelier .book-btn .short { display: inline; }
   .atelier nav.main { gap: 22px; }
   .atelier nav.main a { letter-spacing: .16em; }
 }
 .atelier .member .langs { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold-deep); }
 .atelier .chip small.langs { color: var(--gold-deep); letter-spacing: .06em; }
+.atelier .book-btn .short { display: none; }
+@media (max-width: 1180px) { .atelier .book-btn .long { display: none; } .atelier .book-btn .short { display: inline; } }

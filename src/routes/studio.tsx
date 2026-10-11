@@ -9,7 +9,7 @@ import { PersonaBar, DemoNote } from '@/components/atelier/personas';
 
 export const Route = createFileRoute('/studio')({
   validateSearch: personaSearch,
-  head: () => pageHead('Co-creation studio', 'Client, BMC designer and master artisan on one commission, wherever each of them lives.'),
+  head: () => pageHead('Co-creation studio', 'Client, BMC designer and master artisan on one car, wherever each of them lives.'),
   component: Studio,
 });
 
@@ -36,7 +36,7 @@ function Room({ id }: { id: string }) {
   return <div className="page">
     <div className="wrap page-head">
       <span className="label">Co-creation studio</span>
-      <h2>One commission. <em>Three hands.</em></h2>
+      <h2>One car. <em>Three hands.</em></h2>
       <p className="lead">The client, a BMC designer and a master artisan shape the car together, each from where they live.</p>
       <PersonaBar to="/studio" current={p.id}/>
     </div>

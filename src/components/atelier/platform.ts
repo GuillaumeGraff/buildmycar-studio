@@ -2,7 +2,7 @@
 import type { ModelId, Selection } from './data';
 
 export const SIDES = [
-  { id: 'clients', name: 'Clients', who: 'Owners and future commissioners in Europe, the US, the Gulf and China.', give: 'Commissions, a yearly circle membership and introductions.', get: 'A car made around them, and a lifetime of care and access.' },
+  { id: 'clients', name: 'Clients', who: 'Owners and future clients in Europe, the US, the Gulf and China.', give: 'Their cars, a yearly circle membership and introductions.', get: 'A car made around them, and a lifetime of care and access.' },
   { id: 'house', name: 'The BMC atelier', who: 'Our designers, panel beaters, painters and trimmers in Munich.', give: 'Design, engineering and the build itself.', get: 'Earlier, closer dialogue with every client, wherever they live.' },
   { id: 'artisans', name: 'Master artisans', who: 'Invited masters of leather, marquetry, lacquer, textile and art.', give: 'Signature work that no catalogue can offer.', get: 'Rare, prestigious briefs and their name in a car’s passport.' },
   { id: 'partners', name: 'Service partners', who: 'Restorers, storage, transport, insurers, concierge and events.', give: 'Care for the car and its owner after delivery.', get: 'A small circle of the most demanding owners in the world.' },
@@ -11,14 +11,14 @@ export const SIDES = [
 export const CURATOR = 'BMC invites every member, sets the standard for every side and guarantees every passport.';
 
 export const REVENUE = [
-  { name: 'The car', note: 'One commission, 20 to 30 a year' },
+  { name: 'The car', note: 'One car, 20 to 30 a year' },
   { name: 'Circle membership', note: 'A yearly fee per owner' },
   { name: 'Services', note: 'A share of storage, restoration and concierge' },
   { name: 'Artisan collaborations', note: 'A fee on each collaboration we curate' },
 ];
 
 export const EFFECTS = [
-  { name: 'More artisans', then: 'richer options for every commission' },
+  { name: 'More artisans', then: 'richer options for every car' },
   { name: 'More owners', then: 'a more valuable circle: events, introductions and resale' },
   { name: 'More passports', then: 'stronger proof of value for every BMC car' },
 ];
@@ -83,7 +83,7 @@ export const PERSONAS: Record<PersonaId, Persona> = {
     ],
   },
   uae: {
-    id: 'uae', name: 'Omar Al Mansouri', age: 38, city: 'Dubai', region: 'New UAE client', tagline: 'Runs a family office and commissions cars for himself and his brother.',
+    id: 'uae', name: 'Omar Al Mansouri', age: 38, city: 'Dubai', region: 'New UAE client', tagline: 'Runs a family office and orders cars for himself and his brother.',
     need: 'Absolute privacy, home visits and pieces that carry the family’s story.',
     model: 'brake', sel: { paint: 'bordeaux', wheel: 'classic', leather: 'ivoire', material: 'pearl', mono: 'OAM' },
     artisan: { name: 'Rami Haddad', craft: 'Mother-of-pearl inlay master', city: 'Damascus tradition, Dubai studio' },
