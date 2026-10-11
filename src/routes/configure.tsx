@@ -1,108 +1,186 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { useState, type FormEvent } from 'react';
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
 import { Car } from '@/components/atelier/car';
-import { MODELS, STEPS, MONOGRAM_COST, opt, eur, type ModelId } from '@/components/atelier/data';
+import { MODELS, STEPS, MONOGRAM_COST, DEFAULTS, opt, eur, encode, decode, type ModelId, type Option, type Selection } from '@/components/atelier/data';
 
 export const Route = createFileRoute('/configure')({ head: () => pageHead('Configure your car', 'Choose a silhouette, then shape your BMC finish by finish. An illustrative design study.'), component: Configure });
 
-type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string };
-const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '' };
 const top = () => window.scrollTo({ top: 0 });
+
+// Studio lighting for the configurator stage.
+const LIGHTS = [
+  { id: 'day', name: 'Daylight' },
+  { id: 'dusk', name: 'Dusk' },
+  { id: 'night', name: 'Night' },
+] as const;
+type Light = (typeof LIGHTS)[number]['id'];
+
+async function share(model: ModelId, sel: Selection) {
+  const url = `${window.location.origin}/configure?c=${encode(model, sel)}`;
+  const title = `My BMC ${MODELS[model].name}`;
+  try {
+    if (navigator.share && window.matchMedia('(pointer: coarse)').matches) { await navigator.share({ title, url }); return; }
+    await navigator.clipboard.writeText(url);
+    toast('Link copied · anyone with it sees your commission');
+  } catch (e) {
+    if ((e as Error).name !== 'AbortError') toast('Could not copy the link', { description: url });
+  }
+}
+
+// Workshop stages as a share of the build time, from sign-off to handover.
+const STAGES = [
+  { at: 0, name: 'Design sign-off', note: 'Final drawings and materials approved together' },
+  { at: 0.12, name: 'Chassis & coachwork', note: 'Aluminium panels shaped by hand on wooden bucks' },
+  { at: 0.45, name: 'Paint', note: 'Each coat laid and rubbed by hand' },
+  { at: 0.65, name: 'Interior', note: 'Hides cut, stitched and fitted' },
+  { at: 0.88, name: 'Road test', note: 'Five hundred kilometres before the final polish' },
+  { at: 1, name: 'Handover', note: 'At the Munich atelier, or at your door' },
+];
+const monthYear = (weeksFromNow: number) => new Date(Date.now() + weeksFromNow * 7 * 864e5).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+
+const CHAPTERS: Record<string, string> = { paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', mono: 'Monogram', summary: 'Commission' };
+const IDS = Object.keys(MODELS) as ModelId[];
 
 function Configure() {
   const [model, setModel] = useState<ModelId | null>(null);
+  const [preview, setPreview] = useState<ModelId>('gt');
   const [step, setStep] = useState(0);
   const [sel, setSel] = useState<Selection>(DEFAULTS);
+  const [light, setLight] = useState<Light>('day');
+
+  // Open a shared commission straight on its summary.
+  useEffect(() => {
+    const code = new URLSearchParams(window.location.search).get('c');
+    const shared = code && decode(code);
+    if (!shared) return;
+    setModel(shared.model); setSel(shared.sel); setStep(STEPS.length - 1);
+  }, []);
 
   if (!model) return <div className="page">
-    <div className="wrap page-head">
-      <span className="label">Configure · Step 1</span>
-      <h2>Choose your <em>silhouette.</em></h2>
-      <p className="lead">Three bodies, each a starting point. Everything after is yours to decide.</p>
+    <div className="wrap chooser">
+      <div className="chooser-car" aria-live="polite">
+        {/* keyed so the drawing is redrawn for every silhouette */}
+        <Car key={preview} model={preview} animated/>
+      </div>
+      <div className="chooser-list">
+        <span className="label">Begin with a silhouette</span>
+        <ul role="list">
+          {IDS.map(k => <li key={k}>
+            <button className="silhouette" aria-pressed={preview === k} onMouseEnter={() => setPreview(k)} onFocus={() => setPreview(k)} onClick={() => setPreview(k)}>
+              <span className="name">{MODELS[k].name}</span><span className="from">From {eur(MODELS[k].base)}</span>
+            </button>
+          </li>)}
+        </ul>
+        <p className="muted">{MODELS[preview].line}</p>
+        <button className="btn solid" style={{ alignSelf: 'flex-start' }} onClick={() => { setModel(preview); setStep(0); setSel(DEFAULTS); top(); }}>Begin with the {MODELS[preview].name}</button>
+      </div>
     </div>
-    <div className="wrap" style={{ paddingBottom: 104 }}><div className="models">
-      {(Object.keys(MODELS) as ModelId[]).map(k => <button className="model" key={k} onClick={() => { setModel(k); setStep(0); setSel(DEFAULTS); top(); }}>
-        <Car model={k} paint="noir" wheel="classic"/>
-        <h3>{MODELS[k].name}</h3><p>{MODELS[k].line}</p><span className="from">From {eur(MODELS[k].base)}</span>
-      </button>)}
-    </div></div>
   </div>;
 
   const m = MODELS[model], st = STEPS[step]!;
   const total = m.base + opt('paint', sel.paint).cost + opt('wheel', sel.wheel).cost + opt('leather', sel.leather).cost + opt('material', sel.material).cost + (sel.mono ? MONOGRAM_COST : 0);
   const next = STEPS[step + 1];
+  const key = st.key as keyof Selection;
+  const current = st.opts?.find(o => o.id === sel[key]);
+  const cycle = (dir: number) => {
+    if (!st.opts) return;
+    const i = st.opts.findIndex(o => o.id === sel[key]);
+    setSel({ ...sel, [key]: st.opts[(i + dir + st.opts.length) % st.opts.length]!.id });
+  };
 
-  return <div className="page">
-    <div className="wrap page-head" style={{ paddingBottom: 36 }}>
-      <span className="label">Configure · {m.name} · Step {step + 2} of {STEPS.length + 1}</span>
-      <div className="steps" aria-hidden="true">{[null, ...STEPS].map((_, i) => <i key={i} className={i <= step + 1 ? 'on' : ''}/>)}</div>
-    </div>
-    <div className="wrap config">
-      <div className="viewer">
-        <div className="stage">{sel.mono && <span className="mono">{sel.mono}</span>}<Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/></div>
-        <p className="summary-line">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} wheels · {opt('leather', sel.leather).name} · {opt('material', sel.material).name}</p>
-        <div className="est"><span className="label">Estimate</span><b>{eur(total)}</b></div>
+  return <div className="page fitting">
+    <nav className="chapters wrap" aria-label="Configuration steps">
+      <button className="chapter" onClick={() => { setModel(null); setPreview(model); top(); }}>{m.name}</button>
+      {STEPS.map((s, i) => <button key={s.key} className="chapter" aria-current={i === step ? 'step' : undefined} data-done={i < step || undefined} onClick={() => setStep(i)}>{CHAPTERS[s.key]}</button>)}
+    </nav>
+
+    <Stage model={model} sel={sel} light={light} onSwipe={st.opts ? cycle : undefined}/>
+    <div className="wrap stage-tools">
+      <div className="lights" role="group" aria-label="Studio lighting">
+        {LIGHTS.map(l => <button key={l.id} aria-pressed={light === l.id} onClick={() => setLight(l.id)}>{l.name}</button>)}
       </div>
-      <div className="stack" style={{ gap: 28 }}>
-        <div className="stack" style={{ gap: 12 }}><h2 style={{ fontSize: 'clamp(34px,3.6vw,48px)' }}>{st.title}</h2><p className="muted">{st.intro}</p></div>
-        {st.opts && <div className="opts">{st.opts.map(o => {
-          const key = st.key as keyof Selection;
-          return <button className="opt" key={o.id} aria-pressed={sel[key] === o.id} onClick={() => setSel({ ...sel, [key]: o.id })}>
-            <i style={{ background: o.hex }}/><span><b>{o.name}</b><small>{o.note}</small></span><em>{o.cost ? '+' + eur(o.cost) : 'Included'}</em>
-          </button>;
-        })}</div>}
-        {st.key === 'mono' && <>
-          <div className="entry"><label htmlFor="mono">Initials</label><input className="monofield" id="mono" maxLength={3} autoComplete="off" placeholder="ABC" value={sel.mono} onChange={e => setSel({ ...sel, mono: e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 3) })}/></div>
-          <p className="muted" style={{ fontSize: 13 }}>Optional · {eur(MONOGRAM_COST)}</p>
-        </>}
-        {st.key === 'summary' && <Summary model={model} sel={sel}/>}
-        <div className="nav-row">
-          <button className="link" onClick={() => { if (step === 0) setModel(null); else setStep(step - 1); top(); }}>{step === 0 ? 'Change silhouette' : 'Back'}</button>
-          {next ? <button className="btn solid" onClick={() => { setStep(step + 1); top(); }}>{next.key === 'summary' ? 'See my commission' : 'Continue'}</button>
-            : <button className="link" onClick={() => { setModel(null); top(); }}>Start again</button>}
+      <span className="price">{eur(total)}</span>
+    </div>
+
+    <div className="wrap narrow choice">
+      {current && st.opts && <>
+        <span className="label">{st.title}</span>
+        <h2 key={current.id} className="choice-name">{current.name}</h2>
+        <p className="muted choice-note">{current.note} · {current.cost ? '+' + eur(current.cost) : 'Included'}</p>
+        <div className="swatches" role="radiogroup" aria-label={st.title}>
+          <button className="arrow" aria-label="Previous" onClick={() => cycle(-1)}>‹</button>
+          {st.opts.map(o => <button key={o.id} role="radio" aria-checked={o.id === current.id} aria-label={o.name} title={o.name} className="swatch" onClick={() => setSel({ ...sel, [key]: o.id })}>
+            <Swatch o={o} wheel={st.key === 'wheel'}/>
+          </button>)}
+          <button className="arrow" aria-label="Next" onClick={() => cycle(1)}>›</button>
         </div>
-        <p className="muted" style={{ fontSize: 12 }}>Illustrative estimate before taxes. The final price is confirmed by the atelier.</p>
+        <p className="muted hint">{st.intro}</p>
+      </>}
+
+      {st.key === 'mono' && <>
+        <span className="label">{st.title}</span>
+        <label className="mono-seal" htmlFor="mono">
+          <input id="mono" maxLength={3} autoComplete="off" placeholder="ABC" aria-label="Your initials" value={sel.mono} onChange={e => setSel({ ...sel, mono: e.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 3) })}/>
+        </label>
+        <p className="muted hint">{st.intro} Optional · {eur(MONOGRAM_COST)}</p>
+      </>}
+
+      {st.key === 'summary' && <Summary model={model} sel={sel}/>}
+
+      <div className="nav-row">
+        <button className="link" onClick={() => { if (step === 0) { setModel(null); setPreview(model); } else setStep(step - 1); top(); }}>Back</button>
+        {next ? <button className="btn solid" onClick={() => setStep(step + 1)}>{CHAPTERS[next.key]}</button>
+          : <button className="link" onClick={() => void share(model, sel)}>Share this car</button>}
       </div>
     </div>
   </div>;
 }
 
+function Stage({ model, sel, light, onSwipe }: { model: ModelId; sel: Selection; light: Light; onSwipe?: ((dir: number) => void) | undefined }) {
+  const start = useRef<number | null>(null);
+  return <div className={`fit-stage ${light}`}
+    onTouchStart={e => { start.current = e.touches[0]!.clientX; }}
+    onTouchEnd={e => {
+      const dx = e.changedTouches[0]!.clientX - (start.current ?? 0);
+      start.current = null;
+      if (onSwipe && Math.abs(dx) > 40) onSwipe(dx < 0 ? 1 : -1);
+    }}>
+    <div className="wrap">
+      {sel.mono && <span className="mono">{sel.mono}</span>}
+      <Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/>
+    </div>
+  </div>;
+}
+
+function Swatch({ o, wheel }: { o: Option; wheel: boolean }) {
+  if (!wheel) return <i style={{ background: o.hex }}/>;
+  const n = o.spokes ?? 12;
+  return <svg viewBox="0 0 40 40" aria-hidden="true">
+    <circle cx={20} cy={20} r={17} fill="none" stroke="currentColor" strokeWidth={1}/>
+    {Array.from({ length: n }, (_, i) => { const a = (i * 2 * Math.PI) / n; return <line key={i} x1={20 + Math.cos(a) * 4} y1={20 + Math.sin(a) * 4} x2={20 + Math.cos(a) * 15} y2={20 + Math.sin(a) * 15} stroke="currentColor" strokeWidth={n === 5 ? 3 : n > 20 ? .5 : 1}/>; })}
+  </svg>;
+}
+
 function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState('');
-  const [form, setForm] = useState({ name: '', email: '', consent: false });
   const m = MODELS[model];
-
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    const msg = !form.name.trim() ? 'Please add your name.'
-      : !/^\S+@\S+\.\S+$/.test(form.email.trim()) ? 'Please add a valid email so the atelier can reach you.'
-      : !form.consent ? 'Please confirm you agree to be contacted.' : '';
-    setError(msg);
-    if (msg) return;
-    setSent(true);
-    toast('Request received');
-  };
-
-  if (sent) return <div className="thanks"><span className="label">Request received</span><h3>Thank you.</h3><p className="muted">Your atelier contact will be in touch to arrange a private consultation. This is a prototype, so no message was actually sent.</p></div>;
-  return <>
-    <ul className="recap">
-      <li><span>Silhouette</span><span>{m.name}</span></li>
-      <li><span>Finish</span><span>{opt('paint', sel.paint).name}</span></li>
-      <li><span>Wheels</span><span>{opt('wheel', sel.wheel).name}</span></li>
-      <li><span>Leather</span><span>{opt('leather', sel.leather).name}</span></li>
-      <li><span>Materials</span><span>{opt('material', sel.material).name}</span></li>
-      <li><span>Monogram</span><span>{sel.mono || 'None'}</span></li>
-      <li><span>Delivery</span><span>About {m.weeks} weeks</span></li>
-    </ul>
-    <form className="stack" noValidate onSubmit={submit}>
-      <div className="entry"><label htmlFor="cname">Your name</label><input id="cname" autoComplete="name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}/></div>
-      <div className="entry"><label htmlFor="cmail">Email</label><input id="cmail" type="email" autoComplete="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}/></div>
-      <label className="consent"><input type="checkbox" checked={form.consent} onChange={e => setForm({ ...form, consent: e.target.checked })}/> I agree that BuildMyCar uses these details to contact me about this commission, as described in the privacy policy.</label>
-      {error && <p role="alert" className="form-error">{error}</p>}
-      <button className="btn solid" type="submit">Request a private consultation</button>
-    </form>
-  </>;
+  return <div className="stack" style={{ gap: 36 }}>
+    <div className="stack" style={{ gap: 14 }}>
+      <span className="label">Your commission</span>
+      <h2 className="choice-name">The {m.name}</h2>
+      <p className="muted">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} wheels · {opt('leather', sel.leather).name} · {opt('material', sel.material).name}{sel.mono ? ` · ${sel.mono}` : ''}</p>
+    </div>
+    <div className="stack" style={{ gap: 18, textAlign: 'left' }}>
+      <span className="label">Your build, month by month</span>
+      <ol className="journey">
+        {STAGES.map(s => <li key={s.name}>
+          <time>{s.at === 0 ? 'On signing' : monthYear(Math.round(m.weeks * s.at) + 2)}</time>
+          <b>{s.name}</b><small>{s.note}</small>
+        </li>)}
+      </ol>
+      <p className="muted" style={{ fontSize: 13 }}>About {m.weeks} weeks from sign-off, if you commission today. Illustrative estimate before taxes; the atelier confirms the final price.</p>
+    </div>
+    <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Book a meeting to begin</Link>
+  </div>;
 }

@@ -43,6 +43,19 @@ export const MONOGRAM_COST = 1200;
 
 export const opt = (key: StepKey, id: string): Option => STEPS.find(s => s.key === key)!.opts!.find(o => o.id === id)!;
 
+export type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string };
+export const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '' };
+
+// A commission is shared as a link: /configure?c=gt.jade.wire.cognac.walnut.ABC
+export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono].join('.');
+export function decode(code: string): { model: ModelId; sel: Selection } | null {
+  const [model, paint, wheel, leather, material, mono = ''] = code.split('.');
+  if (!model || !(model in MODELS)) return null;
+  const valid = (key: 'paint' | 'wheel' | 'leather' | 'material', id?: string) => STEPS.find(st => st.key === key)!.opts!.some(o => o.id === id) ? id! : DEFAULTS[key];
+  return { model: model as ModelId, sel: { paint: valid('paint', paint), wheel: valid('wheel', wheel), leather: valid('leather', leather), material: valid('material', material), mono: mono.replace(/[^A-Z]/g, '').slice(0, 3) } };
+}
+
+
 export const TEAM = [
   { name: 'Guillaume Graff', role: 'Managing Director', text: 'Leads the house and its digital atelier.', sketch: 0 },
   { name: 'Clément Tavernier', role: 'Chief Design Officer', text: 'Guides every commission from first sketch to final sign-off.', sketch: 1 },
