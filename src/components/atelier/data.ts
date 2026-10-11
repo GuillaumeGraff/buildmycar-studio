@@ -36,20 +36,20 @@ export const MODELS: Record<ModelId, { name: string; category: string; line: str
 
 // The first question is about the client, not the car: how they like to live tunes how it drives,
 // and prepares a first set of finishes they can then change.
-export type Character = { id: string; name: string; life: string; tune: { sound: string; ride: string; steering: string }; suggest: Pick<Selection, 'paint' | 'wheel' | 'leather' | 'material'> };
+export type Character = { id: string; name: string; life: string; tune: { sound: string; ride: string; steering: string }; suggest: Required<Pick<Selection, 'paint' | 'wheel' | 'leather' | 'material' | 'seat' | 'sound'>> };
 export const CHARACTERS: Character[] = [
   { id: 'thunder', name: 'Thunder', life: 'You love the rush: the overtake, the full stadium, the last word.',
     tune: { sound: 'Valves open, the V12 at full voice', ride: 'Firm, close to the road', steering: 'Quick and direct' },
-    suggest: { paint: 'noir', wheel: 'wire', leather: 'nuit', material: 'alu' } },
+    suggest: { paint: 'noir', wheel: 'wire', leather: 'nuit', material: 'alu', seat: 'perforated', sound: 'reference' } },
   { id: 'velvet', name: 'Velvet', life: 'You love long dinners, slow mornings and arriving rested.',
     tune: { sound: 'Hushed, a murmur at any speed', ride: 'Air suspension that floats', steering: 'Light, effortless' },
-    suggest: { paint: 'argent', wheel: 'classic', leather: 'ivoire', material: 'walnut' } },
+    suggest: { paint: 'argent', wheel: 'classic', leather: 'ivoire', material: 'walnut', seat: 'quilted', sound: 'salon' } },
   { id: 'precision', name: 'Precision', life: 'You love things made right: a fine watch, a clean line, the perfect apex.',
     tune: { sound: 'Clear, never loud', ride: 'Balanced, adaptive', steering: 'Weighted, every detail felt' },
-    suggest: { paint: 'jade', wheel: 'monobloc', leather: 'celadon', material: 'ebony' } },
+    suggest: { paint: 'jade', wheel: 'monobloc', leather: 'celadon', material: 'ebony', seat: 'smooth', sound: 'concert' } },
   { id: 'horizon', name: 'Horizon', life: 'You love the far away: one more border, one more coast.',
     tune: { sound: 'Deep and calm on the motorway', ride: 'Long-distance comfort', steering: 'Relaxed, stable at speed' },
-    suggest: { paint: 'bordeaux', wheel: 'classic', leather: 'cognac', material: 'walnut' } },
+    suggest: { paint: 'bordeaux', wheel: 'classic', leather: 'cognac', material: 'walnut', seat: 'suede', sound: 'concert' } },
 ];
 
 export const STEPS: Step[] = [

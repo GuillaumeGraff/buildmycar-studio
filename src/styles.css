@@ -730,3 +730,84 @@
 .atelier .swatch i.wheel { background-size: 165%; background-position: 50% 46%; }
 .atelier .swatch i.leather { background-size: 260%; background-position: 28% 55%; }
 .atelier .swatch i.material { background-size: 300%; background-position: 45% 55%; }
+
+/* The character's hand on each step */
+.atelier .by-character { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+.atelier button.by-character { min-height: 32px; color: var(--gold); border-bottom: 1px solid var(--gold-deep); padding-bottom: 2px; }
+.atelier .by-character.prepared { text-transform: none; letter-spacing: .04em; font-size: 13px; line-height: 1.5; color: var(--ivory); }
+.atelier .swatch[data-pick], .atelier .seat-chip[data-pick] { position: relative; }
+.atelier .swatch[data-pick]::after, .atelier .seat-chip[data-pick]::after { content: ''; position: absolute; top: -2px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 2px var(--black); }
+
+/* Car picker: readable at a glance, the chosen car clearly lit */
+.atelier .car-strip button { opacity: .78; }
+.atelier .car-strip button span { color: var(--ivory); }
+.atelier .car-strip button[aria-selected="true"] { opacity: 1; border-bottom: 2px solid var(--gold); }
+.atelier .car-strip button[aria-selected="true"] .car { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--gold) 45%, transparent)); }
+
+/* Phone: every key screen fits one screen, so Next and Create are always in view */
+@media (max-width: 640px) {
+  .atelier .showroom { height: calc(100svh - 70px); min-height: 0; }
+  .atelier .slides { flex: 1 1 0; min-height: 150px; aspect-ratio: auto; max-height: none; }
+  .atelier .showroom-copy { flex: none; margin-top: -28px; gap: 8px; }
+  .atelier .model-name { font-size: 54px; }
+  .atelier .showroom .engine { font-size: 11px; }
+  .atelier .showroom .specs div { padding: 8px 0; }
+  .atelier .showroom .specs div + div { padding-left: 10px; }
+  .atelier .showroom .specs dd { font-size: 28px; }
+  .atelier .dream { font-size: 13px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .atelier .showroom-copy .btn { margin-top: 2px; }
+  .atelier .car-strip { flex: none; padding-block: 6px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .atelier .car-strip button { min-height: 0; padding: 4px 6px; gap: 2px; }
+  .atelier .car-strip span { font-size: 13px; }
+
+  .atelier .fitting:not(.step-summary) { display: flex; flex-direction: column; height: calc(100svh - 70px); }
+  .atelier .fitting:not(.step-summary) .stage-photo { flex: 1 1 0; min-height: 84px; aspect-ratio: auto; max-height: none; }
+  .atelier .fitting:not(.step-summary) .choice { flex: none; padding-block: 12px 0; gap: 8px; }
+  .atelier .fitting:not(.step-summary) .choice-name { font-size: 38px !important; }
+  .atelier .fitting:not(.step-summary) .choice-note { font-size: 13px; }
+  .atelier .fitting .hint { display: none; }
+  .atelier .fitting .swatches { margin-block: 6px 0; }
+  .atelier .fitting .choice .nav-row { margin-top: 4px; padding-block: 6px calc(6px + env(safe-area-inset-bottom, 0px)); }
+  .atelier .fitting .seat-finish { gap: 6px; }
+  .atelier .fitting .seat-chip { padding: 7px 11px; font-size: 11px; }
+  .atelier .step-character .stage-photo { min-height: 0; }
+  .atelier .step-character .characters { margin-top: 0; gap: 6px; }
+  .atelier .step-character .character { padding: 10px 12px; gap: 4px; }
+  .atelier .step-character .character b { font-size: 22px; }
+  .atelier .step-character .character span { font-size: 11.5px; line-height: 1.4; }
+  .atelier .step-character .tune { display: none; }
+  .atelier .step-summary .choice .nav-row { position: sticky; bottom: 0; z-index: 3; background: var(--black); }
+
+  .atelier .page-head:has(+ .team-wrap) { padding-block: 18px 14px; gap: 8px; }
+  .atelier .page-head:has(+ .team-wrap) h2 { font-size: 34px; }
+  .atelier .page-head:has(+ .team-wrap) .lead { display: none; }
+  .atelier .team-wrap .portrait { aspect-ratio: auto; height: 30svh; }
+  .atelier .team-wrap .portrait svg { width: auto; height: 92%; }
+  .atelier .member-in { gap: 8px; }
+  .atelier .member h3 { font-size: 26px; }
+  .atelier .member p { font-size: 13px; }
+  .atelier .member-in > .sig { display: none; }
+  .atelier .team-nav { margin-top: 6px; }
+  .atelier .team-nav .arrow { height: 40px; }
+  .atelier .member .langs { font-size: 10.5px; }
+}
+@media (max-width: 640px) and (max-height: 620px) {
+  .atelier .chapters { padding-block: 4px 0; }
+  .atelier .chapters-car { min-height: 36px; }
+  .atelier .fitting:not(.step-summary) .choice { padding-top: 6px; gap: 5px; }
+  .atelier .fitting:not(.step-summary) .choice-name { font-size: 30px !important; }
+  .atelier .fitting .choice > .label { display: none; }
+  .atelier .fitting .swatch { width: 44px; height: 44px; padding: 4px; }
+  .atelier .fitting .seat-chip { padding: 6px 9px; font-size: 10.5px; letter-spacing: .04em; }
+  .atelier .step-character .character { padding: 8px 10px; }
+  .atelier .step-character .character b { font-size: 19px; }
+  .atelier .step-character .character span { font-size: 10.5px; line-height: 1.35; }
+  .atelier .by-character.prepared { font-size: 11.5px; }
+  .atelier .team-wrap .portrait { height: 24svh; }
+  .atelier .member .langs { display: none; }
+  .atelier .member-in { gap: 6px; }
+}
+.atelier .car-strip .car .lacquer, .atelier .car-strip .car [fill^="url"] { display: none; }
+.atelier .car-strip .car .ln, .atelier .car-strip .car .lnm { stroke: var(--ivory); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-dashoffset: 0; opacity: 1; animation: none; }
+.atelier .car-strip .car .fine { stroke-width: .6px; }
+.atelier .car-strip button[aria-selected="true"] .car .ln { stroke: var(--gold); }
