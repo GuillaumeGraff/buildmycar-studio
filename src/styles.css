@@ -342,8 +342,8 @@
 
 /* Header booking button */
 .atelier .bar-end { display: flex; align-items: center; gap: 22px; }
-.atelier .book-btn { display: inline-flex; align-items: center; gap: .6em; min-height: 40px; padding: 0 18px; border: 1px solid var(--gold-deep); font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); text-decoration: none; white-space: nowrap; transition: background .4s, color .4s; }
-.atelier .book-btn:hover, .atelier .book-btn[aria-current="page"] { background: var(--gold); color: var(--gold-ink); }
+.atelier .book-btn { display: inline-flex; align-items: center; gap: .6em; min-height: 40px; padding: 0 18px; border: 1px solid var(--gold); background: var(--gold); font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold-ink); text-decoration: none; white-space: nowrap; transition: background .4s, color .4s; }
+.atelier .book-btn:hover, .atelier .book-btn[aria-current="page"] { background: transparent; color: var(--gold); }
 .atelier .row-gap { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
 .atelier .row-gap.center { justify-content: center; }
 .atelier .consent .link { display: inline; min-height: 0; padding: 0; letter-spacing: .1em; }
@@ -381,7 +381,7 @@
 .atelier .fit-stage.night .lamp { opacity: 1; }
 .atelier .fit-stage::after { content: ""; position: absolute; right: -8%; top: 44%; width: 36%; height: 30%; background: radial-gradient(ellipse at 0% 50%, rgba(255,240,205,.3), transparent 70%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%); mask-image: linear-gradient(90deg, transparent, #000 30%); opacity: 0; transition: opacity .8s ease; pointer-events: none; }
 .atelier .fit-stage.night::after { opacity: 1; }
-.atelier .stage-tools { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+.atelier .stage-tools { display: flex; justify-content: flex-end; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
 .atelier .stage-tools .price { font-family: var(--display); font-size: 26px; font-variant-numeric: lining-nums tabular-nums; }
 .atelier .choice { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; padding-block: 48px 104px; }
 .atelier .choice > .stack { width: 100%; align-items: center; }
@@ -616,3 +616,10 @@
   .atelier .cookie, .atelier .cookie-car::after { animation: none; }
   .atelier .cookie-car .car { transition: none; }
 }
+
+/* Owners' Circle demo sign-in */
+.atelier .gate-form { max-width: 420px; margin-top: 36px; gap: 22px; }
+.atelier .gate-form .btn { align-self: flex-start; }
+.atelier .gate-form input[readonly] { color: var(--stone); }
+@media (max-width: 640px) { .atelier .book-btn { padding: 0 12px; letter-spacing: .18em; } }
+@media (max-width: 370px) { .atelier .mark span { display: none; } }
