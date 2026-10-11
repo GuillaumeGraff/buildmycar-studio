@@ -22,7 +22,7 @@ export function Car({ model = 'gt', animated = false, paint, wheel = 'classic', 
     <g clipPath={`url(#${id}c)`}><rect className="sweep" x={-60} y={60} width={180} height={200} fill={`url(#${id}b)`}/></g>
     <path className={ln} pathLength={1} d={m.body}/>
     <path className={ln} pathLength={1} d={m.glass}/>
-    <path className={`${ln} fine`} pathLength={1} d="M84,198 C300,188 640,180 934,188"/>
+    <path className={`${ln} fine`} pathLength={1} d="M308,192 C440,186 580,184 704,188"/>
     <path className={`${ln} fine late`} pathLength={1} d={m.door}/>
     <path className={`${ln} late`} pathLength={1} d="M926,182 L950,190"/>
     <path className={`${ln} late`} pathLength={1} d="M56,198 L74,194"/>

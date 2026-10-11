@@ -1,11 +1,11 @@
 // Content for the BMC Atelier site. Edit names, specifications and texts here.
 export type ModelId = 'gt' | 'roadster' | 'brake' | 'saloon' | 'hyper';
-export type Option = { id: string; name: string; note: string; hex: string; spokes?: number; w?: number };
+export type Option = { id: string; name: string; note: string; hex: string; spokes?: number; w?: number; speakers?: number };
 export type Spec = { label: string; value: string; unit?: string };
-export type StepKey = 'character' | 'paint' | 'wheel' | 'leather' | 'material' | 'summary';
+export type StepKey = 'character' | 'paint' | 'wheel' | 'leather' | 'material' | 'sound' | 'summary';
 export type Step = { key: StepKey; title: string; intro: string; opts?: Option[] };
 
-// The five BMC cars. `body`, `glass` and `door` are the gold line drawing used on the home page.
+// The five BMC cars. `body`, `glass` and `door` draw each one in gold on the home page.
 export const MODELS: Record<ModelId, { name: string; category: string; line: string; weeks: number; engine: string; specs: Spec[]; dream: string; body: string; glass: string; door: string }> = {
   gt: { name: 'Aurelia', category: 'Grand Tourer', line: 'Four seats, a long bonnet and the range to cross a continent in one sitting.', weeks: 70,
     engine: '6.5-litre twin-turbo V12', specs: [{ label: 'Power', value: '830', unit: 'hp' }, { label: '0–100 km/h', value: '3.2', unit: 's' }, { label: 'Top speed', value: '325', unit: 'km/h' }],
@@ -25,13 +25,13 @@ export const MODELS: Record<ModelId, { name: string; category: string; line: str
   saloon: { name: 'Sovereign', category: 'Limousine', line: 'Five and a half metres of calm, built around the rear seats.', weeks: 82,
     engine: '6.75-litre V12, near-silent electric mode', specs: [{ label: 'Power', value: '720', unit: 'hp' }, { label: 'Rear recline', value: '42', unit: '°' }, { label: 'Silent range', value: '80', unit: 'km' }],
     dream: 'Reclining rear seats, a starlit headliner and a champagne cellar held at six degrees.',
-    body: 'M62,232 C50,226 46,204 58,190 C92,170 150,160 214,152 C300,110 382,86 472,84 C544,84 592,104 642,140 C704,150 820,156 902,168 C942,174 958,192 954,214 C952,226 942,232 922,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
-    glass: 'M304,148 C362,112 422,99 480,98 C532,98 570,113 606,140 Z', door: 'M528,146 C526,180 522,206 518,228' },
+    body: 'M58,232 C46,226 44,204 54,186 C80,172 130,166 196,162 C256,120 336,100 436,96 C526,94 604,104 662,140 C732,150 832,156 906,168 C944,174 960,192 956,214 C954,226 944,232 924,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
+    glass: 'M230,156 C286,120 356,106 436,106 C514,106 582,116 630,140 Z', door: 'M434,110 C432,170 430,206 428,228' },
   hyper: { name: 'Nocturne', category: 'Hyper Coupé', line: 'A carbon monocoque, three electric motors and one V8, for nineteen owners only.', weeks: 96,
     engine: '4.0-litre V8 and three electric motors', specs: [{ label: 'Power', value: '1,480', unit: 'hp' }, { label: '0–100 km/h', value: '2.1', unit: 's' }, { label: 'Top speed', value: '400', unit: 'km/h' }],
     dream: 'Nineteen cars, each named after its owner, and a weekend at Spa with our test driver before delivery.',
-    body: 'M62,232 C50,226 46,206 58,194 C92,178 160,170 236,166 C262,150 300,146 326,160 L410,158 C430,150 446,146 462,148 L470,158 C560,158 720,160 902,170 C942,176 958,194 954,214 C952,226 942,232 922,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
-    glass: 'M454,148 L470,124 L478,126 L476,158 Z', door: 'M520,160 C518,190 516,210 514,228' },
+    body: 'M70,232 C56,226 52,208 60,196 C92,186 160,178 232,170 C330,140 424,124 522,122 C592,122 642,140 694,160 C782,170 880,180 940,192 C958,198 962,214 956,224 C952,230 944,232 926,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
+    glass: 'M382,146 C442,130 500,128 550,130 C600,134 640,148 668,160 Z', door: 'M562,156 C558,182 554,206 550,228' },
 };
 
 // The first question is about the client, not the car: how they like to live tunes how it drives,
@@ -60,9 +60,9 @@ export const STEPS: Step[] = [
     { id: 'bordeaux', name: 'Bordeaux Velours', note: 'Deep tinted clear', hex: '#4a1a20' },
     { id: 'argent', name: '1981 Argent', note: 'The founding silver', hex: '#a3a6a7' }] },
   { key: 'wheel', title: 'Wheels', intro: 'Forged, machined and finished in the atelier, never bought in.', opts: [
-    { id: 'classic', name: 'Argent turbine', note: 'Thirty forged spokes, polished by hand', hex: '#b9b4ab', spokes: 12, w: 1.2 },
-    { id: 'wire', name: 'Black chrome turbine', note: 'Smoked chrome over forged aluminium', hex: '#3a3b3e', spokes: 24, w: 0.6 },
-    { id: 'monobloc', name: 'Champagne turbine', note: 'Brushed, then lacquered in warm gold', hex: '#cdb07a', spokes: 5, w: 5 }] },
+    { id: 'classic', name: 'Turbine', note: 'Thirty forged blades, polished by hand', hex: '#b9b4ab', spokes: 12, w: 1.2 },
+    { id: 'wire', name: 'Wire', note: 'Hand-laced chrome spokes and a central spinner', hex: '#3a3b3e', spokes: 24, w: 0.6 },
+    { id: 'monobloc', name: 'Monobloc', note: 'Five sculpted spokes in champagne gold', hex: '#cdb07a', spokes: 5, w: 5 }] },
   { key: 'leather', title: 'Interior leather', intro: 'Full-grain hides from a single tannery, cut so no two seats share a scar.', opts: [
     { id: 'ivoire', name: 'Ivoire calf', note: 'Bavarian tannery', hex: '#ddd0b8' },
     { id: 'cognac', name: 'Cognac saddle', note: 'Hand-stitched, 11 stitches per inch', hex: '#87532e' },
@@ -73,21 +73,34 @@ export const STEPS: Step[] = [
     { id: 'ebony', name: 'Macassar ebony', note: 'Certified reclaimed', hex: '#2b211b' },
     { id: 'pearl', name: 'Mother-of-pearl inlay', note: 'Set by hand in the fascia', hex: '#d9d4c8' },
     { id: 'alu', name: 'Brushed aluminium', note: 'Machined, no veneer', hex: '#7c7f80' }] },
+  { key: 'sound', title: 'Sound', intro: 'One quiet design in every car. What changes is the system behind the grilles, tuned by ear in Munich.', opts: [
+    { id: 'salon', name: 'Salon', note: '16 speakers · 1,200 W · clear and natural, tuned to the cabin', hex: '#b8955a', speakers: 16 },
+    { id: 'concert', name: 'Concert', note: '24 speakers · 2,100 W · ceiling speakers put the stage around you', hex: '#b8955a', speakers: 24 },
+    { id: 'reference', name: 'Reference', note: '34 speakers · 3,200 W · seat exciters, the studio master in your car', hex: '#b8955a', speakers: 34 }] },
   { key: 'summary', title: 'Your creation', intro: 'A first sketch of your car. The atelier will refine every line with you.' },
 ];
 
+// How the seat leather is worked, chosen alongside its colour on the leather step.
+export const SEATS = [
+  { id: 'smooth', name: 'Smooth hide', note: 'The leather left whole, as the tannery delivers it' },
+  { id: 'quilted', name: 'Diamond quilted', note: 'Stitched by hand, a thousand diamonds per seat' },
+  { id: 'perforated', name: 'Perforated', note: 'Drilled in a fine pattern, cool in summer' },
+  { id: 'suede', name: 'Suede', note: 'Brushed to a soft nap, warm to the touch' },
+];
+export const seat = (id?: string) => SEATS.find(s => s.id === id) ?? SEATS[0]!;
+
 export const opt = (key: StepKey, id: string): Option => STEPS.find(s => s.key === key)!.opts!.find(o => o.id === id)!;
 
-export type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string; character?: string | undefined };
-export const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '' };
+export type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string; character?: string | undefined; seat?: string | undefined; sound?: string | undefined };
+export const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '', seat: 'smooth', sound: 'salon' };
 
-// A car is shared as a link: /configure?c=gt.jade.wire.cognac.walnut..velvet
-export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono, s.character ?? ''].join('.').replace(/\.+$/, '');
+// A car is shared as a link: /configure?c=gt.jade.wire.cognac.walnut..velvet.quilted
+export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono, s.character ?? '', s.seat && s.seat !== 'smooth' ? s.seat : '', s.sound && s.sound !== 'salon' ? s.sound : ''].join('.').replace(/\.+$/, '');
 export function decode(code: string): { model: ModelId; sel: Selection } | null {
-  const [model, paint, wheel, leather, material, mono = '', character] = code.split('.');
+  const [model, paint, wheel, leather, material, mono = '', character, seatId, sound] = code.split('.');
   if (!model || !(model in MODELS)) return null;
-  const valid = (key: 'paint' | 'wheel' | 'leather' | 'material', id?: string) => STEPS.find(st => st.key === key)!.opts!.some(o => o.id === id) ? id! : DEFAULTS[key];
-  return { model: model as ModelId, sel: { paint: valid('paint', paint), wheel: valid('wheel', wheel), leather: valid('leather', leather), material: valid('material', material), mono: mono.replace(/[^A-Z]/g, '').slice(0, 3), character: CHARACTERS.some(c => c.id === character) ? character : undefined } };
+  const valid = (key: 'paint' | 'wheel' | 'leather' | 'material' | 'sound', id?: string) => STEPS.find(st => st.key === key)!.opts!.some(o => o.id === id) ? id! : DEFAULTS[key]!;
+  return { model: model as ModelId, sel: { paint: valid('paint', paint), wheel: valid('wheel', wheel), leather: valid('leather', leather), material: valid('material', material), mono: mono.replace(/[^A-Z]/g, '').slice(0, 3), character: CHARACTERS.some(c => c.id === character) ? character : undefined, seat: seat(seatId).id, sound: valid('sound', sound) } };
 }
 
 
