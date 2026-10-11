@@ -826,6 +826,15 @@
 /* The car picker sits at the top of the showroom */
 .atelier .showroom .car-strip { margin-top: 0; padding-block: 10px 6px; border-bottom: 1px solid var(--hair); }
 
+/* Owners' Circle: one row of continents above the events */
+.atelier .continents { flex-wrap: nowrap; gap: 6px; }
+.atelier .continents .chip { flex: 1 1 0; min-width: 0; padding: 8px 6px; text-align: center; font-size: 13px; white-space: nowrap; }
+@media (max-width: 640px) {
+  .atelier .continents ~ .event { padding: 12px 0; }
+  .atelier .continents ~ .event h3 { font-size: 21px; }
+  .atelier .continents ~ .event time { font-size: 16px; }
+}
+
 /* On phones the whole car stays in frame, set on the studio's dark floor */
 @media (max-width: 640px) {
   .atelier .slide { background: #0c0b0a; }

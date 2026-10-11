@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
-import { persona, personaSearch } from '@/components/atelier/platform';
+import { persona, personaSearch, EVENTS } from '@/components/atelier/platform';
 import { PersonaBar, DemoNote } from '@/components/atelier/personas';
 
 export const Route = createFileRoute('/owners-circle')({
@@ -53,6 +53,7 @@ function Circle() {
 
 function CircleInside({ p, leave }: { p: ReturnType<typeof persona>; leave: () => void }) {
   const [ask, setAsk] = useState('');
+  const [region, setRegion] = useState(0);
   const send = (e: FormEvent) => {
     e.preventDefault();
     if (!ask.trim()) return;
@@ -69,8 +70,11 @@ function CircleInside({ p, leave }: { p: ReturnType<typeof persona>; leave: () =
     </div>
     <section className="flush"><div className="wrap circle">
       <div className="stack">
-        <span className="label">For {p.name}, near {p.city}</span>
-        {p.events.map(e => <div className="event" key={e.name}><time>{e.date}</time><div><h3>{e.name}</h3><p className="muted">{e.place}</p></div>
+        <span className="label">Private events, open to every member</span>
+        <div className="chips continents" role="radiogroup" aria-label="Continent">
+          {EVENTS.map((c, i) => <button type="button" role="radio" aria-checked={region === i} key={c.continent} className="chip" onClick={() => setRegion(i)}>{c.continent}</button>)}
+        </div>
+        {EVENTS[region]!.events.map(e => <div className="event" key={e.name}><time>{e.date}</time><div><h3>{e.name}</h3><p className="muted">{e.place}</p></div>
           <button className="link" onClick={() => toast('Place reserved', { description: e.name })}>Reserve</button></div>)}
       </div>
       <div className="stack">
