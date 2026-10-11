@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
+import { Car } from '@/components/atelier/car';
 import { RENDERS } from '@/components/atelier/renders';
 import { DETAILS, STUDIO } from '@/components/atelier/details';
 import { MODELS, STEPS, CHARACTERS, DEFAULTS, opt, encode, decode, type ModelId, type Option, type Selection, type StepKey } from '@/components/atelier/data';
@@ -130,7 +131,7 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
       onPointerUp={() => { if (start.current === null) return; const dx = drag; start.current = null; setDrag(0); if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1)); }}
       onPointerCancel={() => { start.current = null; setDrag(0); }}>
       {IDS.map((id, i) => <figure key={id} className={`slide${i === index ? ' on' : ''}`} style={{ ['--o' as string]: i - index }} aria-hidden={i !== index}>
-        <Hero model={id}/>
+        <Hero model={id} active={i === index}/>
       </figure>)}
       <button className="slide-arrow prev" aria-label="Previous car" onClick={() => go(index - 1)}>‹</button>
       <button className="slide-arrow next" aria-label="Next car" onClick={() => go(index + 1)}>›</button>
@@ -143,17 +144,22 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
       <p className="dream">{m.dream}</p>
       <button className="btn solid" onClick={() => choose(k)}>Create your {m.name}</button>
     </div>
-    <div className="dots" role="tablist" aria-label="Cars">
-      {IDS.map((id, i) => <button key={id} role="tab" aria-selected={i === index} aria-label={`${MODELS[id].name}, ${MODELS[id].category}`} onClick={() => go(i)}><i/></button>)}
+    <div className="car-strip" role="tablist" aria-label="Cars">
+      {IDS.map((id, i) => <button key={id} role="tab" aria-selected={i === index} aria-label={`${MODELS[id].name}, ${MODELS[id].category}`} onClick={() => go(i)}>
+        <Car model={id}/><span>{MODELS[id].name}</span>
+      </button>)}
     </div>
   </div>;
 }
 
 // The car in its studio, or the empty studio while its photographs are being made.
-function Hero({ model, paint = 'bordeaux' }: { model: ModelId; paint?: string }) {
+function Hero({ model, active = true, paint = 'bordeaux' }: { model: ModelId; active?: boolean; paint?: string }) {
   const renders = RENDERS[model];
   if (renders) return <img src={renders[paint] ?? Object.values(renders)[0]} alt={`BMC ${MODELS[model].name}`} draggable={false}/>;
-  return <><img src={STUDIO} alt="" draggable={false}/><span className="veil">Being photographed in the atelier</span></>;
+  // Until its photographs exist, the car is drawn in gold in the empty studio, redrawn each time it comes into view.
+  return <><img src={STUDIO} alt="" draggable={false}/>
+    <div className="hero-sketch" role="img" aria-label={`BMC ${MODELS[model].name}, drawing`}>{active ? <Car key="on" model={model} animated/> : <Car key="off" model={model} paint={paint}/>}</div>
+    <span className="veil">Photograph in the making</span></>;
 }
 
 // Counts a figure up from zero, keeping its format (1,480 · 2.1).
@@ -199,7 +205,7 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
         alt={l.group === group && l.id === active ? (group === 'car' ? `BMC ${MODELS[model].name}${renders ? ' in ' + opt('paint', l.id).name : ''}` : DETAILS[group as StepKey]!.caption) : ''}
         className={`${l.group}${l.group === group && l.id === active ? ' on' : ''}`}/>)}
     </div>
-    {group === 'car' && !renders && <span className="veil">Being photographed in the atelier</span>}
+    {group === 'car' && !renders && <div className="hero-sketch"><Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/></div>}
     <span className="stage-caption">{step === 'character' && sel.character ? `Tuned for ${CHARACTERS.find(c => c.id === sel.character)!.name}` : detail ? detail.caption : `${MODELS[model].name} · ${MODELS[model].category}`}</span>
   </div>;
 }

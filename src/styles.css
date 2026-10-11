@@ -579,7 +579,7 @@
 .atelier .slide.on img { transform: none; filter: none; animation: settle 9s cubic-bezier(.2,.7,.2,1) both; }
 .atelier .slides.dragging .slide, .atelier .slides.dragging .slide img { transition: none; }
 @keyframes settle { from { scale: 1.06; } to { scale: 1; } }
-.atelier .veil { position: absolute; left: 50%; top: 52%; translate: -50% -50%; z-index: 1; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); white-space: nowrap; padding: 10px 16px; border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent); }
+.atelier .veil { position: absolute; right: max(16px, 5%); top: 16px; z-index: 1; font-size: 9px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); opacity: .75; white-space: nowrap; }
 .atelier .slide-arrow { position: absolute; top: 50%; translate: 0 -50%; z-index: 2; width: 56px; height: 56px; font-family: var(--display); font-size: 40px; line-height: 1; color: var(--ivory); opacity: .6; transition: opacity .4s; }
 .atelier .slide-arrow:hover { opacity: 1; }
 .atelier .slide-arrow.prev { left: 16px; } .atelier .slide-arrow.next { right: 16px; }
@@ -597,10 +597,6 @@
 .atelier .specs dd small { font-family: var(--body); font-size: 11px; letter-spacing: .12em; margin-left: 4px; color: var(--gold); }
 .atelier .dream { font-size: 15px; color: var(--stone); max-width: 44ch; }
 .atelier .showroom-copy .btn { align-self: flex-start; margin-top: 6px; }
-.atelier .dots { display: flex; justify-content: center; gap: 2px; margin-top: auto; padding-block: 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
-.atelier .dots button { min-width: 44px; min-height: 44px; display: grid; place-items: center; }
-.atelier .dots i { display: block; width: 18px; height: 1px; background: var(--stone); opacity: .5; transition: width .6s, background .6s, opacity .6s; }
-.atelier .dots [aria-selected="true"] i { width: 34px; background: var(--gold); opacity: 1; }
 @media (max-width: 640px) {
   .atelier .showroom { min-height: calc(100svh - 66px); }
   .atelier .slides { aspect-ratio: 4 / 3.2; max-height: 52svh; }
@@ -693,3 +689,23 @@
 .atelier .hero-car.leaving { opacity: 0; filter: blur(2px); }
 .atelier .hero-car-name { margin-top: 6px; text-align: center; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--stone); animation: rise .9s cubic-bezier(.2,.7,.2,1) 1.2s both; }
 .atelier .hero-car-name em { font-family: var(--display); font-size: 20px; letter-spacing: .04em; text-transform: none; color: var(--gold); }
+
+/* Cars without photographs yet: the gold drawing in the empty studio */
+.atelier .hero-sketch { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; padding: 0 6%; pointer-events: none; }
+.atelier .hero-sketch .car { width: min(860px, 100%); margin-top: 6%; }
+.atelier .slide:not(.on) .hero-sketch { opacity: .3; }
+/* The five cars as a strip of small silhouettes, to jump straight to one */
+.atelier .car-strip { display: flex; justify-content: center; gap: 4px; margin-top: auto; padding: 18px 16px calc(14px + env(safe-area-inset-bottom, 0px)); overflow-x: auto; scrollbar-width: none; }
+.atelier .car-strip::-webkit-scrollbar { display: none; }
+.atelier .car-strip button { flex: 0 0 auto; width: 104px; min-height: 64px; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px 6px; border-bottom: 1px solid transparent; opacity: .45; transition: opacity .5s, border-color .5s; }
+.atelier .car-strip button:hover { opacity: .8; }
+.atelier .car-strip button[aria-selected="true"] { opacity: 1; border-bottom-color: var(--gold); }
+.atelier .car-strip .car { width: 100%; }
+.atelier .car-strip .car .mirror, .atelier .car-strip .car .sweep, .atelier .car-strip .car .lamp { display: none; }
+.atelier .car-strip span { font-family: var(--display); font-style: italic; font-size: 15px; color: var(--ivory); }
+.atelier .car-strip button[aria-selected="true"] span { color: var(--gold); }
+@media (max-width: 640px) {
+  .atelier .car-strip { justify-content: flex-start; gap: 0; padding-inline: 8px; }
+  .atelier .car-strip button { width: 76px; }
+  .atelier .car-strip span { font-size: 13px; }
+}
