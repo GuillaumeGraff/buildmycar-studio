@@ -914,3 +914,6 @@
 }
 /* Keep the frame and the buttons under it in view on wide screens */
 .atelier .hero-frame { max-width: calc(46svh * 16 / 9); margin-inline: auto; }
+
+/* Studio: your car's photo in its own shape, no black bands */
+.atelier .room-car .stage-photo { aspect-ratio: 1376 / 768; max-height: none; }

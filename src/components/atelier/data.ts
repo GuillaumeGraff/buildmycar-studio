@@ -77,6 +77,11 @@ export const DEFAULTS: Selection = { paint: 'argent', wheel: 'classic', leather:
 
 // A car is shared as a link: /configure?c=gt.jade.wire.cognac.walnut..velvet.quilted
 export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono, '', s.seat && s.seat !== 'smooth' ? s.seat : '', s.sound && s.sound !== 'salon' ? s.sound : ''].join('.').replace(/\.+$/, '');
+// The visitor's own car, remembered on this device so the studio can show it.
+const MY_CAR = 'bmc-my-car';
+export const rememberCar = (model: ModelId, s: Selection) => { try { localStorage.setItem(MY_CAR, encode(model, s)); } catch { /* storage blocked */ } };
+export const myCar = () => { try { const c = localStorage.getItem(MY_CAR); return c ? decode(c) : null; } catch { return null; } };
+
 export function decode(code: string): { model: ModelId; sel: Selection } | null {
   const [model, paint, wheel, leather, material, mono = '', , seatId, sound] = code.split('.');
   if (!model || !(model in MODELS)) return null;
