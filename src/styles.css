@@ -337,12 +337,6 @@
 
 
 /* Configurator: the fitting */
-.atelier .chapters { display: flex; gap: 28px; overflow-x: auto; scrollbar-width: none; padding-block: 18px 10px; }
-.atelier .chapters::-webkit-scrollbar { display: none; }
-.atelier .chapter { min-height: 44px; flex: none; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); border-bottom: 1px solid transparent; transition: color .3s; }
-.atelier .chapter:first-child { color: var(--gold-deep); }
-.atelier .chapter[data-done] { color: var(--ivory); }
-.atelier .chapter[aria-current="step"] { color: var(--gold); border-bottom-color: var(--gold); }
 .atelier .fit-stage { position: relative; overflow: hidden; padding-block: 40px 20px; border-block: 1px solid var(--hair); transition: background .8s ease; }
 .atelier .fit-stage .wrap { position: relative; max-width: 980px; }
 .atelier .fit-stage.day { background: radial-gradient(ellipse at 50% 30%, #34312c, #121110 70%); }
@@ -420,7 +414,6 @@
   .atelier .book-btn { min-height: 38px; padding: 0 14px; }
   .atelier .book-btn .long { display: none; }
   .atelier .book-btn .short { display: inline; }
-  .atelier .chapters { gap: 20px; }
   .atelier .fit-stage { padding-block: 28px 12px; }
   .atelier .choice { padding-block: 36px 72px; }
   .atelier .swatches { gap: 6px; }
@@ -721,3 +714,19 @@
 .atelier .swatch i.sound { display: grid; place-items: center; border: 1px solid var(--hair); background: radial-gradient(circle, rgba(184,149,90,.18), transparent 70%); }
 .atelier .swatch i.sound b { font-family: var(--font-display, serif); font-style: italic; font-weight: 400; font-size: 18px; color: var(--ivory); }
 .atelier .swatch[aria-checked="true"] i.sound b { color: var(--gold); }
+
+/* Configurator steps: the car and the current step on one quiet line, a hairline per step beneath */
+.atelier .chapters { padding-block: 14px 6px; }
+.atelier .chapters-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.atelier .chapters-car { min-height: 44px; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--stone); transition: color .3s; }
+.atelier .chapters-car:hover { color: var(--ivory); }
+.atelier .chapters-now { font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); animation: rise .6s cubic-bezier(.2,.7,.2,1) both; }
+.atelier .chapters-now small { margin-left: 12px; font-size: 10px; letter-spacing: .14em; color: var(--stone); }
+.atelier .chapters-bar { display: flex; gap: 6px; }
+.atelier .chapter { flex: 1; height: 22px; position: relative; }
+.atelier .chapter::after { content: ''; position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: var(--hair); transition: background .5s, height .5s, top .5s; }
+.atelier .chapter[data-done]::after { background: var(--gold-deep); }
+.atelier .chapter[aria-current="step"]::after { background: var(--gold); height: 2px; top: 9.5px; }
+.atelier .swatch i.wheel { background-size: 165%; background-position: 50% 46%; }
+.atelier .swatch i.leather { background-size: 260%; background-position: 28% 55%; }
+.atelier .swatch i.material { background-size: 300%; background-position: 45% 55%; }

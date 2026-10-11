@@ -68,8 +68,13 @@ function Configure() {
 
   return <div className="page fitting">
     <nav className="chapters wrap" aria-label="Configuration steps">
-      <button className="chapter" onClick={() => { setModel(null); top(); }}>{m.name}</button>
-      {STEPS.map((s, i) => <button key={s.key} className="chapter" aria-current={i === step ? 'step' : undefined} data-done={i < step || undefined} onClick={() => setStep(i)}>{CHAPTERS[s.key]}</button>)}
+      <div className="chapters-head">
+        <button className="chapters-car" onClick={() => { setModel(null); top(); }} aria-label={`Back to the cars, ${m.name}`}>‹ {m.name}</button>
+        <span key={st.key} className="chapters-now">{CHAPTERS[st.key]}<small>{step + 1} / {STEPS.length}</small></span>
+      </div>
+      <div className="chapters-bar">
+        {STEPS.map((s, i) => <button key={s.key} className="chapter" aria-label={CHAPTERS[s.key]} aria-current={i === step ? 'step' : undefined} data-done={i < step || undefined} onClick={() => setStep(i)}/>)}
+      </div>
     </nav>
 
     <Stage model={model} sel={sel} step={st.key} onSwipe={st.opts ? cycle : undefined}/>
@@ -81,7 +86,7 @@ function Configure() {
         <p className="muted choice-note">{st.key === 'leather' ? `${seat(sel.seat).name} · ${seat(sel.seat).note}` : current.note}</p>
         <div className="swatches" role="radiogroup" aria-label={st.key === 'leather' ? 'Leather colour' : st.title}>
           {st.opts.map(o => <button key={o.id} role="radio" aria-checked={o.id === current.id} aria-label={o.name} title={o.name} className="swatch" onClick={() => setSel({ ...sel, [key]: o.id })}>
-            <Swatch o={o} step={st.key}/>
+            <Swatch o={o} step={st.key} finish={seat(sel.seat).id}/>
           </button>)}
         </div>
         {st.key === 'leather' && <div className="seat-finish" role="radiogroup" aria-label="Seat finish">
@@ -195,7 +200,7 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
     ...Object.entries(DETAILS).flatMap(([group, d]) => Object.entries(d!.images).map(([id, src]) => ({ group, id, src }))),
   ];
   const group = detail ? shown : 'car';
-  const active = group === 'car' ? (renders ? sel.paint : 'studio') : sel[shown as keyof Selection];
+  const active = group === 'car' ? (renders ? sel.paint : 'studio') : group === 'leather' ? `${seat(sel.seat).id}-${sel.leather}` : sel[shown as keyof Selection];
   return <div className={`stage-photo show-${group} seat-${seat(sel.seat).id}${sel.character ? ' mood-' + sel.character : ''}`}
     onTouchStart={e => { start.current = e.touches[0]!.clientX; }}
     onTouchEnd={e => {
@@ -204,7 +209,7 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
       if (onSwipe && Math.abs(dx) > 40) onSwipe(dx < 0 ? 1 : -1);
     }}>
     <div className="layers">
-      {layers.map(l => <img key={`${l.group}-${l.id}`} src={l.src} decoding="async" draggable={false}
+      {layers.filter(l => l.group === 'car' || l.group === group).map(l => <img key={`${l.group}-${l.id}`} src={l.src} decoding="async" draggable={false}
         alt={l.group === group && l.id === active ? (group === 'car' ? `BMC ${MODELS[model].name}${renders ? ' in ' + opt('paint', l.id).name : ''}` : DETAILS[group as StepKey]!.caption) : ''}
         className={`${l.group}${l.group === group && l.id === active ? ' on' : ''}`}/>)}
     </div>
@@ -213,8 +218,8 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
   </div>;
 }
 
-function Swatch({ o, step }: { o: Option; step: StepKey }) {
-  const src = DETAILS[step]?.images[o.id];
+function Swatch({ o, step, finish }: { o: Option; step: StepKey; finish: string }) {
+  const src = DETAILS[step]?.images[step === 'leather' ? `${finish}-${o.id}` : o.id];
   if (o.speakers) return <i className="sound"><b>{o.speakers}</b></i>;
   return src ? <i className={step} style={{ backgroundImage: `url(${src})` }}/> : <i className="lacquer" style={{ backgroundColor: o.hex }}/>;
 }

@@ -60,9 +60,9 @@ export const STEPS: Step[] = [
     { id: 'bordeaux', name: 'Bordeaux Velours', note: 'Deep tinted clear', hex: '#4a1a20' },
     { id: 'argent', name: '1981 Argent', note: 'The founding silver', hex: '#a3a6a7' }] },
   { key: 'wheel', title: 'Wheels', intro: 'Forged, machined and finished in the atelier, never bought in.', opts: [
-    { id: 'classic', name: 'Argent turbine', note: 'Thirty forged spokes, polished by hand', hex: '#b9b4ab', spokes: 12, w: 1.2 },
-    { id: 'wire', name: 'Black chrome turbine', note: 'Smoked chrome over forged aluminium', hex: '#3a3b3e', spokes: 24, w: 0.6 },
-    { id: 'monobloc', name: 'Champagne turbine', note: 'Brushed, then lacquered in warm gold', hex: '#cdb07a', spokes: 5, w: 5 }] },
+    { id: 'classic', name: 'Turbine', note: 'Thirty forged blades, polished by hand', hex: '#b9b4ab', spokes: 12, w: 1.2 },
+    { id: 'wire', name: 'Wire', note: 'Hand-laced chrome spokes and a central spinner', hex: '#3a3b3e', spokes: 24, w: 0.6 },
+    { id: 'monobloc', name: 'Monobloc', note: 'Five sculpted spokes in champagne gold', hex: '#cdb07a', spokes: 5, w: 5 }] },
   { key: 'leather', title: 'Interior leather', intro: 'Full-grain hides from a single tannery, cut so no two seats share a scar.', opts: [
     { id: 'ivoire', name: 'Ivoire calf', note: 'Bavarian tannery', hex: '#ddd0b8' },
     { id: 'cognac', name: 'Cognac saddle', note: 'Hand-stitched, 11 stitches per inch', hex: '#87532e' },
