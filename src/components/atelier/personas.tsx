@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { PERSONAS, PERSONA_IDS, type PersonaId } from './platform';
 
-type To = '/platform' | '/studio' | '/passport' | '/owners-circle';
+type To = '/studio' | '/passport' | '/owners-circle';
 
 // Switch between the four illustrative clients on any platform screen.
 export function PersonaBar({ to, current }: { to: To; current: PersonaId }) {

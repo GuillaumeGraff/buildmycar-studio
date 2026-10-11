@@ -19,7 +19,6 @@ import { Route as LegalRouteImport } from './routes/legal'
 import { Route as MaisonRouteImport } from './routes/maison'
 import { Route as OwnersCircleRouteImport } from './routes/owners-circle'
 import { Route as PassportRouteImport } from './routes/passport'
-import { Route as PlatformRouteImport } from './routes/platform'
 import { Route as PressRouteImport } from './routes/press'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
@@ -75,11 +74,6 @@ const PassportRoute = PassportRouteImport.update({
   path: '/passport',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PlatformRoute = PlatformRouteImport.update({
-  id: '/platform',
-  path: '/platform',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PressRoute = PressRouteImport.update({
   id: '/press',
   path: '/press',
@@ -116,7 +110,6 @@ export interface FileRoutesByFullPath {
   '/maison': typeof MaisonRoute
   '/owners-circle': typeof OwnersCircleRoute
   '/passport': typeof PassportRoute
-  '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -133,7 +126,6 @@ export interface FileRoutesByTo {
   '/maison': typeof MaisonRoute
   '/owners-circle': typeof OwnersCircleRoute
   '/passport': typeof PassportRoute
-  '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -152,7 +144,6 @@ export interface FileRoutesById {
   '/maison': typeof MaisonRoute
   '/owners-circle': typeof OwnersCircleRoute
   '/passport': typeof PassportRoute
-  '/platform': typeof PlatformRoute
   '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -171,7 +162,6 @@ export interface FileRouteTypes {
     | '/maison'
     | '/owners-circle'
     | '/passport'
-    | '/platform'
     | '/press'
     | '/privacy'
     | '/reset-password'
@@ -188,7 +178,6 @@ export interface FileRouteTypes {
     | '/maison'
     | '/owners-circle'
     | '/passport'
-    | '/platform'
     | '/press'
     | '/privacy'
     | '/reset-password'
@@ -206,7 +195,6 @@ export interface FileRouteTypes {
     | '/maison'
     | '/owners-circle'
     | '/passport'
-    | '/platform'
     | '/press'
     | '/privacy'
     | '/reset-password'
@@ -225,7 +213,6 @@ export interface RootRouteChildren {
   MaisonRoute: typeof MaisonRoute
   OwnersCircleRoute: typeof OwnersCircleRoute
   PassportRoute: typeof PassportRoute
-  PlatformRoute: typeof PlatformRoute
   PressRoute: typeof PressRoute
   PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -304,13 +291,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PassportRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/platform': {
-      id: '/platform'
-      path: '/platform'
-      fullPath: '/platform'
-      preLoaderRoute: typeof PlatformRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/press': {
       id: '/press'
       path: '/press'
@@ -371,7 +351,6 @@ const rootRouteChildren: RootRouteChildren = {
   MaisonRoute: MaisonRoute,
   OwnersCircleRoute: OwnersCircleRoute,
   PassportRoute: PassportRoute,
-  PlatformRoute: PlatformRoute,
   PressRoute: PressRoute,
   PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,

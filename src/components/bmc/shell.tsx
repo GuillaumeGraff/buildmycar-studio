@@ -6,7 +6,6 @@ import { Car } from '@/components/atelier/car';
 const links = [
   { to: '/heritage', label: 'Heritage' },
   { to: '/configure', label: 'Configure' },
-  { to: '/platform', label: 'Atelier' },
   { to: '/maison', label: 'The Maison' },
   { to: '/press', label: 'Press' },
 ] as const;

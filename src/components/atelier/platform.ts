@@ -1,31 +1,6 @@
 // Content for the BMC Atelier platform demo. Every person, car and event here is illustrative.
 import type { ModelId, Selection } from './data';
 
-export const SIDES = [
-  { id: 'clients', name: 'Clients', who: 'Owners and future clients in Europe, the US, the Gulf and China.', give: 'Their cars, a yearly circle membership and introductions.', get: 'A car made around them, and a lifetime of care and access.' },
-  { id: 'house', name: 'The BMC atelier', who: 'Our designers, panel beaters, painters and trimmers in Munich.', give: 'Design, engineering and the build itself.', get: 'Earlier, closer dialogue with every client, wherever they live.' },
-  { id: 'artisans', name: 'Master artisans', who: 'Invited masters of leather, marquetry, lacquer, textile and art.', give: 'Signature work that no catalogue can offer.', get: 'Rare, prestigious briefs and their name in a car’s passport.' },
-  { id: 'partners', name: 'Service partners', who: 'Restorers, storage, transport, insurers, concierge and events.', give: 'Care for the car and its owner after delivery.', get: 'A small circle of the most demanding owners in the world.' },
-] as const;
-
-export const CURATOR = 'BMC invites every member, sets the standard for every side and guarantees every passport.';
-
-export const REVENUE = [
-  { name: 'The car', note: 'One car, 20 to 30 a year' },
-  { name: 'Circle membership', note: 'A yearly fee per owner' },
-  { name: 'Services', note: 'A share of storage, restoration and concierge' },
-  { name: 'Artisan collaborations', note: 'A fee on each collaboration we curate' },
-];
-
-export const EFFECTS = [
-  { name: 'More artisans', then: 'richer options for every car' },
-  { name: 'More owners', then: 'a more valuable circle: events, introductions and resale' },
-  { name: 'More passports', then: 'stronger proof of value for every BMC car' },
-];
-
-export const SCALES = ['Remote co-creation sessions', 'Digital passports', 'Circle services and events', 'The artisan network, region by region'];
-export const NEVER = ['The number of cars: 20 to 30 a year', 'The hand work on each one', 'BMC’s personal yes to every member'];
-
 export type PersonaId = 'europe' | 'us' | 'uae' | 'china';
 type Msg = { from: 'client' | 'designer' | 'artisan'; text: string; swatch?: string };
 export type Persona = {
