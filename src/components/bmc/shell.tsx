@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { Car } from '@/components/atelier/car';
 
 const links = [
   { to: '/heritage', label: 'Heritage' },
@@ -52,10 +53,14 @@ const readChoice = () => { try { return localStorage.getItem(COOKIE_KEY); } catc
 
 export function Footer() {
   const [showCookies, setShowCookies] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   useEffect(() => { if (!readChoice()) setShowCookies(true); }, []);
   const choose = (choice: 'all' | 'essential') => {
     try { localStorage.setItem(COOKIE_KEY, choice); } catch { /* storage blocked */ }
-    setShowCookies(false);
+    // The little car drives off with the choice, then the card closes.
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setLeaving(true);
+    window.setTimeout(() => { setShowCookies(false); setLeaving(false); }, still ? 0 : 1100);
     toast(choice === 'all' ? 'Preferences saved · all cookies accepted' : 'Preferences saved · essential cookies only');
   };
   return <>
@@ -69,7 +74,8 @@ export function Footer() {
         <div className="fine-print"><span>© 2026 BuildMyCar. All rights reserved.</span><span>Prototype by Yellow Team, ESSEC · illustrative content</span></div>
       </div>
     </footer>
-    {showCookies && <div className="cookie" role="dialog" aria-label="Cookie consent">
+    {showCookies && <div className={`cookie${leaving ? ' leaving' : ''}`} role="dialog" aria-label="Cookie consent">
+      <div className="cookie-car" aria-hidden="true"><Car animated/></div>
       <span className="label">Your privacy</span>
       <p>We use essential cookies to run this site and, with your consent, measurement cookies to improve it. <Link to="/privacy" className="link">Read the policy</Link></p>
       <div className="row"><button className="btn solid" onClick={() => choose('all')}>Accept</button><button className="btn" onClick={() => choose('essential')}>Essential only</button></div>
