@@ -1,7 +1,7 @@
 import { useId } from 'react';
 import { MODELS, opt, type ModelId } from './data';
 
-// Gold line drawing of a BMC car. `animated` draws it in, fills the lacquer and lights the headlamp;
+// Gold line drawing of a BMC car. `animated` draws it in, fills it in porcelain and lights the headlamp;
 // otherwise the body is painted with the chosen finish.
 export function Car({ model = 'gt', animated = false, paint, wheel = 'classic', leather }: { model?: ModelId; animated?: boolean; paint?: string; wheel?: string; leather?: string }) {
   const m = MODELS[model];
@@ -36,9 +36,9 @@ export function Car({ model = 'gt', animated = false, paint, wheel = 'classic', 
   return <div className={`car ${animated ? 'anim' : 'still'}`}>
     <svg viewBox="0 0 1000 330" role="img" aria-label={`BMC ${m.name}${paint ? ' in ' + opt('paint', paint).name : ''}`}>
       <defs>
-        <linearGradient id={`${id}l`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#2a2620"/><stop offset=".42" stopColor="#121110"/><stop offset=".43" stopColor="#1a1815"/><stop offset="1" stopColor="#050505"/></linearGradient>
+        <linearGradient id={`${id}l`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#fbf7ef"/><stop offset=".42" stopColor="#efe6d5"/><stop offset=".43" stopColor="#e6dbc6"/><stop offset="1" stopColor="#d6c8ad"/></linearGradient>
         <linearGradient id={`${id}s`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#fff" stopOpacity=".22"/><stop offset=".45" stopColor="#fff" stopOpacity="0"/><stop offset=".46" stopColor="#000" stopOpacity=".08"/><stop offset="1" stopColor="#000" stopOpacity=".45"/></linearGradient>
-        <linearGradient id={`${id}g`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#3b352b"/><stop offset="1" stopColor="#0c0c0b"/></linearGradient>
+        <linearGradient id={`${id}g`} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#d9ccb2"/><stop offset="1" stopColor="#b8a685"/></linearGradient>
         <linearGradient id={`${id}b`} x1="0" y1="0" x2="1" y2="0"><stop offset="0" stopColor="#f3e3bd" stopOpacity="0"/><stop offset=".5" stopColor="#f3e3bd" stopOpacity=".34"/><stop offset="1" stopColor="#f3e3bd" stopOpacity="0"/></linearGradient>
         <radialGradient id={`${id}h`} cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#fff6dc" stopOpacity=".9"/><stop offset="1" stopColor="#cfb88a" stopOpacity="0"/></radialGradient>
         <radialGradient id={`${id}f`} cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#cfb88a" stopOpacity=".22"/><stop offset="1" stopColor="#cfb88a" stopOpacity="0"/></radialGradient>
