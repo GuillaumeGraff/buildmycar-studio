@@ -825,3 +825,9 @@
 
 /* The car picker sits at the top of the showroom */
 .atelier .showroom .car-strip { margin-top: 0; padding-block: 10px 6px; border-bottom: 1px solid var(--hair); }
+
+/* On phones the whole car stays in frame, set on the studio's dark floor */
+@media (max-width: 640px) {
+  .atelier .slide { background: #0c0b0a; }
+  .atelier .slide img, .atelier .stage-photo .layers img.car { object-fit: contain; object-position: center; }
+}
