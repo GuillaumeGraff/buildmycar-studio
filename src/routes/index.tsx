@@ -6,13 +6,13 @@ import { MODELS, PRESS, type ModelId } from '@/components/atelier/data';
 
 const featured = PRESS[0]!;
 
-export const Route = createFileRoute('/')({ head: () => pageHead('Bespoke, beyond compare', 'Since 1981, BuildMyCar has united human craftsmanship and digital precision in 20–30 bespoke luxury vehicles each year.'), component: Home });
+export const Route = createFileRoute('/')({ head: () => pageHead('Bespoke, beyond compare', 'Since 1981, BuildMyCar has built 20–30 bespoke luxury cars a year by hand in Munich, each one shaped with its owner.'), component: Home });
 
 function Home() {
   return <div className="page">
     <div className="hero"><div className="wrap">
       <span className="label">BuildMyCar · Coachbuilders since 1981</span>
-      <h1>Where human craftsmanship<br/>meets <em>digital precision.</em></h1>
+      <h1>Built by hand.<br/><em>Imagined by you.</em></h1>
       <HeroCars/>
       <div className="row-gap center"><Link to="/configure" className="btn">Configure your car</Link><Link to="/book" className="btn solid">Start your creation</Link></div>
     </div></div>
