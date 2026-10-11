@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
@@ -55,6 +55,7 @@ function Room({ id }: { id: string }) {
           </ul>
           <div className="session"><span className="label">Next live session</span><p>{p.session}</p>
             <button className="btn" onClick={() => toast('Session reserved', { description: 'In the full product this opens a private video room.' })}>Join the session</button></div>
+          <Link to="/passport" search={{ p: p.id }} className="link">The car’s digital passport</Link>
         </div>
       </div>
       <div className="room-feed">
@@ -71,7 +72,7 @@ function Room({ id }: { id: string }) {
           {decision === 'open' ? <div className="row-gap">
             <button className="btn solid" onClick={() => { setDecision('approved'); toast('Approved · added to your passport'); }}>Approve</button>
             <button className="link" onClick={() => setDecision('changes')}>Ask for changes</button>
-          </div> : <p className="decided">{decision === 'approved' ? 'Approved. It will be recorded in the car’s passport.' : 'Sent back to the artisan with your notes.'}</p>}
+          </div> : <p className="decided">{decision === 'approved' ? <>Approved. It will be recorded in the car’s <Link to="/passport" search={{ p: p.id }} className="link">passport</Link>.</> : 'Sent back to the artisan with your notes.'}</p>}
         </div>
         <form className="reply-box" onSubmit={send}>
           <label htmlFor="msg" className="label">Write to the studio</label>

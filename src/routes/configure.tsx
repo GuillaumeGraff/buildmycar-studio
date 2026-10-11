@@ -136,6 +136,7 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
       </figure>)}
       <button className="slide-arrow prev" aria-label="Previous car" onClick={() => go(index - 1)}>‹</button>
       <button className="slide-arrow next" aria-label="Next car" onClick={() => go(index + 1)}>›</button>
+      <span className="render-note">Illustrative render</span>
     </div>
     <div className="wrap showroom-copy" key={k} aria-live="polite">
       <span className="label">{m.category}</span>
@@ -202,7 +203,7 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
         className={`${l.group}${l.group === group && l.id === active ? ' on' : ''}`}/>)}
     </div>
     {group === 'car' && !renders && <div className="hero-sketch"><Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/></div>}
-    <span className="stage-caption">{detail ? detail.caption : `${MODELS[model].name} · ${MODELS[model].category}`}</span>
+    <span className="stage-caption">{detail ? detail.caption : `${MODELS[model].name} · ${renders ? 'illustrative render' : MODELS[model].category}`}</span>
   </div>;
 }
 

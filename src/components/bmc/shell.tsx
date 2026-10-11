@@ -7,6 +7,7 @@ const links = [
   { to: '/heritage', label: 'Heritage' },
   { to: '/configure', label: 'Configure' },
   { to: '/maison', label: 'The Maison' },
+  { to: '/passport', label: 'Passport' },
   { to: '/press', label: 'Press' },
 ] as const;
 
@@ -80,7 +81,7 @@ export function Footer() {
     {showCookies && <div className={`cookie${leaving ? ' leaving' : ''}`} role="dialog" aria-label="Cookie consent">
       <div className="cookie-car" aria-hidden="true"><Car animated/></div>
       <span className="label">Your privacy</span>
-      <p>We use essential cookies to run this site and, with your consent, measurement cookies to improve it. <Link to="/privacy" className="link">Read the policy</Link></p>
+      <p>Essential cookies run this site. Measurement cookies only with your consent. <Link to="/privacy" className="link">Policy</Link></p>
       <div className="row"><button className="btn solid" onClick={() => choose('all')}>Accept</button><button className="btn" onClick={() => choose('essential')}>Essential only</button></div>
     </div>}
   </>;
