@@ -822,3 +822,6 @@
 .atelier .stage-photo { background: #0c0b0a; }
 .atelier .hero-sketch .ln, .atelier .hero-sketch .lnm { stroke: var(--on-photo-gold); }
 .atelier .swatch i { box-shadow: inset 0 0 0 1px rgba(23,20,15,.12); }
+
+/* The car picker sits at the top of the showroom */
+.atelier .showroom .car-strip { margin-top: 0; padding-block: 10px 6px; border-bottom: 1px solid var(--hair); }
