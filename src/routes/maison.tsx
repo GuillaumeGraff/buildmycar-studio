@@ -9,18 +9,20 @@ export const Route = createFileRoute('/maison')({ head: () => pageHead('The Mais
 function Maison() {
   const track = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  // Counts each time a member comes into view, so their sketch is drawn again.
+  // Counts each time a member swipes into view on phone, so their sketch is drawn again.
   const [seen, setSeen] = useState<number[]>(() => TEAM.map(() => 0));
 
   useEffect(() => {
     const el = track.current;
     if (!el) return;
+    // Only the phone carousel redraws people as they swipe in; on a computer each sketch draws once.
+    if (!window.matchMedia('(max-width: 640px)').matches) return;
     const io = new IntersectionObserver(entries => entries.forEach(e => {
       if (!e.isIntersecting) return;
       const i = Number((e.target as HTMLElement).dataset['i']);
       setActive(i);
       setSeen(s => s.map((n, j) => (j === i ? n + 1 : n)));
-    }), { root: window.matchMedia('(max-width: 640px)').matches ? el : null, threshold: 0.6 });
+    }), { root: el, threshold: 0.6 });
     el.querySelectorAll('.member').forEach(m => io.observe(m));
     return () => io.disconnect();
   }, []);
