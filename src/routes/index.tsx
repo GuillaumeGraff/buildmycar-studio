@@ -20,7 +20,7 @@ function Home() {
       <h2 style={{ marginTop: 20 }}>Twenty to thirty cars a year.<br/><em>Never more.</em></h2>
       <div className="trio">
         <Link to="/heritage" className="door"><h3>Our heritage</h3><p>Four decades of coachbuilding in Munich, one client at a time.</p><span className="link">Discover</span></Link>
-        <Link to="/platform" className="door"><h3>The platform</h3><p>Co-create with master artisans, receive a certified passport, join the Owners’ Circle.</p><span className="link">Explore</span></Link>
+        <Link to="/platform" className="door"><h3>BMC Atelier</h3><p>Co-create with master artisans, receive a certified passport, join the Owners’ Circle.</p><span className="link">Explore</span></Link>
         <Link to="/maison" className="door"><h3>The Maison</h3><p>Meet the six people who look after our clients, in their language.</p><span className="link">Meet them</span></Link>
       </div>
     </div></section>

@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 const links = [
   { to: '/heritage', label: 'Heritage' },
   { to: '/configure', label: 'Configure' },
-  { to: '/platform', label: 'Platform' },
+  { to: '/platform', label: 'Atelier' },
   { to: '/maison', label: 'The Maison' },
   { to: '/press', label: 'Press' },
 ] as const;
