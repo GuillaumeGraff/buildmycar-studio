@@ -25,6 +25,24 @@ const STAGES = ['Design', 'Coachwork', 'Paint', 'Interior', 'Road test', 'Handov
 const NOW = 0;
 const ago = (days: number) => { const d = new Date(); d.setDate(d.getDate() - days); return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); };
 
+// What the designer would add to this particular car, and why.
+type Touch = { id: string; title: string; why: string };
+function advice(model: ModelId, sel: Selection): Touch[] {
+  const paint: Record<string, Touch> = {
+    noir: { id: 'coachline', title: 'A hand-painted gold coachline', why: 'One hairline along the waist, painted with a squirrel brush. On Atelier Noir it catches the light only at dusk.' },
+    jade: { id: 'cloud', title: 'A cloud motif in the lacquer', why: 'Laid in the last coats of the jade, so it only shows in direct sun.' },
+    bordeaux: { id: 'piping', title: 'Bordeaux piping on the seats', why: 'A thin line of the body colour on every seat edge ties the cabin to the paint.' },
+    argent: { id: 'sill', title: 'A 1981 sill plate', why: 'Engraved with the founding year, as on the first BMC, in polished silver.' },
+  };
+  const seat: Touch = sel.seat && sel.seat !== 'smooth'
+    ? { id: 'luggage', title: 'Fitted luggage in your leather', why: `Cut from the same hides as your ${opt('leather', sel.leather).name}, shaped to the boot of the ${MODELS[model].name}.` }
+    : { id: 'quilt', title: 'Diamond quilting in the rear', why: 'Keep the front seats smooth and quilt only the rear. It reads as calm from the driver’s seat.' };
+  const sound: Touch = sel.sound && sel.sound !== 'salon'
+    ? { id: 'umbrella', title: 'Umbrellas in the doors', why: 'Two umbrellas in your leather, hidden in the door frames.' }
+    : { id: 'concert', title: 'Concert sound', why: 'For long drives, the ceiling speakers put the music around you. The grilles stay the same.' };
+  return [paint[sel.paint] ?? paint['argent']!, seat, sound];
+}
+
 const FALLBACK = { model: 'gt' as ModelId, sel: { ...DEFAULTS, paint: 'jade' } };
 
 function Studio() {
@@ -59,6 +77,8 @@ function Room({ model, sel, own }: { model: ModelId; sel: Selection; own: boolea
     { when: ago(6), who: artisan.name.split(' ')[0], text: `The first ${material.name.toLowerCase()} sample is cut for your fascia. It travels to you with Thursday’s session.` },
     { when: ago(11), who: 'The atelier', text: `${paint.name} mixed for your car alone. Three test panels are drying in Munich.` },
   ];
+  const touches = advice(model, sel);
+  const [added, setAdded] = useState<string[]>([]);
   const [draft, setDraft] = useState('');
   const [decision, setDecision] = useState<'open' | 'approved' | 'changes'>('open');
 
@@ -95,10 +115,23 @@ function Room({ model, sel, own }: { model: ModelId; sel: Selection; own: boolea
         </div>
       </div>
       <div className="room-feed">
-        <section className="updates" aria-label="Latest from your team">
+        <div className="advice" role="region" aria-label="Advice from your designer">
+          <span className="label">{designer.name.split(' ')[0]} suggests for your {m.name}</span>
+          <ul>{touches.map(t => {
+            const on = added.includes(t.id);
+            return <li key={t.id} className={on ? 'on' : undefined}>
+              <div><b>{t.title}</b><p>{t.why}</p></div>
+              <button className={on ? 'link' : 'btn'} aria-pressed={on} onClick={() => {
+                setAdded(on ? added.filter(a => a !== t.id) : [...added, t.id]);
+                if (!on) toast(`${t.title} · added`, { description: `${designer.name.split(' ')[0]} will confirm it at your next session.` });
+              }}>{on ? 'Added ✓' : 'Add'}</button>
+            </li>;
+          })}</ul>
+        </div>
+        <div className="updates" role="region" aria-label="Latest from your team">
           <span className="label">Latest from your team</span>
           <ol>{updates.map(u => <li key={u.when + u.who}><time>{u.when}</time><p><b>{u.who}</b> · {u.text}</p></li>)}</ol>
-        </section>
+        </div>
         <span className="label">Your conversation</span>
         <ol className="feed">
           {messages.map((m, i) => <li key={i} className={m.from}>

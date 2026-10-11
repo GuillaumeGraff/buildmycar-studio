@@ -931,3 +931,14 @@
 .atelier .updates b { color: var(--ivory); font-weight: 400; }
 @media (max-width: 640px) { .atelier .build-progress li { font-size: 8px; letter-spacing: .08em; } .atelier .updates p { font-size: 13px; } }
 @media (max-width: 640px) { .atelier .room { gap: 28px; } }
+
+/* Studio: the designer's suggestions, each one tap to add */
+.atelier .advice { display: flex; flex-direction: column; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--hair); }
+.atelier .advice ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.atelier .advice li { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; padding: 14px 16px; border: 1px solid var(--hair); background: var(--char); transition: border-color .4s; }
+.atelier .advice li.on { border-color: var(--gold); }
+.atelier .advice b { font-family: var(--display); font-weight: 400; font-size: 19px; color: var(--ivory); }
+.atelier .advice p { font-size: 13px; line-height: 1.5; color: var(--stone); margin: 4px 0 0; }
+.atelier .advice .btn { padding: 9px 16px; min-height: 40px; }
+.atelier .advice .link { white-space: nowrap; }
+.atelier .advice, .atelier .updates { border-bottom: 0; padding-bottom: 0; margin-bottom: 0; }
