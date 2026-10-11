@@ -914,8 +914,6 @@
 @media (prefers-reduced-motion: reduce) {
   .atelier .hero-print, .atelier .hero-sketch-line, .atelier .hero-frame::after { transition: none; }
 }
-/* Keep the frame and the buttons under it in view on wide screens */
-.atelier .hero-frame { max-width: calc(46svh * 16 / 9); margin-inline: auto; }
 
 /* Menu: the owners' rooms sit quietly under the Owners' Circle */
 .atelier .menu-panel a.menu-sub { font-family: var(--body, inherit); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); min-height: 34px; }
