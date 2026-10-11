@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { pageHead } from '@/components/bmc/metadata';
 import { Car } from '@/components/atelier/car';
+import { RENDERS } from '@/components/atelier/renders';
 import { MODELS, PRESS, opt, type ModelId } from '@/components/atelier/data';
 import vesperBordeaux from '@/assets/renders/brake-bordeaux.jpg';
 import meridianJade from '@/assets/renders/gt-jade.jpg';
@@ -38,21 +39,30 @@ function Home() {
   </div>;
 }
 
-// The five BMC cars draw themselves one after another, each fading out before the next.
+// From sketch to car: each BMC draws itself in gold, then its photograph develops in the same frame, like a print.
 const HERO_CARS = Object.keys(MODELS) as ModelId[];
+const HERO_FINISH: Record<ModelId, string> = { gt: 'argent', roadster: 'bordeaux', brake: 'jade', saloon: 'noir', hyper: 'noir' };
 function HeroCars() {
   const [i, setI] = useState(0);
-  const [leaving, setLeaving] = useState(false);
+  const [phase, setPhase] = useState<'sketch' | 'photo' | 'leaving'>('sketch');
+  const [still, setStill] = useState(false);
+  useEffect(() => { setStill(window.matchMedia('(prefers-reduced-motion: reduce)').matches); }, []);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const out = window.setTimeout(() => setLeaving(true), 7000);
-    const next = window.setTimeout(() => { setLeaving(false); setI(n => (n + 1) % HERO_CARS.length); }, 7700);
-    return () => { window.clearTimeout(out); window.clearTimeout(next); };
-  }, [i]);
+    if (still) return;
+    setPhase('sketch');
+    const photo = window.setTimeout(() => setPhase('photo'), 5200);
+    const out = window.setTimeout(() => setPhase('leaving'), 11000);
+    const next = window.setTimeout(() => setI(n => (n + 1) % HERO_CARS.length), 11900);
+    return () => { window.clearTimeout(photo); window.clearTimeout(out); window.clearTimeout(next); };
+  }, [i, still]);
   const k = HERO_CARS[i]!;
-  return <div className={`hero-car${leaving ? ' leaving' : ''}`}>
-    <Car key={k} model={k} animated/>
-    <p className="hero-car-name" key={`n-${k}`}><em>{MODELS[k].name}</em> · {MODELS[k].category}</p>
+  const finish = HERO_FINISH[k];
+  return <div className={`hero-car ${phase}`}>
+    <div className="hero-frame">
+      {HERO_CARS.map(id => RENDERS[id]?.[HERO_FINISH[id]] && <img key={id} className={`hero-print${id === k ? ' on' : ''}`} src={RENDERS[id]![HERO_FINISH[id]]} alt={id === k ? `BMC ${MODELS[id].name} in ${opt('paint', HERO_FINISH[id]).name}` : ''} decoding="async"/>)}
+      <div className="hero-sketch-line"><Car key={k} model={k} animated/></div>
+    </div>
+    <p className="hero-car-name" key={`n-${k}`}><em>{MODELS[k].name}</em> · {MODELS[k].category}{phase === 'photo' && <span className="hero-finish"> · {opt('paint', finish).name}</span>}</p>
   </div>;
 }
 
