@@ -831,3 +831,27 @@
   .atelier .slide { background: #0c0b0a; }
   .atelier .slide img, .atelier .stage-photo .layers img.car { object-fit: contain; object-position: center; }
 }
+
+/* Heritage: the story as swipeable chapters, then the hands in numbers */
+.atelier .eras-rail { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(300px, 30%); gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 0 12px; margin: 0; list-style: none; scrollbar-width: thin; }
+.atelier .era-card { scroll-snap-align: start; display: flex; flex-direction: column; border: 1px solid var(--hair); background: var(--char); }
+.atelier .era-card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: #0c0b0a; }
+.atelier .era-card > div { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 6px; }
+.atelier .era-card time { font-family: var(--display); font-weight: 300; font-size: 40px; line-height: 1; color: var(--gold); }
+.atelier .era-card h3 { font-size: 24px; }
+.atelier .era-card p { color: var(--stone); font-size: 14px; line-height: 1.6; }
+.atelier .rail-hint { font-size: 12px; letter-spacing: .08em; margin-top: 8px; }
+.atelier .hands { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 28px; }
+.atelier .hands div { border-top: 1px solid var(--hair); padding-top: 14px; }
+.atelier .hands dt { font-family: var(--display); font-size: 44px; line-height: 1.1; color: var(--ivory); }
+.atelier .hands dd { margin: 4px 0 0; color: var(--stone); font-size: 13px; }
+@media (min-width: 641px) { .atelier .rail-hint { display: none; } }
+@media (max-width: 640px) {
+  .atelier .heritage-head { padding-bottom: 20px; }
+  .atelier .eras-rail { grid-auto-columns: 84%; gap: 12px; scrollbar-width: none; }
+  .atelier .eras-rail::-webkit-scrollbar { display: none; }
+  .atelier .era-card time { font-size: 32px; }
+  .atelier .era-card h3 { font-size: 22px; }
+  .atelier .hands { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .atelier .hands dt { font-size: 34px; }
+}

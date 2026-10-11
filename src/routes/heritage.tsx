@@ -1,25 +1,53 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import { pageHead } from '@/components/bmc/metadata';
+import roadster from '@/assets/renders/roadster-argent.jpg';
+import alu from '@/assets/details/material-alu.jpg';
+import noir from '@/assets/renders/gt-noir.jpg';
+import craft from '@/assets/bmc-craft.jpg';
+import saloon from '@/assets/renders/saloon-jade.jpg';
+import today from '@/assets/renders/brake-argent.jpg';
 
 export const Route = createFileRoute('/heritage')({ head: () => pageHead('Heritage', 'Four decades of coachbuilding in Munich, one client and one car at a time.'), component: Heritage });
 
+// The house's story, one chapter per swipe.
 const ERAS = [
-  ['1981', 'The first car', 'A small workshop in Munich builds one car for one client. The rule is set: the car begins with a conversation, not a catalogue.'],
-  ['1990s', 'The coachbuilder’s hand', 'Aluminium bodies are still shaped over wooden bucks, panel by panel. Each car takes more than two thousand hours.'],
-  ['2000s', 'A circle of artisans', 'Leather masters, cabinet makers and lacquer artists join the house, invited one car at a time.'],
-  ['Today', 'The digital atelier', 'Clients co-create from anywhere, and every car receives a certified digital passport that records its story for life.'],
+  { year: '1981', title: 'The first car', img: roadster, text: 'A panel beater and a trimmer open a two-bay workshop in Munich and build one roadster for one client. The rule is set: a car begins with a conversation, not a catalogue.' },
+  { year: '1987', title: 'Shaped over wood', img: alu, text: 'Every aluminium body is beaten by hand over a wooden buck carved for that car alone. Coachwork alone takes more than two thousand hours.' },
+  { year: '1994', title: 'Paint by hand', img: noir, text: 'The paint shop moves to rubbing every coat by hand between layers. Atelier Noir takes fourteen coats; lacquer from Fuzhou takes forty.' },
+  { year: '2003', title: 'A circle of artisans', img: craft, text: 'Leather masters, marquetry makers and lacquer artists join the house, invited one car at a time, and sign the work they do.' },
+  { year: '2014', title: 'The Owners’ Circle', img: saloon, text: 'Owners ask to meet one another. The first gathering, at Lake Como, becomes a circle of events, care and introductions for life.' },
+  { year: 'Today', title: 'Begun from anywhere', img: today, text: 'A client in Shanghai or Los Angeles can shape a car with our designers from home. It is still built by hand, in Munich, twenty to thirty a year.' },
+];
+
+const HANDS = [
+  ['4,000+', 'hours of hand work in every car'],
+  ['11', 'craftspeople sign each one'],
+  ['14 to 40', 'coats of paint, rubbed by hand'],
+  ['1', 'wooden buck, carved for that car alone'],
 ];
 
 function Heritage() {
   return <div className="page">
-    <div className="wrap page-head">
-      <span className="label">Heritage</span>
+    <div className="wrap page-head heritage-head">
+      <span className="label">Heritage · Munich since 1981</span>
       <h2>Four decades.<br/>One uncompromising <em>pursuit.</em></h2>
-      <p className="lead">Since 1981, BuildMyCar has followed a single idea: the most remarkable car is the one that could only belong to you.</p>
+      <p className="lead">The most remarkable car is the one that could only belong to you.</p>
     </div>
-    <div className="wrap" style={{ paddingBottom: 96 }}>
-      {ERAS.map(([t, h, p]) => <div className="era" key={t}><time>{t}</time><div><h3>{h}</h3><p>{p}</p></div></div>)}
+    <div className="wrap">
+      <ol className="eras-rail" aria-label="Our story">
+        {ERAS.map(e => <li className="era-card" key={e.year}>
+          <img src={e.img} alt="" loading="lazy"/>
+          <div><time>{e.year}</time><h3>{e.title}</h3><p>{e.text}</p></div>
+        </li>)}
+      </ol>
+      <p className="muted rail-hint">Swipe through four decades</p>
     </div>
+    <section><div className="wrap">
+      <span className="label">The hands behind each car</span>
+      <dl className="hands">
+        {HANDS.map(([n, t]) => <div key={t}><dt>{n}</dt><dd>{t}</dd></div>)}
+      </dl>
+    </div></section>
     <section><div className="wrap">
       <span className="label">What never changes</span>
       <div className="pillars" style={{ marginTop: 36 }}>
@@ -27,6 +55,7 @@ function Heritage() {
         <div className="pillar"><h3>Made by <em>hand.</em></h3><p>Coachwork, leather and wood are finished by craftspeople who sign their work.</p></div>
         <div className="pillar"><h3>Rare by <em>intention.</em></h3><p>Twenty to thirty cars a year. The relationship grows, the volume never does.</p></div>
       </div>
+      <div className="row-gap" style={{ marginTop: 48 }}><Link to="/maison" className="btn">Meet the Maison</Link><Link to="/configure" className="link">Configure your car</Link></div>
     </div></section>
   </div>;
 }
