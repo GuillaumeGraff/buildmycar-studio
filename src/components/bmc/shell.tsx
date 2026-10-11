@@ -10,6 +10,12 @@ const links = [
   { to: '/press', label: 'Press' },
 ] as const;
 
+// The studio and the passport live in the menu and footer, so they are always one tap away.
+const more = [
+  { to: '/studio', label: 'The studio' },
+  { to: '/passport', label: 'The passport' },
+] as const;
+
 export function Header({ signedIn }: { signedIn: boolean }) {
   const [open, setOpen] = useState(false);
   const btn = useRef<HTMLButtonElement>(null);
@@ -43,6 +49,7 @@ export function Header({ signedIn }: { signedIn: boolean }) {
       <nav ref={panel} id="menu-panel" className={`menu-panel${open ? ' open' : ''}`} aria-label="Menu" aria-hidden={!open} inert={!open}>
         <Link to="/" onClick={close}>Home</Link>
         {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }} onClick={close}>{l.label}</Link>)}
+        {more.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }} onClick={close}>{l.label}</Link>)}
         <Link to={circle} activeProps={{ 'aria-current': 'page' }} onClick={close}>Owners’ Circle</Link>
         <Link to="/book" className="menu-rdv" onClick={close}>Private rendezvous</Link>
       </nav>
@@ -71,7 +78,7 @@ export function Footer() {
       <div className="wrap">
         <div className="foot">
           <div><h4>BuildMyCar</h4><span>Coachbuilders since 1981</span><span>Atelier by appointment, Munich</span><span>atelier@buildmycar.example</span></div>
-          <div><h4>The house</h4>{links.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}<Link to="/book">Start your creation</Link><Link to="/owners-circle">Owners’ Circle</Link></div>
+          <div><h4>The house</h4>{links.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}{more.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}<Link to="/book">Start your creation</Link><Link to="/owners-circle">Owners’ Circle</Link></div>
           <div><h4>Information</h4><Link to="/privacy">Privacy policy</Link><Link to="/legal">Legal notice</Link><button onClick={() => setShowCookies(true)}>Cookie settings</button></div>
         </div>
         <div className="fine-print"><span>© 2026 BuildMyCar. All rights reserved.</span><span>Prototype by Yellow Team, ESSEC · illustrative content</span></div>

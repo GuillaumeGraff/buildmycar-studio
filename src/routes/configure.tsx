@@ -134,6 +134,7 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
       {IDS.map((id, i) => <figure key={id} className={`slide${i === index ? ' on' : ''}`} style={{ ['--o' as string]: i - index }} aria-hidden={i !== index}>
         <Hero model={id} active={i === index}/>
       </figure>)}
+      <span className="render-note">Illustrative render</span>
       <button className="slide-arrow prev" aria-label="Previous car" onClick={() => go(index - 1)}>‹</button>
       <button className="slide-arrow next" aria-label="Next car" onClick={() => go(index + 1)}>›</button>
     </div>
@@ -202,6 +203,7 @@ function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; 
         className={`${l.group}${l.group === group && l.id === active ? ' on' : ''}`}/>)}
     </div>
     {group === 'car' && !renders && <div className="hero-sketch"><Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/></div>}
+    {group === 'car' && renders && <span className="render-note">Illustrative render</span>}
     <span className="stage-caption">{detail ? detail.caption : `${MODELS[model].name} · ${MODELS[model].category}`}</span>
   </div>;
 }
