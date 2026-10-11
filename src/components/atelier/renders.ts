@@ -12,9 +12,19 @@ import brakeNoir from '@/assets/renders/brake-noir.jpg';
 import brakeJade from '@/assets/renders/brake-jade.jpg';
 import brakeBordeaux from '@/assets/renders/brake-bordeaux.jpg';
 import brakeArgent from '@/assets/renders/brake-argent.jpg';
+import saloonNoir from '@/assets/renders/saloon-noir.jpg';
+import saloonJade from '@/assets/renders/saloon-jade.jpg';
+import saloonBordeaux from '@/assets/renders/saloon-bordeaux.jpg';
+import saloonArgent from '@/assets/renders/saloon-argent.jpg';
+import hyperNoir from '@/assets/renders/hyper-noir.jpg';
+import hyperJade from '@/assets/renders/hyper-jade.jpg';
+import hyperBordeaux from '@/assets/renders/hyper-bordeaux.jpg';
+import hyperArgent from '@/assets/renders/hyper-argent.jpg';
 
 export const RENDERS: Partial<Record<ModelId, Record<string, string>>> = {
   gt: { noir: gtNoir, jade: gtJade, bordeaux: gtBordeaux, argent: gtArgent },
   roadster: { noir: roadsterNoir, jade: roadsterJade, bordeaux: roadsterBordeaux, argent: roadsterArgent },
   brake: { noir: brakeNoir, jade: brakeJade, bordeaux: brakeBordeaux, argent: brakeArgent },
+  saloon: { noir: saloonNoir, jade: saloonJade, bordeaux: saloonBordeaux, argent: saloonArgent },
+  hyper: { noir: hyperNoir, jade: hyperJade, bordeaux: hyperBordeaux, argent: hyperArgent },
 };

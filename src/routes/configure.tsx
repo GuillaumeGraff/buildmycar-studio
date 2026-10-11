@@ -139,6 +139,11 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
     return () => window.removeEventListener('keydown', onKey);
   });
   return <div className="page showroom">
+    <div className="car-strip" role="tablist" aria-label="Cars">
+      {IDS.map((id, i) => <button key={id} role="tab" aria-selected={i === index} aria-label={`${MODELS[id].name}, ${MODELS[id].category}`} onClick={() => go(i)}>
+        <Car model={id}/><span>{MODELS[id].name}</span>
+      </button>)}
+    </div>
     <div className={`slides${start.current !== null ? ' dragging' : ''}`} style={{ ['--drag' as string]: `${drag}px` }}
       onPointerDown={e => { if (e.pointerType !== 'mouse') { start.current = e.clientX; setDrag(0); } }}
       onPointerMove={e => { if (start.current !== null) setDrag(e.clientX - start.current); }}
@@ -157,11 +162,6 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
       <dl className="specs">{m.specs.map(s => <div key={s.label}><dt>{s.label}</dt><dd><Count value={s.value}/>{s.unit && <small>{s.unit}</small>}</dd></div>)}</dl>
       <p className="dream">{m.dream}</p>
       <button className="btn solid" onClick={() => choose(k)}>Create your {m.name}</button>
-    </div>
-    <div className="car-strip" role="tablist" aria-label="Cars">
-      {IDS.map((id, i) => <button key={id} role="tab" aria-selected={i === index} aria-label={`${MODELS[id].name}, ${MODELS[id].category}`} onClick={() => go(i)}>
-        <Car model={id}/><span>{MODELS[id].name}</span>
-      </button>)}
     </div>
   </div>;
 }
