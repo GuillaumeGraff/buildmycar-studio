@@ -129,26 +129,27 @@ export const personaSearch = (s: Record<string, unknown>): { p?: PersonaId | und
   return { p: typeof p === 'string' && p in PERSONAS ? (p as PersonaId) : undefined };
 };
 
-// Private events open to every member, wherever they live. Illustrative.
+// Private events open to every member, wherever they live, set around the great weeks of each city. Illustrative.
 export const EVENTS: { continent: string; events: { date: string; name: string; place: string }[] }[] = [
   { continent: 'Europe', events: [
-    { date: 'February', name: 'Coachwork evening', place: 'Paris · a private viewing of classic coachbuilt cars' },
-    { date: 'May', name: 'Grand Prix terrace', place: 'Monaco · a private terrace above the harbour' },
-    { date: 'September', name: 'Atelier open evening', place: 'Munich · see next year’s cars in build' },
+    { date: 'April', name: 'Design Week salon', place: 'Milan · Design Week' },
+    { date: 'May', name: 'Grand Prix terrace', place: 'Monaco · Grand Prix weekend' },
+    { date: 'September', name: 'Atelier open evening', place: 'Munich · next year’s cars in build' },
+    { date: 'October', name: 'Fashion Week dinner', place: 'Paris · Fashion Week' },
   ] },
   { continent: 'Middle East', events: [
-    { date: 'January', name: 'Desert drive at dawn', place: 'Dubai · Al Qudra, six owners, one breakfast' },
-    { date: 'March', name: 'Mother-of-pearl dinner', place: 'Doha · an evening with our inlay masters' },
-    { date: 'December', name: 'Season finale', place: 'Abu Dhabi · a suite above the Yas Marina circuit' },
+    { date: 'January', name: 'Desert drive at dawn', place: 'Dubai · Al Qudra at sunrise' },
+    { date: 'April', name: 'Art week evening', place: 'Dubai · Art Dubai week' },
+    { date: 'December', name: 'Season finale', place: 'Abu Dhabi · Grand Prix, Yas Marina' },
   ] },
   { continent: 'Asia', events: [
-    { date: 'February', name: 'Lantern evening', place: 'Shanghai · The Bund, owners and artisans' },
-    { date: 'April', name: 'Cherry blossom drive', place: 'Tokyo · two days to Hakone and back' },
-    { date: 'September', name: 'Night race suite', place: 'Singapore · Marina Bay, above the grid' },
+    { date: 'February', name: 'Lantern evening', place: 'Shanghai · The Bund' },
+    { date: 'March', name: 'Art fair preview', place: 'Hong Kong · Art Basel week' },
+    { date: 'September', name: 'Night race suite', place: 'Singapore · Grand Prix, Marina Bay' },
   ] },
   { continent: 'Americas', events: [
-    { date: 'April', name: 'Manhattan dinner', place: 'New York · a private table and the new cars' },
-    { date: 'August', name: 'Car Week breakfast', place: 'Monterey · Pebble Beach, owners only' },
-    { date: 'December', name: 'Art Week evening', place: 'Miami Beach · collectors and their cars' },
+    { date: 'February', name: 'Fashion Week dinner', place: 'New York · Fashion Week' },
+    { date: 'August', name: 'Car Week breakfast', place: 'Monterey · Car Week, Pebble Beach' },
+    { date: 'December', name: 'Art week evening', place: 'Miami Beach · Art Basel week' },
   ] },
 ];
