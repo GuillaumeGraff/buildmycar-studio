@@ -4,7 +4,7 @@ import { pageHead } from '@/components/bmc/metadata';
 import { Portrait } from '@/components/atelier/portrait';
 import { TEAM } from '@/components/atelier/data';
 
-export const Route = createFileRoute('/maison')({ head: () => pageHead('The Maison', 'The six people who lead BuildMyCar and every commission.'), component: Maison });
+export const Route = createFileRoute('/maison')({ head: () => pageHead('The Maison', 'The six people who look after BuildMyCar clients, each in their own language.'), component: Maison });
 
 function Maison() {
   const track = useRef<HTMLDivElement>(null);
@@ -36,17 +36,17 @@ function Maison() {
   return <div className="page">
     <div className="wrap page-head">
       <span className="label">The Maison</span>
-      <h2>The people behind <em>every commission.</em></h2>
-      <p className="lead">A small house by design. Six people lead BuildMyCar, between the Munich atelier, our designers and the master artisans we invite into each car.</p>
+      <h2>The people behind <em>every car.</em></h2>
+      <p className="lead">A small house by design. Six people look after our clients, in their own language, from Munich to Los Angeles, Dubai and Shanghai.</p>
     </div>
     <div className="wrap team-wrap">
       <div className="team" ref={track}>
         {TEAM.map((t, i) => <article className={`member${active === i ? ' on' : ''}`} key={t.name} data-i={i} aria-label={`${t.name}, ${t.role}`}>
           <div className="member-in" key={seen[i]}>
             <Portrait sketch={t.sketch}/>
-            <h3>{t.name}</h3><span className="role">{t.role}</span><p>{t.text}</p>
+            <h3>{t.name}</h3><span className="role">{t.role}</span><p>{t.text}</p><p className="langs">Speaks {t.languages.slice(0, -1).join(', ')} and {t.languages.at(-1)}</p>
             <span className="sig">{t.name.split(' ')[0]}</span>
-            {t.bookable && <Link to="/book" search={{ with: i }} className="link">Meet {t.name.split(' ')[0]}</Link>}
+            <Link to="/book" search={{ with: i }} className="link">Meet {t.name.split(' ')[0]}</Link>
           </div>
         </article>)}
       </div>
@@ -55,7 +55,7 @@ function Maison() {
         <span className="count"><b>{String(active + 1).padStart(2, '0')}</b> / {String(TEAM.length).padStart(2, '0')}</span>
         <button className="arrow" aria-label="Next person" onClick={() => go(active + 1)}>›</button>
       </div>
-      <div className="team-cta"><h3>Begin a project with the team.</h3><Link to="/book" className="btn solid">Begin your commission</Link></div>
+      <div className="team-cta"><h3>Begin a project with the team.</h3><Link to="/book" className="btn solid">Start your creation</Link></div>
     </div>
   </div>;
 }

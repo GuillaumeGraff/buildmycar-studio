@@ -1,11 +1,12 @@
 import { Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
+import { Car } from '@/components/atelier/car';
 
 const links = [
   { to: '/heritage', label: 'Heritage' },
   { to: '/configure', label: 'Configure' },
-  { to: '/platform', label: 'Platform' },
+  { to: '/platform', label: 'Atelier' },
   { to: '/maison', label: 'The Maison' },
   { to: '/press', label: 'Press' },
 ] as const;
@@ -33,7 +34,7 @@ export function Header({ signedIn }: { signedIn: boolean }) {
           <Link to={signedIn ? '/circle' : '/owners-circle'} activeProps={{ 'aria-current': 'page' }}>Owners’ Circle</Link>
         </nav>
         <div className="bar-end">
-          <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}><span>Begin your</span>commission</Link>
+          <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}><span className="long">Start your creation</span><span className="short">Create</span></Link>
           <button ref={btn} className="menu-btn" aria-expanded={open} aria-controls="menu-panel" onClick={() => setOpen(o => !o)}>{open ? 'Close' : 'Menu'}</button>
         </div>
       </div>
@@ -52,10 +53,14 @@ const readChoice = () => { try { return localStorage.getItem(COOKIE_KEY); } catc
 
 export function Footer() {
   const [showCookies, setShowCookies] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   useEffect(() => { if (!readChoice()) setShowCookies(true); }, []);
   const choose = (choice: 'all' | 'essential') => {
     try { localStorage.setItem(COOKIE_KEY, choice); } catch { /* storage blocked */ }
-    setShowCookies(false);
+    // The little car drives off with the choice, then the card closes.
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setLeaving(true);
+    window.setTimeout(() => { setShowCookies(false); setLeaving(false); }, still ? 0 : 1100);
     toast(choice === 'all' ? 'Preferences saved · all cookies accepted' : 'Preferences saved · essential cookies only');
   };
   return <>
@@ -63,13 +68,14 @@ export function Footer() {
       <div className="wrap">
         <div className="foot">
           <div><h4>BuildMyCar</h4><span>Coachbuilders since 1981</span><span>Atelier by appointment, Munich</span><span>atelier@buildmycar.example</span></div>
-          <div><h4>The house</h4>{links.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}<Link to="/book">Begin your commission</Link><Link to="/owners-circle">Owners’ Circle</Link></div>
+          <div><h4>The house</h4>{links.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}<Link to="/book">Start your creation</Link><Link to="/owners-circle">Owners’ Circle</Link></div>
           <div><h4>Information</h4><Link to="/privacy">Privacy policy</Link><Link to="/legal">Legal notice</Link><button onClick={() => setShowCookies(true)}>Cookie settings</button></div>
         </div>
         <div className="fine-print"><span>© 2026 BuildMyCar. All rights reserved.</span><span>Prototype by Yellow Team, ESSEC · illustrative content</span></div>
       </div>
     </footer>
-    {showCookies && <div className="cookie" role="dialog" aria-label="Cookie consent">
+    {showCookies && <div className={`cookie${leaving ? ' leaving' : ''}`} role="dialog" aria-label="Cookie consent">
+      <div className="cookie-car" aria-hidden="true"><Car animated/></div>
       <span className="label">Your privacy</span>
       <p>We use essential cookies to run this site and, with your consent, measurement cookies to improve it. <Link to="/privacy" className="link">Read the policy</Link></p>
       <div className="row"><button className="btn solid" onClick={() => choose('all')}>Accept</button><button className="btn" onClick={() => choose('essential')}>Essential only</button></div>
