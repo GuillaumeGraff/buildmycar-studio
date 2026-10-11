@@ -687,3 +687,9 @@
   .atelier .tune { grid-template-columns: minmax(0, 1fr); }
   .atelier .tune div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--hair); }
 }
+
+/* Home: the five cars draw in turn */
+.atelier .hero-car { transition: opacity .7s ease, filter .7s ease; }
+.atelier .hero-car.leaving { opacity: 0; filter: blur(2px); }
+.atelier .hero-car-name { margin-top: 6px; text-align: center; font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--stone); animation: rise .9s cubic-bezier(.2,.7,.2,1) 1.2s both; }
+.atelier .hero-car-name em { font-family: var(--display); font-size: 20px; letter-spacing: .04em; text-transform: none; color: var(--gold); }

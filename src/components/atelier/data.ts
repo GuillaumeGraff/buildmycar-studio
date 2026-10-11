@@ -5,7 +5,7 @@ export type Spec = { label: string; value: string; unit?: string };
 export type StepKey = 'character' | 'paint' | 'wheel' | 'leather' | 'material' | 'summary';
 export type Step = { key: StepKey; title: string; intro: string; opts?: Option[] };
 
-// The five BMC cars. `body`, `glass` and `door` are the gold line drawing used on the home page.
+// The five BMC cars. `body`, `glass` and `door` draw each one in gold on the home page.
 export const MODELS: Record<ModelId, { name: string; category: string; line: string; weeks: number; engine: string; specs: Spec[]; dream: string; body: string; glass: string; door: string }> = {
   gt: { name: 'Aurelia', category: 'Grand Tourer', line: 'Four seats, a long bonnet and the range to cross a continent in one sitting.', weeks: 70,
     engine: '6.5-litre twin-turbo V12', specs: [{ label: 'Power', value: '830', unit: 'hp' }, { label: '0–100 km/h', value: '3.2', unit: 's' }, { label: 'Top speed', value: '325', unit: 'km/h' }],
@@ -25,13 +25,13 @@ export const MODELS: Record<ModelId, { name: string; category: string; line: str
   saloon: { name: 'Sovereign', category: 'Limousine', line: 'Five and a half metres of calm, built around the rear seats.', weeks: 82,
     engine: '6.75-litre V12, near-silent electric mode', specs: [{ label: 'Power', value: '720', unit: 'hp' }, { label: 'Rear recline', value: '42', unit: '°' }, { label: 'Silent range', value: '80', unit: 'km' }],
     dream: 'Reclining rear seats, a starlit headliner and a champagne cellar held at six degrees.',
-    body: 'M62,232 C50,226 46,204 58,190 C92,170 150,160 214,152 C300,110 382,86 472,84 C544,84 592,104 642,140 C704,150 820,156 902,168 C942,174 958,192 954,214 C952,226 942,232 922,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
-    glass: 'M304,148 C362,112 422,99 480,98 C532,98 570,113 606,140 Z', door: 'M528,146 C526,180 522,206 518,228' },
+    body: 'M58,232 C46,226 44,204 54,186 C80,172 130,166 196,162 C256,120 336,100 436,96 C526,94 604,104 662,140 C732,150 832,156 906,168 C944,174 960,192 956,214 C954,226 944,232 924,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
+    glass: 'M230,156 C286,120 356,106 436,106 C514,106 582,116 630,140 Z', door: 'M434,110 C432,170 430,206 428,228' },
   hyper: { name: 'Nocturne', category: 'Hyper Coupé', line: 'A carbon monocoque, three electric motors and one V8, for nineteen owners only.', weeks: 96,
     engine: '4.0-litre V8 and three electric motors', specs: [{ label: 'Power', value: '1,480', unit: 'hp' }, { label: '0–100 km/h', value: '2.1', unit: 's' }, { label: 'Top speed', value: '400', unit: 'km/h' }],
     dream: 'Nineteen cars, each named after its owner, and a weekend at Spa with our test driver before delivery.',
-    body: 'M62,232 C50,226 46,206 58,194 C92,178 160,170 236,166 C262,150 300,146 326,160 L410,158 C430,150 446,146 462,148 L470,158 C560,158 720,160 902,170 C942,176 958,194 954,214 C952,226 942,232 922,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
-    glass: 'M454,148 L470,124 L478,126 L476,158 Z', door: 'M520,160 C518,190 516,210 514,228' },
+    body: 'M70,232 C56,226 52,208 60,196 C92,186 160,178 232,170 C330,140 424,124 522,122 C592,122 642,140 694,160 C782,170 880,180 940,192 C958,198 962,214 956,224 C952,230 944,232 926,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
+    glass: 'M382,146 C442,130 500,128 550,130 C600,134 640,148 668,160 Z', door: 'M562,156 C558,182 554,206 550,228' },
 };
 
 // The first question is about the client, not the car: how they like to live tunes how it drives,
