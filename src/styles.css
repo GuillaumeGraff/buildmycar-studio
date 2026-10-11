@@ -895,3 +895,22 @@
   .atelier .cookie .row { flex-wrap: nowrap; gap: 8px; }
   .atelier .cookie .btn { flex: 1 1 0; padding: 8px 10px; min-height: 40px; font-size: 10px; }
 }
+
+/* Home hero: the gold sketch draws itself, then the car's photograph develops in the same frame */
+.atelier .hero-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; display: grid; place-items: center; }
+.atelier .hero-frame::after { content: ""; position: absolute; inset: 0; border: 1px solid var(--gold); opacity: 0; transform: scale(1.015); transition: opacity 1.4s ease, transform 1.8s cubic-bezier(.2,.7,.2,1); pointer-events: none; }
+.atelier .hero-sketch-line { position: relative; z-index: 1; width: 100%; transition: opacity 1.4s ease, filter 1.4s ease, transform 2s cubic-bezier(.2,.7,.2,1); }
+.atelier .hero-print { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.06); filter: sepia(.35) brightness(1.25) contrast(.85); transition: opacity 1.8s ease, transform 7s cubic-bezier(.2,.7,.2,1), filter 2.6s ease; }
+.atelier .hero-car.photo .hero-print.on { opacity: 1; transform: none; filter: none; }
+.atelier .hero-car.photo .hero-frame::after { opacity: .55; transform: none; }
+.atelier .hero-car.photo .hero-sketch-line { opacity: 0; filter: blur(3px); transform: scale(1.04); }
+.atelier .hero-car.leaving .hero-print.on { opacity: 0; transition-duration: .8s; }
+.atelier .hero-car.leaving .hero-frame::after { opacity: 0; }
+.atelier .hero-car.leaving .hero-sketch-line { opacity: 0; }
+.atelier .hero-car.leaving { opacity: 1; filter: none; }
+.atelier .hero-finish { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .atelier .hero-print, .atelier .hero-sketch-line, .atelier .hero-frame::after { transition: none; }
+}
+/* Keep the frame and the buttons under it in view on wide screens */
+.atelier .hero-frame { max-width: calc(46svh * 16 / 9); margin-inline: auto; }
