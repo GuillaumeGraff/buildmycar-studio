@@ -319,11 +319,6 @@
 .atelier .stage::after { content: ""; position: absolute; right: -10%; top: 44%; width: 40%; height: 30%; background: radial-gradient(ellipse at 0% 50%, rgba(255,240,205,.3), transparent 70%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%); mask-image: linear-gradient(90deg, transparent, #000 30%); opacity: 0; transition: opacity .8s ease; pointer-events: none; }
 .atelier .stage.night::after { opacity: 1; }
 .atelier .viewer-tools { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-.atelier .lights { display: flex; border: 1px solid var(--hair); }
-.atelier .lights button { min-height: 44px; padding: 0 16px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--stone); transition: color .3s, background .3s; }
-.atelier .lights button + button { border-left: 1px solid var(--hair); }
-.atelier .lights button:hover { color: var(--ivory); }
-.atelier .lights button[aria-pressed="true"] { color: var(--gold-ink); background: var(--gold); }
 
 /* Build calendar on the summary */
 .atelier .journey { list-style: none; margin: 0; padding: 0 0 0 22px; border-left: 1px solid var(--gold-deep); display: flex; flex-direction: column; gap: 22px; }
@@ -334,8 +329,6 @@
 .atelier .journey b { font-family: var(--display); font-weight: 400; font-size: 22px; }
 .atelier .journey small { color: var(--stone); font-size: 13px; }
 @media (max-width: 640px) {
-  .atelier .lights { flex: 1; }
-  .atelier .lights button { flex: 1; padding: 0 8px; letter-spacing: .12em; }
 }
 .atelier p .link { display: inline; min-height: 0; }
 .atelier .door .link { min-height: 0; }
@@ -348,18 +341,6 @@
 .atelier .row-gap.center { justify-content: center; }
 .atelier .consent .link { display: inline; min-height: 0; padding: 0; letter-spacing: .1em; }
 
-/* Configurator: silhouette chooser */
-.atelier .chooser { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 64px; align-items: center; min-height: calc(100svh - 76px); padding-block: 48px; }
-.atelier .chooser-list { display: flex; flex-direction: column; gap: 22px; }
-.atelier .chooser-list ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair); }
-.atelier .silhouette { width: 100%; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--hair); text-align: left; position: relative; }
-.atelier .silhouette::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 1px; width: 0; background: var(--gold); transition: width .8s cubic-bezier(.2,.7,.2,1); }
-.atelier .silhouette .name { font-family: var(--display); font-weight: 300; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.1; color: var(--stone); transition: color .5s; }
-.atelier .silhouette .from { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--stone); white-space: nowrap; }
-.atelier .silhouette[aria-pressed="true"] .name { color: var(--ivory); font-style: italic; }
-.atelier .silhouette[aria-pressed="true"] .from { color: var(--gold); }
-.atelier .silhouette[aria-pressed="true"]::after { width: 100%; }
-.atelier .chooser-list > p { min-height: 3.2em; font-size: 15px; }
 
 /* Configurator: the fitting */
 .atelier .chapters { display: flex; gap: 28px; overflow-x: auto; scrollbar-width: none; padding-block: 18px 10px; }
@@ -370,7 +351,6 @@
 .atelier .chapter[aria-current="step"] { color: var(--gold); border-bottom-color: var(--gold); }
 .atelier .fit-stage { position: relative; overflow: hidden; padding-block: 40px 20px; border-block: 1px solid var(--hair); transition: background .8s ease; }
 .atelier .fit-stage .wrap { position: relative; max-width: 980px; }
-.atelier .fit-stage .mono { position: absolute; top: 0; right: 32px; width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--gold-deep); display: grid; place-items: center; font-family: var(--display); font-style: italic; font-size: 21px; color: var(--gold); }
 .atelier .fit-stage.day { background: radial-gradient(ellipse at 50% 30%, #34312c, #121110 70%); }
 .atelier .fit-stage.dusk { background: radial-gradient(ellipse at 15% 85%, rgba(214,140,70,.36), transparent 60%), radial-gradient(ellipse at 50% 70%, #2a1d16, #0d0a09 75%); }
 .atelier .fit-stage.night { background: radial-gradient(ellipse at 50% 70%, #101216, #040405 75%); }
@@ -381,8 +361,6 @@
 .atelier .fit-stage.night .lamp { opacity: 1; }
 .atelier .fit-stage::after { content: ""; position: absolute; right: -8%; top: 44%; width: 36%; height: 30%; background: radial-gradient(ellipse at 0% 50%, rgba(255,240,205,.3), transparent 70%); -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%); mask-image: linear-gradient(90deg, transparent, #000 30%); opacity: 0; transition: opacity .8s ease; pointer-events: none; }
 .atelier .fit-stage.night::after { opacity: 1; }
-.atelier .stage-tools { display: flex; justify-content: flex-end; align-items: center; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
-.atelier .stage-tools .price { font-family: var(--display); font-size: 26px; font-variant-numeric: lining-nums tabular-nums; }
 .atelier .choice { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 16px; padding-block: 48px 104px; }
 .atelier .choice > .stack { width: 100%; align-items: center; }
 .atelier .choice-name { font-style: italic; font-size: clamp(42px, 6vw, 72px) !important; line-height: 1; animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
@@ -412,7 +390,7 @@
 .atelier .chip small { display: block; font-size: 11px; color: var(--stone); }
 .atelier .chip:hover { border-color: var(--gold-deep); }
 .atelier .chip[aria-pressed="true"], .atelier .chip[aria-checked="true"] { border-color: var(--gold); color: var(--gold); }
-.atelier .places { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.atelier .places { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
 .atelier .place { text-align: left; padding: 18px; border: 1px solid var(--hair); display: flex; flex-direction: column; gap: 6px; transition: border-color .4s; }
 .atelier .place b { font-family: var(--display); font-weight: 400; font-size: 22px; line-height: 1.15; }
 .atelier .place small { color: var(--stone); font-size: 13px; }
@@ -445,7 +423,6 @@
 .atelier .team-cta h3 { font-size: clamp(28px, 3vw, 38px); }
 
 @media (max-width: 900px) {
-  .atelier .chooser { grid-template-columns: minmax(0, 1fr); gap: 32px; min-height: 0; padding-block: 32px 72px; }
 }
 @media (max-width: 640px) {
   .atelier .bar-end { gap: 14px; }
@@ -455,9 +432,6 @@
   .atelier .book-btn .short { display: inline; }
   .atelier .chapters { gap: 20px; }
   .atelier .fit-stage { padding-block: 28px 12px; }
-  .atelier .fit-stage .mono { right: 20px; width: 44px; height: 44px; font-size: 17px; }
-  .atelier .stage-tools .lights { flex: 1 1 100%; }
-  .atelier .stage-tools .price { margin-left: auto; }
   .atelier .choice { padding-block: 36px 72px; }
   .atelier .swatches { gap: 6px; }
   .atelier .swatch { width: 52px; height: 52px; }
@@ -567,9 +541,6 @@
 @media (max-width: 640px) {
   .atelier .foot a, .atelier .foot button { padding-block: 11px; }
 }
-.atelier .silhouette .from b { font-family: var(--display); font-weight: 300; font-size: 26px; line-height: 0; margin-left: 14px; vertical-align: -3px; color: var(--gold); opacity: 0; transition: opacity .4s, margin .4s; }
-.atelier .silhouette:hover .from b, .atelier .silhouette[aria-pressed="true"] .from b { opacity: 1; margin-left: 18px; }
-@media (hover: none) { .atelier .silhouette .from b { opacity: 1; } }
 .atelier .mark span { white-space: nowrap; }
 @media (max-width: 1180px) and (min-width: 901px) {
   .atelier .book-btn .long { display: none; }
@@ -583,22 +554,7 @@
 @media (max-width: 1180px) { .atelier .book-btn .long { display: none; } .atelier .book-btn .short { display: inline; } }
 
 /* Realistic render on the configurator stage */
-.atelier .fit-stage.real { padding: 0; background: var(--black); }
-.atelier .fit-stage.real::after { display: none; }
-.atelier .render { position: relative; aspect-ratio: 2.2 / 1; max-height: 64vh; width: 100%; overflow: hidden; }
-.atelier .render img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 62%; opacity: 0; transition: opacity 1.4s ease, filter .8s ease; }
-.atelier .revealed .render img.on { opacity: 1; }
-.atelier .revealed .render { animation: settle 10s cubic-bezier(.2,.7,.2,1) both; }
-@keyframes settle { from { transform: scale(1.06); } to { transform: scale(1); } }
-.atelier .render::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(10,10,10,.35), transparent 22%, transparent 78%, rgba(10,10,10,.6)); transition: background .8s ease; }
-.atelier .dusk .render::after { background: linear-gradient(180deg, rgba(10,10,10,.35), transparent 22%, transparent 78%, rgba(10,10,10,.6)), radial-gradient(ellipse at 10% 90%, rgba(214,140,70,.32), transparent 60%); }
-.atelier .night .render img { filter: brightness(.5) contrast(1.15) saturate(.85); }
-.atelier .night .render::after { background: radial-gradient(ellipse at 60% 60%, transparent 30%, rgba(4,4,5,.75) 80%); }
-.atelier .fit-stage.real .sketch { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-.atelier .fit-stage.real .sketch .car { width: min(900px, 90%); transition: opacity 1.6s ease; }
 .atelier .fit-stage.revealed .sketch .car { opacity: 0; }
-.atelier .fit-stage.real .mono { top: 20px; }
-@media (prefers-reduced-motion: reduce) { .atelier .revealed .render { animation: none; } }
 
 /* Cookie card: a small gold car draws itself on a fine horizon, and drives off with the choice. */
 .atelier .cookie { overflow: hidden; animation: cookie-in .9s cubic-bezier(.2,.7,.2,1) both; }
@@ -623,3 +579,63 @@
 .atelier .gate-form input[readonly] { color: var(--stone); }
 @media (max-width: 640px) { .atelier .book-btn { padding: 0 12px; letter-spacing: .18em; } }
 @media (max-width: 370px) { .atelier .mark span { display: none; } }
+
+/* Configurator: the showroom of five cars, swiped like a brochure */
+.atelier .showroom { display: flex; flex-direction: column; min-height: calc(100svh - 76px); overflow: hidden; }
+.atelier .slides { position: relative; width: 100%; aspect-ratio: 2.2 / 1; max-height: 62vh; overflow: hidden; touch-action: pan-y; user-select: none; -webkit-user-select: none; background: var(--black); }
+.atelier .slides::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(10,10,10,.3), transparent 25%, transparent 70%, var(--black)); }
+.atelier .slide { position: absolute; inset: 0; margin: 0; overflow: hidden; transform: translateX(calc(var(--o) * 100% + var(--drag, 0px))); transition: transform 1.1s cubic-bezier(.7,0,.2,1); }
+.atelier .slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 62% 60%; transform: translateX(calc(var(--o) * -40%)) scale(1.12); filter: brightness(.35); transition: transform 1.1s cubic-bezier(.7,0,.2,1), filter 1.1s ease; }
+.atelier .slide.on img { transform: none; filter: none; animation: settle 9s cubic-bezier(.2,.7,.2,1) both; }
+.atelier .slides.dragging .slide, .atelier .slides.dragging .slide img { transition: none; }
+@keyframes settle { from { scale: 1.06; } to { scale: 1; } }
+.atelier .veil { position: absolute; left: 50%; top: 52%; translate: -50% -50%; z-index: 1; font-size: 10px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); white-space: nowrap; padding: 10px 16px; border: 1px solid color-mix(in srgb, var(--gold) 35%, transparent); }
+.atelier .slide-arrow { position: absolute; top: 50%; translate: 0 -50%; z-index: 2; width: 56px; height: 56px; font-family: var(--display); font-size: 40px; line-height: 1; color: var(--ivory); opacity: .6; transition: opacity .4s; }
+.atelier .slide-arrow:hover { opacity: 1; }
+.atelier .slide-arrow.prev { left: 16px; } .atelier .slide-arrow.next { right: 16px; }
+.atelier .showroom-copy { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 14px; margin-top: -48px; padding-block: 0 8px; max-width: 760px; }
+.atelier .showroom-copy > * { animation: rise .9s cubic-bezier(.2,.7,.2,1) both; }
+.atelier .showroom-copy > :nth-child(2) { animation-delay: .07s; } .atelier .showroom-copy > :nth-child(3) { animation-delay: .14s; }
+.atelier .showroom-copy > :nth-child(4) { animation-delay: .21s; } .atelier .showroom-copy > :nth-child(5) { animation-delay: .28s; } .atelier .showroom-copy > :nth-child(6) { animation-delay: .35s; }
+.atelier .model-name { font-style: italic; font-size: clamp(60px, 15vw, 112px); line-height: .92; letter-spacing: -.01em; }
+.atelier .engine { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--stone); }
+.atelier .specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 4px 0 0; border-block: 1px solid var(--hair); width: 100%; text-align: left; }
+.atelier .specs div { padding: 14px 0; min-width: 0; }
+.atelier .specs div + div { border-left: 1px solid var(--hair); padding-left: 14px; }
+.atelier .specs dt { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--stone); white-space: nowrap; }
+.atelier .specs dd { margin: 2px 0 0; font-family: var(--display); font-size: clamp(30px, 8vw, 44px); line-height: 1.1; font-variant-numeric: lining-nums tabular-nums; color: var(--ivory); white-space: nowrap; }
+.atelier .specs dd small { font-family: var(--body); font-size: 11px; letter-spacing: .12em; margin-left: 4px; color: var(--gold); }
+.atelier .dream { font-size: 15px; color: var(--stone); max-width: 44ch; }
+.atelier .showroom-copy .btn { align-self: flex-start; margin-top: 6px; }
+.atelier .dots { display: flex; justify-content: center; gap: 2px; margin-top: auto; padding-block: 16px calc(12px + env(safe-area-inset-bottom, 0px)); }
+.atelier .dots button { min-width: 44px; min-height: 44px; display: grid; place-items: center; }
+.atelier .dots i { display: block; width: 18px; height: 1px; background: var(--stone); opacity: .5; transition: width .6s, background .6s, opacity .6s; }
+.atelier .dots [aria-selected="true"] i { width: 34px; background: var(--gold); opacity: 1; }
+@media (max-width: 640px) {
+  .atelier .showroom { min-height: calc(100svh - 66px); }
+  .atelier .slides { aspect-ratio: 4 / 3.2; max-height: 52svh; }
+  .atelier .slide-arrow { display: none; }
+  .atelier .showroom-copy { margin-top: -36px; gap: 12px; }
+  .atelier .showroom-copy .btn { align-self: stretch; }
+}
+
+/* Configurator: the stage shows the car, then close-ups of what you touch */
+.atelier .stage-photo { position: relative; width: 100%; aspect-ratio: 2.2 / 1; max-height: 62vh; overflow: hidden; background: var(--black); touch-action: pan-y; border-block: 1px solid var(--hair); }
+.atelier .stage-photo .layers img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.05); transition: opacity 1.1s ease, transform 3s cubic-bezier(.2,.7,.2,1); }
+.atelier .stage-photo .layers img.car { object-position: 62% 60%; }
+.atelier .stage-photo .layers img.on { opacity: 1; transform: none; }
+.atelier .stage-photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, transparent 65%, rgba(10,10,10,.7)); }
+.atelier .stage-caption { position: absolute; left: max(16px, 5%); bottom: 14px; z-index: 1; font-size: 10px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
+.atelier .stitch { position: absolute; left: 70%; top: 34%; translate: -50% -50%; z-index: 1; font-family: var(--display); font-style: italic; font-size: clamp(38px, 11vw, 92px); letter-spacing: .06em; color: rgba(236, 220, 178, .92); text-shadow: 0 1px 0 rgba(0,0,0,.5), 0 -1px 0 rgba(255,255,255,.18), 0 0 18px rgba(0,0,0,.25); animation: rise .8s cubic-bezier(.2,.7,.2,1) both; pointer-events: none; }
+.atelier .swatch i { background-size: cover; background-position: center; }
+.atelier .swatch i.wheel { background-size: 320%; background-position: 53% 53%; }
+.atelier .swatch i.lacquer { background-image: radial-gradient(circle at 32% 26%, rgba(255,255,255,.34), transparent 46%), radial-gradient(circle at 70% 80%, rgba(0,0,0,.35), transparent 60%); }
+@media (max-width: 640px) {
+  .atelier .stage-photo { aspect-ratio: 4 / 3; max-height: 50svh; }
+  .atelier .fitting .choice { padding-block: 28px 56px; gap: 12px; }
+  .atelier .fitting .choice-name { font-size: 44px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atelier .slide, .atelier .slide img, .atelier .stage-photo .layers img { transition: opacity .3s ease; }
+  .atelier .slide.on img, .atelier .showroom-copy > * { animation: none; }
+}
