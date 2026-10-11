@@ -48,8 +48,8 @@ export function MembersGate({ p, children }: { p: P; children: ReactNode }) {
 }
 
 // The three members' rooms, one tap apart, and the way out.
+// Your car is your own commission; the passport and the circle follow the example client.
 const ROOMS = [
-  { to: '/studio', label: 'Your car' },
   { to: '/passport', label: 'Passport' },
   { to: '/owners-circle', label: 'Circle' },
 ] as const;
@@ -57,6 +57,7 @@ const ROOMS = [
 export function MembersNav({ p }: { p: P }) {
   const { leave } = useMember();
   return <nav className="members-nav" aria-label="Owners’ Circle">
+    <Link to="/studio" activeProps={{ 'aria-current': 'page' }} activeOptions={{ includeSearch: false }}>Your car</Link>
     {ROOMS.map(r => <Link key={r.to} to={r.to} search={{ p: p.id }} activeProps={{ 'aria-current': 'page' }} activeOptions={{ includeSearch: false }}>{r.label}</Link>)}
     <button className="sign-out" onClick={leave}>Sign out</button>
   </nav>;

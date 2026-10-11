@@ -4,7 +4,7 @@ import { pageHead } from '@/components/bmc/metadata';
 import { Car } from '@/components/atelier/car';
 import { MODELS, opt } from '@/components/atelier/data';
 import { persona, personaSearch } from '@/components/atelier/platform';
-import { PersonaBar, DemoNote } from '@/components/atelier/personas';
+import { DemoNote } from '@/components/atelier/personas';
 import { MembersGate, MembersNav } from '@/components/atelier/members';
 
 export const Route = createFileRoute('/passport')({
@@ -26,7 +26,6 @@ function Certificate({ p }: { p: ReturnType<typeof persona> }) {
       <h2>The story of the car, <em>certified.</em></h2>
       <p className="lead">Who made it, from what, and who has owned it. Signed by the atelier and kept for the life of the car.</p>
       <MembersNav p={p}/>
-      <PersonaBar to="/passport" current={p.id}/>
     </div>
     <div className="wrap narrow">
       <article className="passport">

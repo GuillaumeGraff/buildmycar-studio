@@ -5,7 +5,7 @@ import { pageHead } from '@/components/bmc/metadata';
 import { Car } from '@/components/atelier/car';
 import { RENDERS } from '@/components/atelier/renders';
 import { DETAILS, STUDIO } from '@/components/atelier/details';
-import { MODELS, STEPS, SEATS, DEFAULTS, opt, seat, encode, decode, type ModelId, type Option, type Selection, type StepKey } from '@/components/atelier/data';
+import { MODELS, STEPS, SEATS, DEFAULTS, opt, seat, encode, decode, rememberCar, type ModelId, type Option, type Selection, type StepKey } from '@/components/atelier/data';
 
 export const Route = createFileRoute('/configure')({ head: () => pageHead('Configure your car', 'Choose one of five BMC cars, then shape it finish by finish. An illustrative design study.'), component: Configure });
 
@@ -56,6 +56,9 @@ function Configure() {
     if (!shared) return;
     setModel(shared.model); setIndex(IDS.indexOf(shared.model)); setSel(shared.sel); setStep(STEPS.length - 1);
   }, []);
+
+  // Remember the car as it is shaped, so the studio opens on it.
+  useEffect(() => { if (model) rememberCar(model, sel); }, [model, sel]);
 
   if (!model) return <Showroom index={index} setIndex={setIndex} choose={k => { setModel(k); setStep(0); setSel(DEFAULTS); top(); }}/>;
 
@@ -235,5 +238,6 @@ function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
       <p className="muted" style={{ fontSize: 13 }}>About {m.months} months from the first conversation, if you begin today, as build slots allow. An illustrative estimate.</p>
     </div>
     <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Start your creation</Link>
+    <Link to="/studio" search={{ c: encode(model, sel) }} className="link">Open it in the studio</Link>
   </div>;
 }
