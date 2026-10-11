@@ -635,14 +635,15 @@
 .atelier .burger i { display: block; width: 24px; height: 1px; background: var(--gold); transform-origin: center; transition: transform .5s cubic-bezier(.7,0,.2,1), opacity .3s ease, width .5s cubic-bezier(.7,0,.2,1); }
 .atelier .burger i:nth-child(2) { width: 16px; justify-self: end; }
 .atelier .burger:hover i:nth-child(2) { width: 24px; }
-.atelier .burger[aria-expanded="true"] i:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.atelier .burger[aria-expanded="true"] i { height: 1.5px; width: 26px; }
+.atelier .burger[aria-expanded="true"] i:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
 .atelier .burger[aria-expanded="true"] i:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.atelier .burger[aria-expanded="true"] i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.atelier .burger[aria-expanded="true"] i:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 .atelier .menu-backdrop { position: fixed; inset: 0; z-index: 15; background: rgba(0,0,0,.45); opacity: 0; pointer-events: none; transition: opacity .5s ease; }
 .atelier .menu-backdrop.open { opacity: 1; pointer-events: auto; }
 .atelier .menu-panel { position: absolute; top: 4px; right: max(4px, calc(5% - 18px)); z-index: 2; min-width: 250px; padding: 64px 28px 24px; background: #0e0e0e; border: 1px solid var(--hair); display: flex; flex-direction: column; align-items: flex-end; box-shadow: 0 24px 48px rgba(0,0,0,.55);
-  clip-path: circle(0 at calc(100% - 34px) 30px); visibility: hidden; transition: clip-path .7s cubic-bezier(.7,0,.2,1), visibility 0s linear .7s; }
-.atelier .menu-panel.open { clip-path: circle(150% at calc(100% - 34px) 30px); visibility: visible; transition: clip-path .8s cubic-bezier(.7,0,.2,1), visibility 0s; }
+  clip-path: circle(0 at calc(100% - 34px) 30px); opacity: 0; visibility: hidden; transition: clip-path .7s cubic-bezier(.7,0,.2,1), opacity .6s ease .1s, visibility 0s linear .7s; }
+.atelier .menu-panel.open { clip-path: circle(150% at calc(100% - 34px) 30px); opacity: 1; visibility: visible; transition: clip-path .8s cubic-bezier(.7,0,.2,1), opacity .7s ease, visibility 0s; }
 .atelier header.menu-open .bar-end { position: relative; z-index: 3; }
 .atelier .menu-panel a { font-family: var(--display); font-size: 24px; color: var(--ivory); min-height: 46px; display: flex; align-items: center; justify-content: flex-end; text-decoration: none; opacity: 0; transform: translateY(-10px); transition: opacity .3s ease, transform .3s ease, color .3s; }
 .atelier .menu-panel.open a { opacity: 1; transform: none; transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1), color .3s; }
