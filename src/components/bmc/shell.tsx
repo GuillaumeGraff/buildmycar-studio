@@ -17,34 +17,38 @@ export function Header({ signedIn }: { signedIn: boolean }) {
   const panel = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open) return;
-    panel.current?.querySelector('a')?.focus();
+    const t = window.setTimeout(() => panel.current?.querySelector('a')?.focus(), 60);
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setOpen(false); btn.current?.focus(); } };
     const onWide = () => { if (window.innerWidth > 900) setOpen(false); };
     window.addEventListener('keydown', onKey);
     window.addEventListener('resize', onWide);
-    return () => { window.removeEventListener('keydown', onKey); window.removeEventListener('resize', onWide); };
+    return () => { window.clearTimeout(t); window.removeEventListener('keydown', onKey); window.removeEventListener('resize', onWide); };
   }, [open]);
+  const close = () => setOpen(false);
+  const circle = signedIn ? '/circle' : '/owners-circle';
   return <>
     <a className="skip" href="#content">Skip to content</a>
-    <header>
+    <header className={open ? 'menu-open' : undefined}>
       <div className="wrap bar">
         <Link to="/" className="mark" aria-label="BuildMyCar home"><b>BMC</b><span>BuildMyCar · Est. 1981</span></Link>
         <nav className="main" aria-label="Main">
           {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }}>{l.label}</Link>)}
-          <Link to={signedIn ? '/circle' : '/owners-circle'} activeProps={{ 'aria-current': 'page' }}>Owners’ Circle</Link>
+          <Link to={circle} activeProps={{ 'aria-current': 'page' }}>Owners’ Circle</Link>
         </nav>
         <div className="bar-end">
           <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}><span className="long">Private rendezvous</span><span className="short">Rendezvous</span></Link>
-          <button ref={btn} className="menu-btn" aria-expanded={open} aria-controls="menu-panel" onClick={() => setOpen(o => !o)}>{open ? 'Close' : 'Menu'}</button>
+          <button ref={btn} className="burger" aria-expanded={open} aria-controls="menu-panel" aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen(o => !o)}><i/><i/><i/></button>
         </div>
       </div>
-      {open && <nav ref={panel} id="menu-panel" className="menu-panel" aria-label="Menu">
-        <Link to="/" onClick={() => setOpen(false)}>Home</Link>
-        {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }} onClick={() => setOpen(false)}>{l.label}</Link>)}
-        <Link to={signedIn ? '/circle' : '/owners-circle'} onClick={() => setOpen(false)}>Owners’ Circle</Link>
-      </nav>}
+      {/* Always rendered so it can unfold from the burger and fold back into it. */}
+      <nav ref={panel} id="menu-panel" className={`menu-panel${open ? ' open' : ''}`} aria-label="Menu" aria-hidden={!open} inert={!open}>
+        <Link to="/" onClick={close}>Home</Link>
+        {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }} onClick={close}>{l.label}</Link>)}
+        <Link to={circle} activeProps={{ 'aria-current': 'page' }} onClick={close}>Owners’ Circle</Link>
+        <Link to="/book" className="menu-rdv" onClick={close}>Private rendezvous</Link>
+      </nav>
     </header>
-    {open && <div className="menu-backdrop" onClick={() => setOpen(false)} />}
+    <div className={`menu-backdrop${open ? ' open' : ''}`} onClick={close} aria-hidden="true"/>
   </>;
 }
 

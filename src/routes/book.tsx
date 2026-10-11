@@ -11,22 +11,25 @@ export const Route = createFileRoute('/book')({
     const w = Number(s['with']);
     return { c: typeof s['c'] === 'string' ? s['c'] : undefined, with: s['with'] !== undefined && Number.isInteger(w) && w >= 0 && w < TEAM.length ? w : undefined };
   },
-  head: () => pageHead('Private rendezvous', 'Meet the BuildMyCar team at the Munich atelier, by video or at your home to begin your car.'),
+  head: () => pageHead('Private rendezvous', 'Meet the BuildMyCar team at the Munich atelier, in a showroom, by video or at your home to begin your car.'),
   component: Book,
 });
 
 const PLACES = [
-  { id: 'atelier', phrase: 'at the atelier', name: 'At one of our ateliers', note: 'Coffee, the material library and the cars in progress' },
+  { id: 'atelier', phrase: 'at the Munich atelier', name: 'At the Munich atelier', note: 'Coffee, the material library and the cars in progress' },
+  { id: 'showroom', phrase: 'at the showroom', name: 'In one of our showrooms', note: 'A private salon, with a car to sit in' },
   { id: 'video', phrase: 'by private video call', name: 'By private video call', note: 'Forty-five minutes, wherever you are' },
   { id: 'home', phrase: 'at your home', name: 'At your home', note: 'A designer travels to you with samples' },
 ];
-// Our ateliers. The second city is a placeholder: edit it here.
-const ATELIERS = [
-  { id: 'munich', name: 'Munich', note: 'The house, since 1981' },
-  { id: 'geneva', name: 'Geneva', note: 'The salon by the lake' },
+// Our showrooms, one in each city where our client directors live. Edit them here.
+const SHOWROOMS = [
+  { id: 'munich', name: 'Munich', note: 'Maximilianstraße' },
+  { id: 'la', name: 'Los Angeles', note: 'Beverly Hills' },
+  { id: 'dubai', name: 'Dubai', note: 'DIFC' },
+  { id: 'shanghai', name: 'Shanghai', note: 'The Bund' },
 ];
 
-// Mondays of the next six weeks, for home visits planned around the client.
+// Mondays of the next six weeks, for visits planned around the client.
 function nextWeeks() {
   const d = new Date();
   d.setHours(0, 0, 0, 0);
@@ -59,7 +62,7 @@ function Book() {
   const commission = search.c ? decode(search.c) : null;
   const days = useMemo(nextDays, []);
   const weeks = useMemo(nextWeeks, []);
-  const [atelier, setAtelier] = useState(ATELIERS[0]!.id);
+  const [showroom, setShowroom] = useState(SHOWROOMS[0]!.id);
   const [week, setWeek] = useState(0);
   const [who, setWho] = useState<number | null>(search.with ?? null);
   const [place, setPlace] = useState('atelier');
@@ -71,10 +74,11 @@ function Book() {
 
   const host = who === null ? 'Your client director' : TEAM[who]!.name;
   const where = PLACES.find(p => p.id === place)!;
-  const home = place === 'home';
-  const city = ATELIERS.find(a => a.id === atelier)!.name;
-  const placeName = place === 'atelier' ? `The ${city} atelier` : where.name;
-  const phrase = place === 'atelier' ? `at the ${city} atelier` : where.phrase;
+  // The atelier and home visits are planned by the week; showrooms and video calls take a precise slot.
+  const home = place === 'atelier' || place === 'home';
+  const city = SHOWROOMS.find(a => a.id === showroom)!.name;
+  const placeName = place === 'showroom' ? `The ${city} showroom` : where.name;
+  const phrase = place === 'showroom' ? `at the ${city} showroom` : where.phrase;
   const weekName = (d: Date) => `the week of ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`;
   const longDate = (d: Date) => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
 
@@ -96,7 +100,7 @@ function Book() {
   if (sent) return <div className="page"><div className="wrap narrow page-head booked">
     <span className="label">Appointment requested</span>
     <h2>{home ? 'Until soon' : `Until ${sent.when.toLocaleDateString('en-GB', { weekday: 'long' })}`}, <em>{form.name.trim().split(' ')[0]}.</em></h2>
-    <p className="lead">{home ? `${host} will visit you at home during ${weekName(sent.when)}, and will call first to agree the day and time that suit you.` : `${host} will meet you ${phrase} on ${longDate(sent.when)} at ${time}. A confirmation will follow by email.`}</p>
+    <p className="lead">{home ? `${host} will ${place === 'home' ? 'visit you at home' : 'welcome you at the Munich atelier'} during ${weekName(sent.when)}, and will call first to agree the day and time that suit you.` : `${host} will meet you ${phrase} on ${longDate(sent.when)} at ${time}. A confirmation will follow by email.`}</p>
     <div className="row-gap">
       {!home && <a className="btn solid" href={sent.ics} download="buildmycar-meeting.ics">Add to my calendar</a>}
       <Link to="/" className="link">Return home</Link>
@@ -124,8 +128,8 @@ function Book() {
         <div className="places">
           {PLACES.map(p => <button type="button" key={p.id} className="place" aria-pressed={place === p.id} onClick={() => setPlace(p.id)}><b>{p.name}</b><small>{p.note}</small></button>)}
         </div>
-        {place === 'atelier' && <div className="chips" role="radiogroup" aria-label="Atelier">
-          {ATELIERS.map(a => <button type="button" role="radio" aria-checked={atelier === a.id} key={a.id} className="chip" onClick={() => setAtelier(a.id)}>{a.name}<small>{a.note}</small></button>)}
+        {place === 'showroom' && <div className="chips" role="radiogroup" aria-label="Showroom">
+          {SHOWROOMS.map(a => <button type="button" role="radio" aria-checked={showroom === a.id} key={a.id} className="chip" onClick={() => setShowroom(a.id)}>{a.name}<small>{a.note}</small></button>)}
         </div>}
       </fieldset>
       {home ? <fieldset>

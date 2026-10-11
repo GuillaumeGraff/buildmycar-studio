@@ -3,7 +3,8 @@ import { useState, type FormEvent } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
 import { Car } from '@/components/atelier/car';
-import { MODELS, TEAM, eur } from '@/components/atelier/data';
+import { RENDERS } from '@/components/atelier/renders';
+import { MODELS, TEAM } from '@/components/atelier/data';
 import { persona, personaSearch } from '@/components/atelier/platform';
 import { PersonaBar, DemoNote } from '@/components/atelier/personas';
 
@@ -42,7 +43,8 @@ function Room({ id }: { id: string }) {
     </div>
     <div className="wrap room">
       <div className="room-car">
-        <div className="fit-stage day"><div className="wrap"><Car model={p.model} paint={p.sel.paint} wheel={p.sel.wheel} leather={p.sel.leather}/></div></div>
+        {RENDERS[p.model]?.[p.sel.paint] ? <div className="stage-photo"><div className="layers"><img className="car on" src={RENDERS[p.model]![p.sel.paint]} alt={`BMC ${MODELS[p.model].name}`}/></div></div>
+          : <div className="fit-stage day"><div className="wrap"><Car model={p.model} paint={p.sel.paint} wheel={p.sel.wheel} leather={p.sel.leather}/></div></div>}
         <div className="room-meta">
           <span className="label">{MODELS[p.model].name} · for {p.name}</span>
           <ul className="recap">
@@ -65,7 +67,7 @@ function Room({ id }: { id: string }) {
         </ol>
         <div className={`proposal ${decision}`}>
           <i style={{ background: p.proposal.swatch }} aria-hidden="true"/>
-          <div><span className="label">Proposal to approve</span><h3>{p.proposal.title}</h3><p className="muted">{p.proposal.note} · +{eur(p.proposal.cost)}</p></div>
+          <div><span className="label">Proposal to approve</span><h3>{p.proposal.title}</h3><p className="muted">{p.proposal.note}</p></div>
           {decision === 'open' ? <div className="row-gap">
             <button className="btn solid" onClick={() => { setDecision('approved'); toast('Approved · added to your passport'); }}>Approve</button>
             <button className="link" onClick={() => setDecision('changes')}>Ask for changes</button>
