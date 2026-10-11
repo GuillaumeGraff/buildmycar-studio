@@ -7,12 +7,12 @@ export type Step = { key: StepKey; title: string; intro: string; opts?: Option[]
 
 // The five BMC cars. `body`, `glass` and `door` draw each one in gold on the home page.
 export const MODELS: Record<ModelId, { name: string; category: string; line: string; months: number; engine: string; specs: Spec[]; dream: string; body: string; glass: string; door: string }> = {
-  gt: { name: 'Aurelia', category: 'Grand Tourer', line: 'Four seats, a long bonnet and the range to cross a continent in one sitting.', months: 30,
+  gt: { name: 'Meridian', category: 'Grand Tourer', line: 'Four seats, a long bonnet and the range to cross a continent in one sitting.', months: 30,
     engine: '6.5-litre twin-turbo V12', specs: [{ label: 'Power', value: '830', unit: 'hp' }, { label: '0–100 km/h', value: '3.2', unit: 's' }, { label: 'Top speed', value: '325', unit: 'km/h' }],
     dream: 'Munich to Monaco in one sitting, with 1,000 Nm under your right foot and the cabin as quiet as a library.',
     body: 'M62,232 C50,226 46,204 58,190 C92,170 150,160 214,152 C300,110 382,86 472,84 C544,84 592,104 642,140 C704,150 820,156 902,168 C942,174 958,192 954,214 C952,226 942,232 922,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
     glass: 'M304,148 C362,112 422,99 480,98 C532,98 570,113 606,140 Z', door: 'M528,146 C526,180 522,206 518,228' },
-  roadster: { name: 'Solenne', category: 'Roadster', line: 'Two seats, open to the sky, with a hand-stitched tonneau and a short, taut tail.', months: 28,
+  roadster: { name: 'Ciel', category: 'Roadster', line: 'Two seats, open to the sky, with a hand-stitched tonneau and a short, taut tail.', months: 28,
     engine: '6.0-litre naturally aspirated V12, 8,500 rpm', specs: [{ label: 'Power', value: '620', unit: 'hp' }, { label: '0–100 km/h', value: '3.4', unit: 's' }, { label: 'Top speed', value: '300', unit: 'km/h' }],
     dream: 'A low windscreen, a buttoned leather tonneau and a V12 that sings to 8,500 rpm.',
     body: 'M62,232 C50,226 46,206 58,194 C92,178 160,170 236,166 C262,150 300,146 326,160 L410,158 C430,150 446,146 462,148 L470,158 C560,158 720,160 902,170 C942,176 958,194 954,214 C952,226 942,232 922,232 L840,232 A64,64 0 0 0 712,232 L300,232 A64,64 0 0 0 172,232 Z',
