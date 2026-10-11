@@ -916,3 +916,12 @@
 }
 /* Keep the frame and the buttons under it in view on wide screens */
 .atelier .hero-frame { max-width: calc(46svh * 16 / 9); margin-inline: auto; }
+
+/* Menu: the owners' rooms sit quietly under the Owners' Circle */
+.atelier .menu-panel a.menu-sub { font-family: var(--body, inherit); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); min-height: 34px; }
+
+/* Members' rooms: Your car · Passport · Circle, and the way out */
+.atelier .members-nav { display: flex; align-items: center; gap: 22px; margin-top: 18px; padding-bottom: 10px; border-bottom: 1px solid var(--hair); font-size: 11px; letter-spacing: .24em; text-transform: uppercase; }
+.atelier .members-nav a { color: var(--stone); text-decoration: none; padding-block: 6px; }
+.atelier .members-nav a[aria-current="page"] { color: var(--gold); box-shadow: inset 0 -1px 0 var(--gold); }
+.atelier .members-nav .sign-out { margin-left: auto; padding: 6px 0; background: none; border: 0; font: inherit; letter-spacing: inherit; text-transform: inherit; color: var(--gold); cursor: pointer; }

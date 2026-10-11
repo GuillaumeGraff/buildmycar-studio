@@ -7,6 +7,7 @@ import { RENDERS } from '@/components/atelier/renders';
 import { MODELS, TEAM } from '@/components/atelier/data';
 import { persona, personaSearch } from '@/components/atelier/platform';
 import { PersonaBar, DemoNote } from '@/components/atelier/personas';
+import { MembersGate, MembersNav } from '@/components/atelier/members';
 
 export const Route = createFileRoute('/studio')({
   validateSearch: personaSearch,
@@ -16,7 +17,7 @@ export const Route = createFileRoute('/studio')({
 
 function Studio() {
   const p = persona(Route.useSearch().p);
-  return <Room key={p.id} id={p.id}/>;
+  return <MembersGate p={p}><Room key={p.id} id={p.id}/></MembersGate>;
 }
 
 function Room({ id }: { id: string }) {
@@ -39,6 +40,7 @@ function Room({ id }: { id: string }) {
       <span className="label">Co-creation studio</span>
       <h2>One car. <em>Three hands.</em></h2>
       <p className="lead">The client, a BMC designer and a master artisan shape the car together, each from where they live.</p>
+      <MembersNav p={p}/>
       <PersonaBar to="/studio" current={p.id}/>
     </div>
     <div className="wrap room">
