@@ -10,14 +10,6 @@ export const Route = createFileRoute('/configure')({ head: () => pageHead('Confi
 
 const top = () => window.scrollTo({ top: 0 });
 
-// Studio lighting for the configurator stage.
-const LIGHTS = [
-  { id: 'day', name: 'Daylight' },
-  { id: 'dusk', name: 'Dusk' },
-  { id: 'night', name: 'Night' },
-] as const;
-type Light = (typeof LIGHTS)[number]['id'];
-type View = 'render' | 'sketch';
 
 async function share(model: ModelId, sel: Selection) {
   const url = `${window.location.origin}/configure?c=${encode(model, sel)}`;
@@ -50,8 +42,6 @@ function Configure() {
   const [preview, setPreview] = useState<ModelId>('gt');
   const [step, setStep] = useState(0);
   const [sel, setSel] = useState<Selection>(DEFAULTS);
-  const [light, setLight] = useState<Light>('day');
-  const [view, setView] = useState<View>('render');
 
   // Open a shared commission straight on its summary.
   useEffect(() => {
@@ -98,14 +88,8 @@ function Configure() {
       {STEPS.map((s, i) => <button key={s.key} className="chapter" aria-current={i === step ? 'step' : undefined} data-done={i < step || undefined} onClick={() => setStep(i)}>{CHAPTERS[s.key]}</button>)}
     </nav>
 
-    <Stage model={model} sel={sel} light={light} view={view} onSwipe={st.opts ? cycle : undefined}/>
+    <Stage model={model} sel={sel} onSwipe={st.opts ? cycle : undefined}/>
     <div className="wrap stage-tools">
-      <div className="lights" role="group" aria-label="Studio lighting">
-        {LIGHTS.map(l => <button key={l.id} aria-pressed={light === l.id} onClick={() => setLight(l.id)}>{l.name}</button>)}
-      </div>
-      {RENDERS[model] && <div className="lights" role="group" aria-label="View">
-        {(['render', 'sketch'] as const).map(v => <button key={v} aria-pressed={view === v} onClick={() => setView(v)}>{v === 'render' ? 'Render' : 'Sketch'}</button>)}
-      </div>}
       <span className="price">{eur(total)}</span>
     </div>
 
@@ -143,7 +127,7 @@ function Configure() {
   </div>;
 }
 
-function Stage({ model, sel, light, view, onSwipe }: { model: ModelId; sel: Selection; light: Light; view: View; onSwipe?: ((dir: number) => void) | undefined }) {
+function Stage({ model, sel, onSwipe }: { model: ModelId; sel: Selection; onSwipe?: ((dir: number) => void) | undefined }) {
   const start = useRef<number | null>(null);
   const renders = RENDERS[model];
   // The car first draws itself in gold, then the sketch gives way to the render.
@@ -153,8 +137,8 @@ function Stage({ model, sel, light, view, onSwipe }: { model: ModelId; sel: Sele
     const t = window.setTimeout(() => setRevealed(true), window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 2600);
     return () => window.clearTimeout(t);
   }, [renders]);
-  const real = renders && view === 'render';
-  return <div className={`fit-stage ${light}${real ? ' real' : ''}${real && revealed ? ' revealed' : ''}`}
+  const real = !!renders;
+  return <div className={`fit-stage day${real ? ' real' : ''}${real && revealed ? ' revealed' : ''}`}
     onTouchStart={e => { start.current = e.touches[0]!.clientX; }}
     onTouchEnd={e => {
       const dx = e.changedTouches[0]!.clientX - (start.current ?? 0);

@@ -34,7 +34,7 @@ export function Header({ signedIn }: { signedIn: boolean }) {
           <Link to={signedIn ? '/circle' : '/owners-circle'} activeProps={{ 'aria-current': 'page' }}>Owners’ Circle</Link>
         </nav>
         <div className="bar-end">
-          <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}><span className="long">Start your creation</span><span className="short">Create</span></Link>
+          <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}><span className="long">Private rendezvous</span><span className="short">Rendezvous</span></Link>
           <button ref={btn} className="menu-btn" aria-expanded={open} aria-controls="menu-panel" onClick={() => setOpen(o => !o)}>{open ? 'Close' : 'Menu'}</button>
         </div>
       </div>

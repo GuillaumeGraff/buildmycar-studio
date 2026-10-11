@@ -11,15 +11,28 @@ export const Route = createFileRoute('/book')({
     const w = Number(s['with']);
     return { c: typeof s['c'] === 'string' ? s['c'] : undefined, with: s['with'] !== undefined && Number.isInteger(w) && w >= 0 && w < TEAM.length ? w : undefined };
   },
-  head: () => pageHead('Start your creation', 'Meet the BuildMyCar team at the Munich atelier, by video or at your home to begin your car.'),
+  head: () => pageHead('Private rendezvous', 'Meet the BuildMyCar team at the Munich atelier, by video or at your home to begin your car.'),
   component: Book,
 });
 
 const PLACES = [
-  { id: 'atelier', phrase: 'at the Munich atelier', name: 'At the Munich atelier', note: 'Coffee, the material library and the cars in progress' },
+  { id: 'atelier', phrase: 'at the atelier', name: 'At one of our ateliers', note: 'Coffee, the material library and the cars in progress' },
   { id: 'video', phrase: 'by private video call', name: 'By private video call', note: 'Forty-five minutes, wherever you are' },
   { id: 'home', phrase: 'at your home', name: 'At your home', note: 'A designer travels to you with samples' },
 ];
+// Our ateliers. The second city is a placeholder: edit it here.
+const ATELIERS = [
+  { id: 'munich', name: 'Munich', note: 'The house, since 1981' },
+  { id: 'geneva', name: 'Geneva', note: 'The salon by the lake' },
+];
+
+// Mondays of the next six weeks, for home visits planned around the client.
+function nextWeeks() {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + ((8 - d.getDay()) % 7 || 7) + 7);
+  return Array.from({ length: 6 }, (_, i) => new Date(d.getTime() + i * 7 * 864e5));
+}
 const TIMES = ['10:00', '11:30', '14:00', '16:30'];
 
 // The next ten weekdays, starting tomorrow.
@@ -45,6 +58,9 @@ function Book() {
   const search = Route.useSearch();
   const commission = search.c ? decode(search.c) : null;
   const days = useMemo(nextDays, []);
+  const weeks = useMemo(nextWeeks, []);
+  const [atelier, setAtelier] = useState(ATELIERS[0]!.id);
+  const [week, setWeek] = useState(0);
   const [who, setWho] = useState<number | null>(search.with ?? null);
   const [place, setPlace] = useState('atelier');
   const [day, setDay] = useState(0);
@@ -53,9 +69,13 @@ function Book() {
   const [error, setError] = useState('');
   const [sent, setSent] = useState<{ when: Date; ics: string } | null>(null);
 
-  const host = who === null ? 'The atelier' : TEAM[who]!.name;
+  const host = who === null ? 'Your client director' : TEAM[who]!.name;
   const where = PLACES.find(p => p.id === place)!;
-  const placeName = where.name;
+  const home = place === 'home';
+  const city = ATELIERS.find(a => a.id === atelier)!.name;
+  const placeName = place === 'atelier' ? `The ${city} atelier` : where.name;
+  const phrase = place === 'atelier' ? `at the ${city} atelier` : where.phrase;
+  const weekName = (d: Date) => `the week of ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}`;
   const longDate = (d: Date) => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
 
   const submit = (e: FormEvent) => {
@@ -66,19 +86,19 @@ function Book() {
     setError(msg);
     if (msg) return;
     const [h, min] = time.split(':').map(Number);
-    const when = new Date(days[day]!);
+    const when = new Date(home ? weeks[week]! : days[day]!);
     when.setHours(h!, min!);
-    setSent({ when, ics: icsFile(when, `BuildMyCar · meeting with ${host}`, placeName) });
+    setSent({ when, ics: home ? '' : icsFile(when, `BuildMyCar · meeting with ${host}`, placeName) });
     toast('Appointment requested');
     window.scrollTo({ top: 0 });
   };
 
   if (sent) return <div className="page"><div className="wrap narrow page-head booked">
     <span className="label">Appointment requested</span>
-    <h2>Until {sent.when.toLocaleDateString('en-GB', { weekday: 'long' })}, <em>{form.name.trim().split(' ')[0]}.</em></h2>
-    <p className="lead">{host} will meet you {where.phrase} on {longDate(sent.when)} at {time}. A confirmation will follow by email.</p>
+    <h2>{home ? 'Until soon' : `Until ${sent.when.toLocaleDateString('en-GB', { weekday: 'long' })}`}, <em>{form.name.trim().split(' ')[0]}.</em></h2>
+    <p className="lead">{home ? `${host} will visit you at home during ${weekName(sent.when)}, and will call first to agree the day and time that suit you.` : `${host} will meet you ${phrase} on ${longDate(sent.when)} at ${time}. A confirmation will follow by email.`}</p>
     <div className="row-gap">
-      <a className="btn solid" href={sent.ics} download="buildmycar-meeting.ics">Add to my calendar</a>
+      {!home && <a className="btn solid" href={sent.ics} download="buildmycar-meeting.ics">Add to my calendar</a>}
       <Link to="/" className="link">Return home</Link>
     </div>
     <p className="disclaimer">This is a prototype, so no meeting was actually booked and no message was sent.</p>
@@ -86,7 +106,7 @@ function Book() {
 
   return <div className="page">
     <div className="wrap narrow page-head">
-      <span className="label">Start your creation</span>
+      <span className="label">Your private rendezvous</span>
       <h2>Every car begins <em>with a conversation.</em></h2>
       <p className="lead">Choose who you would like to meet, where and when. There is no commitment at this stage.</p>
       {commission && <p className="commission-note">About your {MODELS[commission.model].name} in {opt('paint', commission.sel.paint).name}, with {opt('leather', commission.sel.leather).name} and {opt('material', commission.sel.material).name}.</p>}
@@ -104,8 +124,17 @@ function Book() {
         <div className="places">
           {PLACES.map(p => <button type="button" key={p.id} className="place" aria-pressed={place === p.id} onClick={() => setPlace(p.id)}><b>{p.name}</b><small>{p.note}</small></button>)}
         </div>
+        {place === 'atelier' && <div className="chips" role="radiogroup" aria-label="Atelier">
+          {ATELIERS.map(a => <button type="button" role="radio" aria-checked={atelier === a.id} key={a.id} className="chip" onClick={() => setAtelier(a.id)}>{a.name}<small>{a.note}</small></button>)}
+        </div>}
       </fieldset>
-      <fieldset>
+      {home ? <fieldset>
+        <legend className="label">Which week</legend>
+        <div className="chips" role="radiogroup" aria-label="Week">
+          {weeks.map((w, i) => <button type="button" role="radio" aria-checked={week === i} key={w.toISOString()} className="chip" onClick={() => setWeek(i)}>Week of {w.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</button>)}
+        </div>
+        <p className="muted hint">Your client director will call to agree the day and time with you.</p>
+      </fieldset> : <fieldset>
         <legend className="label">When</legend>
         <div className="dates" role="radiogroup" aria-label="Day">
           {days.map((d, i) => <button type="button" role="radio" aria-checked={day === i} key={d.toISOString()} className="date" onClick={() => setDay(i)}>
@@ -115,7 +144,7 @@ function Book() {
         <div className="chips times" role="radiogroup" aria-label="Time">
           {TIMES.map(t => <button type="button" role="radio" aria-checked={time === t} key={t} className="chip" onClick={() => setTime(t)}>{t}</button>)}
         </div>
-      </fieldset>
+      </fieldset>}
       <fieldset className="stack">
         <legend className="label">You</legend>
         <div className="entry"><label htmlFor="bname">Your name</label><input id="bname" autoComplete="name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}/></div>
@@ -124,7 +153,7 @@ function Book() {
         <label className="consent"><input type="checkbox" checked={form.consent} onChange={e => setForm({ ...form, consent: e.target.checked })}/> <span>I agree that BuildMyCar uses these details to arrange this meeting, as described in the <Link to="/privacy" className="link">privacy policy</Link>.</span></label>
       </fieldset>
       <div className="confirm">
-        <p>{host} · {placeName} · {longDate(days[day]!)} at {time}</p>
+        <p>{host} · {placeName} · {home ? `Week of ${weeks[week]!.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}` : `${longDate(days[day]!)} at ${time}`}</p>
         {error && <p role="alert" className="form-error">{error}</p>}
         <button className="btn solid" type="submit">Request my private appointment</button>
       </div>
