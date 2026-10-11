@@ -2,7 +2,7 @@
 export type ModelId = 'gt' | 'roadster' | 'brake' | 'saloon' | 'hyper';
 export type Option = { id: string; name: string; note: string; hex: string; spokes?: number; w?: number };
 export type Spec = { label: string; value: string; unit?: string };
-export type StepKey = 'paint' | 'wheel' | 'leather' | 'material' | 'summary';
+export type StepKey = 'character' | 'paint' | 'wheel' | 'leather' | 'material' | 'summary';
 export type Step = { key: StepKey; title: string; intro: string; opts?: Option[] };
 
 // The five BMC cars. `body`, `glass` and `door` are the gold line drawing used on the home page.
@@ -34,7 +34,26 @@ export const MODELS: Record<ModelId, { name: string; category: string; line: str
     glass: 'M454,148 L470,124 L478,126 L476,158 Z', door: 'M520,160 C518,190 516,210 514,228' },
 };
 
+// The first question is about the client, not the car: how they like to live tunes how it drives,
+// and prepares a first set of finishes they can then change.
+export type Character = { id: string; name: string; life: string; tune: { sound: string; ride: string; steering: string }; suggest: Pick<Selection, 'paint' | 'wheel' | 'leather' | 'material'> };
+export const CHARACTERS: Character[] = [
+  { id: 'thunder', name: 'Thunder', life: 'You love the rush: the overtake, the full stadium, the last word.',
+    tune: { sound: 'Valves open, the V12 at full voice', ride: 'Firm, close to the road', steering: 'Quick and direct' },
+    suggest: { paint: 'noir', wheel: 'wire', leather: 'nuit', material: 'alu' } },
+  { id: 'velvet', name: 'Velvet', life: 'You love long dinners, slow mornings and arriving rested.',
+    tune: { sound: 'Hushed, a murmur at any speed', ride: 'Air suspension that floats', steering: 'Light, effortless' },
+    suggest: { paint: 'argent', wheel: 'classic', leather: 'ivoire', material: 'walnut' } },
+  { id: 'precision', name: 'Precision', life: 'You love things made right: a fine watch, a clean line, the perfect apex.',
+    tune: { sound: 'Clear, never loud', ride: 'Balanced, adaptive', steering: 'Weighted, every detail felt' },
+    suggest: { paint: 'jade', wheel: 'monobloc', leather: 'celadon', material: 'ebony' } },
+  { id: 'horizon', name: 'Horizon', life: 'You love the far away: one more border, one more coast.',
+    tune: { sound: 'Deep and calm on the motorway', ride: 'Long-distance comfort', steering: 'Relaxed, stable at speed' },
+    suggest: { paint: 'bordeaux', wheel: 'classic', leather: 'cognac', material: 'walnut' } },
+];
+
 export const STEPS: Step[] = [
+  { key: 'character', title: 'Your character', intro: 'Tell us how you like to live. We tune the car to you, then prepare its finishes.' },
   { key: 'paint', title: 'Exterior finish', intro: 'Every colour is mixed for one car and laid by hand, coat after coat.', opts: [
     { id: 'noir', name: 'Atelier Noir', note: 'Hand-rubbed black, 14 coats', hex: '#121314' },
     { id: 'jade', name: 'Imperial Jade', note: 'Fuzhou lacquer, 40 coats', hex: '#2f5f52' },
@@ -59,16 +78,16 @@ export const STEPS: Step[] = [
 
 export const opt = (key: StepKey, id: string): Option => STEPS.find(s => s.key === key)!.opts!.find(o => o.id === id)!;
 
-export type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string };
+export type Selection = { paint: string; wheel: string; leather: string; material: string; mono: string; character?: string | undefined };
 export const DEFAULTS: Selection = { paint: 'noir', wheel: 'classic', leather: 'ivoire', material: 'walnut', mono: '' };
 
-// A commission is shared as a link: /configure?c=gt.jade.wire.cognac.walnut.ABC
-export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono].join('.');
+// A car is shared as a link: /configure?c=gt.jade.wire.cognac.walnut..velvet
+export const encode = (model: ModelId, s: Selection) => [model, s.paint, s.wheel, s.leather, s.material, s.mono, s.character ?? ''].join('.').replace(/\.+$/, '');
 export function decode(code: string): { model: ModelId; sel: Selection } | null {
-  const [model, paint, wheel, leather, material, mono = ''] = code.split('.');
+  const [model, paint, wheel, leather, material, mono = '', character] = code.split('.');
   if (!model || !(model in MODELS)) return null;
   const valid = (key: 'paint' | 'wheel' | 'leather' | 'material', id?: string) => STEPS.find(st => st.key === key)!.opts!.some(o => o.id === id) ? id! : DEFAULTS[key];
-  return { model: model as ModelId, sel: { paint: valid('paint', paint), wheel: valid('wheel', wheel), leather: valid('leather', leather), material: valid('material', material), mono: mono.replace(/[^A-Z]/g, '').slice(0, 3) } };
+  return { model: model as ModelId, sel: { paint: valid('paint', paint), wheel: valid('wheel', wheel), leather: valid('leather', leather), material: valid('material', material), mono: mono.replace(/[^A-Z]/g, '').slice(0, 3), character: CHARACTERS.some(c => c.id === character) ? character : undefined } };
 }
 
 

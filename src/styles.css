@@ -656,3 +656,33 @@
   .atelier .menu-panel, .atelier .menu-panel.open, .atelier .menu-panel a, .atelier .burger i { transition-duration: .01s !important; transition-delay: 0s !important; }
 }
 @media (max-width: 900px) { .atelier .burger { display: grid; } .atelier .bar .book-btn { display: none; } }
+
+/* Configurator: the character step, about the client before the car */
+.atelier .characters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: 100%; margin-top: 10px; }
+.atelier .character { display: flex; flex-direction: column; gap: 8px; padding: 20px 18px; text-align: left; border: 1px solid var(--hair); min-height: 44px; transition: border-color .5s, background .5s; }
+.atelier .character b { font-family: var(--display); font-weight: 300; font-style: italic; font-size: 30px; line-height: 1; color: var(--ivory); transition: color .5s; }
+.atelier .character span { font-size: 13px; line-height: 1.5; color: var(--stone); }
+.atelier .character:hover { border-color: var(--gold-deep); }
+.atelier .character[aria-checked="true"] { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 6%, transparent); }
+.atelier .character[aria-checked="true"] b { color: var(--gold); }
+.atelier .tune { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; margin: 8px 0 0; border-block: 1px solid var(--hair); text-align: left; }
+.atelier .tune div { padding: 14px 0; animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+.atelier .tune div + div { border-left: 1px solid var(--hair); padding-left: 14px; }
+.atelier .tune div:nth-child(2) { animation-delay: .08s; } .atelier .tune div:nth-child(3) { animation-delay: .16s; }
+.atelier .tune dt { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
+.atelier .tune dd { margin: 4px 0 0; font-size: 14px; color: var(--ivory); line-height: 1.45; }
+.atelier .tuned-for { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold); }
+/* Each character lights the studio its own way. */
+.atelier .stage-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 1.4s ease, background 1.4s ease; }
+.atelier .stage-photo.show-car[class*="mood-"]::before { opacity: 1; }
+.atelier .stage-photo.mood-thunder::before { background: radial-gradient(ellipse at 30% 95%, rgba(190, 40, 20, .35), transparent 60%), linear-gradient(180deg, rgba(0,0,0,.25), transparent 50%); }
+.atelier .stage-photo.mood-velvet::before { background: radial-gradient(ellipse at 70% 20%, rgba(255, 236, 200, .22), transparent 65%); }
+.atelier .stage-photo.mood-precision::before { background: linear-gradient(100deg, transparent 35%, rgba(220, 235, 255, .16) 50%, transparent 65%); }
+.atelier .stage-photo.mood-horizon::before { background: radial-gradient(ellipse at 90% 80%, rgba(230, 150, 60, .32), transparent 60%); }
+@media (max-width: 640px) {
+  .atelier .characters { gap: 8px; }
+  .atelier .character { padding: 16px 14px; }
+  .atelier .character b { font-size: 26px; }
+  .atelier .tune { grid-template-columns: minmax(0, 1fr); }
+  .atelier .tune div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--hair); }
+}
