@@ -60,13 +60,15 @@ function Configure() {
   const key = st.key as keyof Selection;
   const current = st.opts?.find(o => o.id === sel[key]);
   const tuned = CHARACTERS.find(c => c.id === sel.character);
+  // What the chosen character would pick on this step, shown so the character visibly shapes each choice.
+  const pick = tuned && st.key in tuned.suggest ? tuned.suggest[st.key as keyof typeof tuned.suggest] : undefined;
   const cycle = (dir: number) => {
     if (!st.opts) return;
     const i = st.opts.findIndex(o => o.id === sel[key]);
     setSel({ ...sel, [key]: st.opts[(i + dir + st.opts.length) % st.opts.length]!.id });
   };
 
-  return <div className="page fitting">
+  return <div className={`page fitting step-${st.key}`}>
     <nav className="chapters wrap" aria-label="Configuration steps">
       <div className="chapters-head">
         <button className="chapters-car" onClick={() => { setModel(null); top(); }} aria-label={`Back to the cars, ${m.name}`}>‹ {m.name}</button>
@@ -83,14 +85,17 @@ function Configure() {
       {current && st.opts && <>
         <span className="label">{st.title}</span>
         <h2 key={current.id} className="choice-name">{current.name}</h2>
+        {tuned && pick && (pick === current.id
+          ? <p className="by-character" key={`for-${current.id}`}>Chosen for your {tuned.name} character</p>
+          : <button className="by-character" key={`try-${current.id}`} onClick={() => setSel({ ...sel, [key]: pick })}>{tuned.name} would choose {opt(st.key, pick).name}</button>)}
         <p className="muted choice-note">{st.key === 'leather' ? `${seat(sel.seat).name} · ${seat(sel.seat).note}` : current.note}</p>
         <div className="swatches" role="radiogroup" aria-label={st.key === 'leather' ? 'Leather colour' : st.title}>
-          {st.opts.map(o => <button key={o.id} role="radio" aria-checked={o.id === current.id} aria-label={o.name} title={o.name} className="swatch" onClick={() => setSel({ ...sel, [key]: o.id })}>
+          {st.opts.map(o => <button key={o.id} role="radio" aria-checked={o.id === current.id} aria-label={o.name} title={o.name} className="swatch" data-pick={o.id === pick || undefined} onClick={() => setSel({ ...sel, [key]: o.id })}>
             <Swatch o={o} step={st.key} finish={seat(sel.seat).id}/>
           </button>)}
         </div>
         {st.key === 'leather' && <div className="seat-finish" role="radiogroup" aria-label="Seat finish">
-          {SEATS.map(s => <button key={s.id} role="radio" aria-checked={seat(sel.seat).id === s.id} className={`seat-chip seat-${s.id}`} onClick={() => setSel({ ...sel, seat: s.id })}><i aria-hidden="true"/>{s.name}</button>)}
+          {SEATS.map(s => <button key={s.id} role="radio" aria-checked={seat(sel.seat).id === s.id} className={`seat-chip seat-${s.id}`} data-pick={tuned?.suggest.seat === s.id || undefined} onClick={() => setSel({ ...sel, seat: s.id })}><i aria-hidden="true"/>{s.name}</button>)}
         </div>}
         <p className="muted hint">{st.intro}</p>
       </>}
@@ -103,6 +108,7 @@ function Configure() {
             <b>{c.name}</b><span>{c.life}</span>
           </button>)}
         </div>
+        {tuned && <p className="by-character prepared" key={`prep-${tuned.id}`}>Prepared for you: {opt('paint', tuned.suggest.paint).name}, {opt('wheel', tuned.suggest.wheel).name} wheels, {opt('leather', tuned.suggest.leather).name}, {opt('material', tuned.suggest.material).name}</p>}
         {tuned ? <dl className="tune" key={tuned.id}>
           <div><dt>Sound</dt><dd>{tuned.tune.sound}</dd></div>
           <div><dt>Ride</dt><dd>{tuned.tune.ride}</dd></div>
@@ -161,7 +167,7 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
 }
 
 // The car in its studio, or the empty studio while its photographs are being made.
-function Hero({ model, active = true, paint = 'bordeaux' }: { model: ModelId; active?: boolean; paint?: string }) {
+function Hero({ model, active = true, paint = 'argent' }: { model: ModelId; active?: boolean; paint?: string }) {
   const renders = RENDERS[model];
   if (renders) return <img src={renders[paint] ?? Object.values(renders)[0]} alt={`BMC ${MODELS[model].name}`} draggable={false}/>;
   // Until its photographs exist, the car is drawn in gold in the empty studio, redrawn each time it comes into view.
