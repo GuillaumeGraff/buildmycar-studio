@@ -1,44 +1,12 @@
 # Buildmycar Studio
 
-Build a high-end, ultra-luxury web application and digital portal for "BuildMyCar (BMC)", a bespoke coachbuilding brand founded in 1981 that produces only 20-30 custom luxury vehicles per year. 
+BuildMyCat (BMC): the BuildMyCar luxury site, re-themed as a cat adoption house founded in Munich in 1981. Same ivory and gold style, same screens, with a playful twist.
 
-DESIGN & AESTHETIC VIBE:
-
-- Minimalist, sophisticated dark-mode aesthetic (deep charcoals, matte blacks, champagne gold accents).
-
-- High-end typography (serif headers for heritage, clean sans-serif for UI).
-
-- Immersive, cinematic layout reminiscent of Rolls-Royce Private Office or elite digital galleries.
-
-CORE SITE ARCHITECTURE & PAGES:
-
-1. Landing / Heritage Page:
-
-- Cinematic hero banner with a luxury vehicle silhouette.
-
-- Value proposition statement: "Where Human Craftsmanship Meets Digital Precision."
-
-- Brief brand ethos section highlighting since-1981 heritage and low-volume exclusivity.
-
-2. The Remote Co-Creation Studio (Interactive Feature):
-
-- An interactive customization workspace where a client, designer, and master craftsman collaborate remotely.
-
-- Interactive selectors for bespoke exterior paint finishes, custom interior leathers, rare wood veneers, and personalized monogramming.
-
-- Live "Configure-to-Cost Digital Twin" visualizer panel showing real-time aesthetic updates alongside dynamic estimated configuration metrics.
-
-3. Certified Story & Provenance Portal:
-
-- A digital passport and archival showcase tracking the unique history, material origins, and artisan signatures of individual car commissions.
-
-4. Private Owners' Circle (Gated Login):
-
-- An exclusive, invitation-only members dashboard for VIP clients offering private event access, concierge support, and post-delivery tracking.
-
-TECH STACK / UI REQUIREMENTS:
-
-- Clean, modular components with smooth transitions and responsive layouts for desktop and tablet screens.
+- **Home**: kittens drawn in gold, recent adoptions.
+- **Kitten configurator** (`/configure`): five temperaments, then coat, eyes, collar, toy and purr. It ends with a confession: we don't build kittens, but a real cat that looks like yours is waiting.
+- **Your kitten** (`/studio`): you, a matchmaker and the foster family prepare the adoption together.
+- **Passport** (`/passport`): microchip, story, vaccines and humans of each cat.
+- **Heritage**, **The Maison** (the team) and **Meet a cat** (`/book`).
 
 This project was built with [Lovable](https://lovable.dev).
 
