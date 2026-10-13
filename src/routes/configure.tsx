@@ -2,67 +2,60 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
-import { Car } from '@/components/atelier/car';
-import { RENDERS } from '@/components/atelier/renders';
-import { DETAILS, STUDIO } from '@/components/atelier/details';
-import { MODELS, STEPS, SEATS, DEFAULTS, opt, seat, encode, decode, rememberCar, type ModelId, type Option, type Selection, type StepKey } from '@/components/atelier/data';
+import { Cat } from '@/components/atelier/cat';
+import { KITTENS, STEPS, STYLES, DEFAULTS, MATCHES, opt, style, encode, decode, rememberKitten, type KittenId, type Option, type Selection, type StepKey } from '@/components/atelier/data';
 
-export const Route = createFileRoute('/configure')({ head: () => pageHead('Configure your car', 'Choose one of five BMC cars, then shape it finish by finish. An illustrative design study.'), component: Configure });
+export const Route = createFileRoute('/configure')({ head: () => pageHead('Configure your kitten', 'Choose one of five temperaments, then shape your kitten coat by coat. A joke, and an introduction to a real cat.'), component: Configure });
 
 const top = () => window.scrollTo({ top: 0 });
 
-
-async function share(model: ModelId, sel: Selection) {
-  const url = `${window.location.origin}/configure?c=${encode(model, sel)}`;
-  const title = `My BMC ${MODELS[model].name}`;
+async function share(kitten: KittenId, sel: Selection) {
+  const url = `${window.location.origin}/configure?c=${encode(kitten, sel)}`;
+  const title = `My BuildMyCat ${KITTENS[kitten].name}`;
   try {
     if (navigator.share && window.matchMedia('(pointer: coarse)').matches) { await navigator.share({ title, url }); return; }
     await navigator.clipboard.writeText(url);
-    toast('Link copied · anyone with it sees your car');
+    toast('Link copied · anyone with it sees your kitten');
   } catch (e) {
     if ((e as Error).name !== 'AbortError') toast('Could not copy the link', { description: url });
   }
 }
 
-// Workshop stages as a share of the build time, from sign-off to handover.
-// From the first conversation to the keys: about eight months of design together, then the build itself.
-const DESIGN = 8;
+// From the first conversation to the homecoming, in weeks.
 const STAGES = [
-  { design: 0, name: 'First conversation', note: 'With your client director and a designer, in Munich or wherever you are' },
-  { design: 3, name: 'Sketches & proposals', note: 'Three directions drawn for you alone, then one chosen together' },
-  { design: DESIGN, name: 'Full-size model & sign-off', note: 'Your car at full size in clay, every material approved in hand' },
-  { build: 0.06, name: 'Chassis & coachwork', note: 'Aluminium panels shaped by hand on a wooden buck made for your car' },
-  { build: 0.42, name: 'Paint', note: 'Each coat laid and rubbed by hand, over many weeks' },
-  { build: 0.62, name: 'Interior', note: 'Hides chosen, cut, stitched and fitted by one trimmer' },
-  { build: 0.88, name: 'Road test', note: 'A thousand kilometres on road and track before the final polish' },
-  { build: 1, name: 'Handover', note: 'A private handover at the Munich atelier, or at your door' },
+  { at: 0, name: 'First conversation', note: 'With your adoption director, in Munich or wherever you are' },
+  { at: 0.2, name: 'Meet at the cat house', note: 'An hour on the floor, letting the cat decide' },
+  { at: 0.4, name: 'Home visit', note: 'We check the windows, the balcony and the sofa’s structural integrity' },
+  { at: 0.6, name: 'Vet check & microchip', note: 'Vaccines, chip and a first check-up, signed in the passport' },
+  { at: 0.8, name: 'Kitten-proofing', note: 'Cables hidden, plants moved, expectations lowered' },
+  { at: 1, name: 'Homecoming', note: 'A carrier, a blanket that smells of the foster family, and your sofa' },
 ];
-const monthYear = (monthsFromNow: number) => { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + monthsFromNow); return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }); };
+const weekOf = (weeksFromNow: number) => { const d = new Date(); d.setDate(d.getDate() + weeksFromNow * 7); return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long' }); };
 
-const CHAPTERS: Record<string, string> = { paint: 'Lacquer', wheel: 'Wheels', leather: 'Leather', material: 'Materials', sound: 'Sound', summary: 'Your car' };
-const IDS = Object.keys(MODELS) as ModelId[];
+const CHAPTERS: Record<StepKey, string> = { coat: 'Coat', eyes: 'Eyes', collar: 'Collar', toy: 'Toy', purr: 'Purr', summary: 'Your kitten' };
+const IDS = Object.keys(KITTENS) as KittenId[];
 const still = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 function Configure() {
-  const [model, setModel] = useState<ModelId | null>(null);
+  const [kitten, setKitten] = useState<KittenId | null>(null);
   const [index, setIndex] = useState(0);
   const [step, setStep] = useState(0);
   const [sel, setSel] = useState<Selection>(DEFAULTS);
 
-  // Open a shared car straight on its summary.
+  // Open a shared kitten straight on its summary.
   useEffect(() => {
     const code = new URLSearchParams(window.location.search).get('c');
     const shared = code && decode(code);
     if (!shared) return;
-    setModel(shared.model); setIndex(IDS.indexOf(shared.model)); setSel(shared.sel); setStep(STEPS.length - 1);
+    setKitten(shared.kitten); setIndex(IDS.indexOf(shared.kitten)); setSel(shared.sel); setStep(STEPS.length - 1);
   }, []);
 
-  // Remember the car as it is shaped, so the studio opens on it.
-  useEffect(() => { if (model) rememberCar(model, sel); }, [model, sel]);
+  // Remember the kitten as it is shaped, so the studio opens on it.
+  useEffect(() => { if (kitten) rememberKitten(kitten, sel); }, [kitten, sel]);
 
-  if (!model) return <Showroom index={index} setIndex={setIndex} choose={k => { setModel(k); setStep(0); setSel(DEFAULTS); top(); }}/>;
+  if (!kitten) return <Showroom index={index} setIndex={setIndex} choose={k => { setKitten(k); setStep(0); setSel(DEFAULTS); top(); }}/>;
 
-  const m = MODELS[model], st = STEPS[step]!;
+  const m = KITTENS[kitten], st = STEPS[step]!;
   const next = STEPS[step + 1];
   const key = st.key as keyof Selection;
   const current = st.opts?.find(o => o.id === sel[key]);
@@ -75,7 +68,7 @@ function Configure() {
   return <div className={`page fitting step-${st.key}`}>
     <nav className="chapters wrap" aria-label="Configuration steps">
       <div className="chapters-head">
-        <button className="chapters-car" onClick={() => { setModel(null); top(); }} aria-label={`Back to the cars, ${m.name}`}>‹ {m.name}</button>
+        <button className="chapters-back" onClick={() => { setKitten(null); top(); }} aria-label={`Back to the kittens, ${m.name}`}>‹ {m.name}</button>
         <span key={st.key} className="chapters-now">{CHAPTERS[st.key]}<small>{step + 1} / {STEPS.length}</small></span>
       </div>
       <div className="chapters-bar">
@@ -83,50 +76,50 @@ function Configure() {
       </div>
     </nav>
 
-    <Stage model={model} sel={sel} step={st.key} onSwipe={st.opts ? cycle : undefined}/>
+    <Stage kitten={kitten} sel={sel} step={st.key} stepIndex={step} onSwipe={st.opts ? cycle : undefined}/>
 
     <div className="wrap narrow choice">
       {current && st.opts && <>
         <span className="label">{st.title}</span>
         <h2 key={current.id} className="choice-name">{current.name}</h2>
-        <p className="muted choice-note">{st.key === 'leather' ? `${seat(sel.seat).name} · ${seat(sel.seat).note}` : current.note}</p>
-        <div className="swatches" role="radiogroup" aria-label={st.key === 'leather' ? 'Leather colour' : st.title}>
+        <p className="muted choice-note">{st.key === 'collar' ? `${current.name} · ${style(sel.style).name}, ${style(sel.style).note.toLowerCase()}` : current.note}</p>
+        <div className="swatches" role="radiogroup" aria-label={st.key === 'collar' ? 'Collar colour' : st.title}>
           {st.opts.map(o => <button key={o.id} role="radio" aria-checked={o.id === current.id} aria-label={o.name} title={o.name} className="swatch" onClick={() => setSel({ ...sel, [key]: o.id })}>
-            <Swatch o={o} step={st.key} finish={seat(sel.seat).id}/>
+            <Swatch o={o} step={st.key}/>
           </button>)}
         </div>
-        {st.key === 'leather' && <div className="seat-finish" role="radiogroup" aria-label="Seat finish">
-          {SEATS.map(s => <button key={s.id} role="radio" aria-checked={seat(sel.seat).id === s.id} className={`seat-chip seat-${s.id}`} onClick={() => setSel({ ...sel, seat: s.id })}><i aria-hidden="true"/>{s.name}</button>)}
+        {st.key === 'collar' && <div className="seat-finish" role="radiogroup" aria-label="Collar style">
+          {STYLES.map(s => <button key={s.id} role="radio" aria-checked={style(sel.style).id === s.id} className={`seat-chip collar-${s.id}`} onClick={() => setSel({ ...sel, style: s.id })}><i aria-hidden="true"/>{s.name}</button>)}
         </div>}
         <p className="muted hint">{st.intro}</p>
       </>}
 
-      {st.key === 'summary' && <Summary model={model} sel={sel}/>}
+      {st.key === 'summary' && <Summary kitten={kitten} sel={sel}/>}
 
       <div className="nav-row">
-        <button className="link" onClick={() => { if (step === 0) setModel(null); else setStep(step - 1); top(); }}>Back</button>
+        <button className="link" onClick={() => { if (step === 0) setKitten(null); else setStep(step - 1); top(); }}>Back</button>
         {next ? <button className="btn solid" onClick={() => setStep(step + 1)}>{CHAPTERS[next.key]}</button>
-          : <button className="link" onClick={() => void share(model, sel)}>Share this car</button>}
+          : <button className="link" onClick={() => void share(kitten, sel)}>Share this kitten</button>}
       </div>
     </div>
   </div>;
 }
 
-// The five cars, one at a time, swiped like pages of a brochure.
-function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: number) => void; choose: (k: ModelId) => void }) {
+// The five temperaments, one at a time, swiped like pages of a brochure.
+function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: number) => void; choose: (k: KittenId) => void }) {
   const [drag, setDrag] = useState(0);
   const start = useRef<number | null>(null);
   const go = (i: number) => setIndex((i + IDS.length) % IDS.length);
-  const k = IDS[index]!, m = MODELS[k];
+  const k = IDS[index]!, m = KITTENS[k];
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'ArrowRight') go(index + 1); if (e.key === 'ArrowLeft') go(index - 1); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   });
   return <div className="page showroom">
-    <div className="car-strip" role="tablist" aria-label="Cars">
-      {IDS.map((id, i) => <button key={id} role="tab" aria-selected={i === index} aria-label={`${MODELS[id].name}, ${MODELS[id].category}`} onClick={() => go(i)}>
-        <Car model={id}/><span>{MODELS[id].name}</span>
+    <div className="cat-strip" role="tablist" aria-label="Temperaments">
+      {IDS.map((id, i) => <button key={id} role="tab" aria-selected={i === index} aria-label={`${KITTENS[id].name}, ${KITTENS[id].category}`} onClick={() => go(i)}>
+        <Cat kitten={id}/><span>{KITTENS[id].name}</span>
       </button>)}
     </div>
     <div className={`slides${start.current !== null ? ' dragging' : ''}`} style={{ ['--drag' as string]: `${drag}px` }}
@@ -134,12 +127,12 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
       onPointerMove={e => { if (start.current !== null) setDrag(e.clientX - start.current); }}
       onPointerUp={() => { if (start.current === null) return; const dx = drag; start.current = null; setDrag(0); if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1)); }}
       onPointerCancel={() => { start.current = null; setDrag(0); }}>
-      {IDS.map((id, i) => <figure key={id} className={`slide${i === index ? ' on' : ''}`} style={{ ['--o' as string]: i - index }} aria-hidden={i !== index}>
-        <Hero model={id} active={i === index}/>
+      {IDS.map((id, i) => <figure key={id} className={`slide${i === index ? ' on' : ''}`} aria-hidden={i !== index}>
+        <div className="hero-sketch">{i === index ? <Cat key="on" kitten={id} coat={DEFAULTS.coat} animated/> : <Cat key="off" kitten={id} coat={DEFAULTS.coat}/>}</div>
       </figure>)}
-      <span className="render-note">Illustrative render</span>
-      <button className="slide-arrow prev" aria-label="Previous car" onClick={() => go(index - 1)}>‹</button>
-      <button className="slide-arrow next" aria-label="Next car" onClick={() => go(index + 1)}>›</button>
+      <span className="render-note">Illustrative drawing</span>
+      <button className="slide-arrow prev" aria-label="Previous temperament" onClick={() => go(index - 1)}>‹</button>
+      <button className="slide-arrow next" aria-label="Next temperament" onClick={() => go(index + 1)}>›</button>
     </div>
     <div className="wrap showroom-copy" key={k} aria-live="polite">
       <span className="label">{m.category}</span>
@@ -147,22 +140,12 @@ function Showroom({ index, setIndex, choose }: { index: number; setIndex: (i: nu
       <p className="engine">{m.engine}</p>
       <dl className="specs">{m.specs.map(s => <div key={s.label}><dt>{s.label}</dt><dd><Count value={s.value}/>{s.unit && <small>{s.unit}</small>}</dd></div>)}</dl>
       <p className="dream">{m.dream}</p>
-      <button className="btn solid" onClick={() => choose(k)}>Create your {m.name}</button>
+      <button className="btn solid" onClick={() => choose(k)}>Configure your {m.name}</button>
     </div>
   </div>;
 }
 
-// The car in its studio, or the empty studio while its photographs are being made.
-function Hero({ model, active = true, paint = 'argent' }: { model: ModelId; active?: boolean; paint?: string }) {
-  const renders = RENDERS[model];
-  if (renders) return <img src={renders[paint] ?? Object.values(renders)[0]} alt={`BMC ${MODELS[model].name}`} draggable={false}/>;
-  // Until its photographs exist, the car is drawn in gold in the empty studio, redrawn each time it comes into view.
-  return <><img src={STUDIO} alt="" draggable={false}/>
-    <div className="hero-sketch" role="img" aria-label={`BMC ${MODELS[model].name}, drawing`}>{active ? <Car key="on" model={model} animated/> : <Car key="off" model={model} paint={paint}/>}</div>
-    <span className="veil">Photograph in the making</span></>;
-}
-
-// Counts a figure up from zero, keeping its format (1,480 · 2.1).
+// Counts a figure up from zero, keeping its format (1.4 · 120).
 function Count({ value }: { value: string }) {
   const target = Number(value.replace(/,/g, ''));
   const decimals = value.split('.')[1]?.length ?? 0;
@@ -181,63 +164,60 @@ function Count({ value }: { value: string }) {
   return <>{n.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}</>;
 }
 
-// What the stage shows at each step: the car for its lacquer, close-ups for everything you touch.
-function Stage({ model, sel, step, onSwipe }: { model: ModelId; sel: Selection; step: StepKey; onSwipe?: ((dir: number) => void) | undefined }) {
+// What the stage shows at each step: the whole kitten, framed on its face for the eyes and the collar.
+const CAPTIONS: Partial<Record<StepKey, string>> = { eyes: 'Looking at you, or at the empty bowl', collar: 'Stitched by hand in Munich', toy: 'Chosen with our foster families', purr: 'Tuned by ear in Munich' };
+function Stage({ kitten, sel, step, stepIndex, onSwipe }: { kitten: KittenId; sel: Selection; step: StepKey; stepIndex: number; onSwipe?: ((dir: number) => void) | undefined }) {
   const start = useRef<number | null>(null);
-  const renders = RENDERS[model];
-  const shown = step;
-  const detail = DETAILS[shown];
-  const layers: { group: string; id: string; src: string }[] = [
-    ...(renders ? Object.entries(renders).map(([id, src]) => ({ group: 'car', id, src })) : [{ group: 'car', id: 'studio', src: STUDIO }]),
-    ...Object.entries(DETAILS).flatMap(([group, d]) => Object.entries(d!.images).map(([id, src]) => ({ group, id, src }))),
-  ];
-  const group = detail ? shown : 'car';
-  const active = group === 'car' ? (renders ? sel.paint : 'studio') : group === 'leather' ? `${seat(sel.seat).id}-${sel.leather}` : sel[shown as keyof Selection];
-  return <div className={`stage-photo show-${group} seat-${seat(sel.seat).id}`}
+  const face = step === 'eyes' || step === 'collar';
+  const toyStep = STEPS.findIndex(s => s.key === 'toy');
+  return <div className={`stage-photo stage-cat${face ? ' face' : ''}`}
     onTouchStart={e => { start.current = e.touches[0]!.clientX; }}
     onTouchEnd={e => {
       const dx = e.changedTouches[0]!.clientX - (start.current ?? 0);
       start.current = null;
       if (onSwipe && Math.abs(dx) > 40) onSwipe(dx < 0 ? 1 : -1);
     }}>
-    <div className="layers">
-      {layers.filter(l => l.group === 'car' || l.group === group).map(l => <img key={`${l.group}-${l.id}`} src={l.src} decoding="async" draggable={false}
-        alt={l.group === group && l.id === active ? (group === 'car' ? `BMC ${MODELS[model].name}${renders ? ' in ' + opt('paint', l.id).name : ''}` : DETAILS[group as StepKey]!.caption) : ''}
-        className={`${l.group}${l.group === group && l.id === active ? ' on' : ''}`}/>)}
+    <div className="hero-sketch">
+      <Cat kitten={kitten} coat={sel.coat} eyes={sel.eyes} collar={sel.collar} collarStyle={sel.style} toy={stepIndex >= toyStep ? sel.toy : undefined} purr={step === 'purr' ? sel.purr : undefined} focus={face ? 'face' : undefined}/>
     </div>
-    {group === 'car' && !renders && <div className="hero-sketch"><Car model={model} paint={sel.paint} wheel={sel.wheel} leather={sel.leather}/></div>}
-    {group === 'car' && renders && <span className="render-note">Illustrative render</span>}
-    <span className="stage-caption">{detail ? detail.caption : `${MODELS[model].name} · ${MODELS[model].category}`}</span>
+    <span className="render-note">Illustrative drawing</span>
+    <span className="stage-caption">{CAPTIONS[step] ?? `${KITTENS[kitten].name} · ${KITTENS[kitten].category}`}</span>
   </div>;
 }
 
-function Swatch({ o, step, finish }: { o: Option; step: StepKey; finish: string }) {
-  const src = DETAILS[step]?.images[step === 'leather' ? `${finish}-${o.id}` : o.id];
-  if (o.speakers) return <i className="sound"><b>{o.speakers}</b></i>;
-  return src ? <i className={step} style={{ backgroundImage: `url(${src})` }}/> : <i className="lacquer" style={{ backgroundColor: o.hex }}/>;
+function Swatch({ o, step }: { o: Option; step: StepKey }) {
+  if (o.db) return <i className="sound"><b>{o.db}</b></i>;
+  if (step === 'toy') return <i className={`toy-swatch toy-${o.id}`} style={{ backgroundColor: o.hex }}/>;
+  if (o.hex2) return <i className="lacquer" style={{ background: `linear-gradient(90deg, ${o.hex} 50%, ${o.hex2} 50%)` }}/>;
+  return <i className={`lacquer${o.stripes ? ' stripes' : ''}`} style={{ backgroundColor: o.hex }}/>;
 }
 
-function Summary({ model, sel }: { model: ModelId; sel: Selection }) {
-  const m = MODELS[model];
+function Summary({ kitten, sel }: { kitten: KittenId; sel: Selection }) {
+  const m = KITTENS[kitten];
+  const match = MATCHES[sel.coat] ?? MATCHES['silver']!;
   return <div className="stack" style={{ gap: 36 }}>
     <div className="stack" style={{ gap: 14 }}>
-      <span className="label">Your {m.category}</span>
+      <span className="label">Your {m.category.replace(/^The /, '')}</span>
       <h2 className="choice-name">The {m.name}</h2>
-      <p className="muted">{opt('paint', sel.paint).name} · {opt('wheel', sel.wheel).name} · {opt('leather', sel.leather).name}, {seat(sel.seat).name.toLowerCase()} · {opt('material', sel.material).name} · {opt('sound', sel.sound ?? 'salon').name} sound</p>
+      <p className="muted">{opt('coat', sel.coat).name} · {opt('eyes', sel.eyes).name} eyes · {opt('collar', sel.collar).name} collar, {style(sel.style).name.toLowerCase()} · {opt('toy', sel.toy).name} · {opt('purr', sel.purr ?? 'salon').name} purr</p>
     </div>
     <dl className="specs">{m.specs.map(s => <div key={s.label}><dt>{s.label}</dt><dd>{s.value}{s.unit && <small>{s.unit}</small>}</dd></div>)}</dl>
-    <p className="muted">{m.engine}</p>
+    <div className="confession">
+      <span className="label">A small confession</span>
+      <p>We don’t build kittens. Nobody should. But <em>{match.name}</em>, {match.age}, is waiting at our Munich house and looks a lot like yours.</p>
+      <p className="muted">{match.note}</p>
+    </div>
     <div className="stack" style={{ gap: 18, textAlign: 'left' }}>
-      <span className="label">From first sketch to your keys</span>
+      <span className="label">From first purr to homecoming</span>
       <ol className="journey">
         {STAGES.map(s => <li key={s.name}>
-          <time>{s.design === 0 ? 'Today' : monthYear(s.design ?? Math.round(DESIGN + (m.months - DESIGN) * s.build!))}</time>
+          <time>{s.at === 0 ? 'Today' : `Week of ${weekOf(Math.round(m.weeks * s.at))}`}</time>
           <b>{s.name}</b><small>{s.note}</small>
         </li>)}
       </ol>
-      <p className="muted" style={{ fontSize: 13 }}>About {m.months} months from the first conversation, if you begin today, as build slots allow. An illustrative estimate.</p>
+      <p className="muted" style={{ fontSize: 13 }}>About {m.weeks} weeks from the first conversation, if you begin today and the cat agrees. An illustrative estimate.</p>
     </div>
-    <Link to="/book" search={{ c: encode(model, sel) }} className="btn solid">Start your creation</Link>
-    <Link to="/studio" search={{ c: encode(model, sel) }} className="link">Open it in the studio</Link>
+    <Link to="/book" search={{ c: encode(kitten, sel) }} className="btn solid">Meet {match.name}</Link>
+    <Link to="/studio" search={{ c: encode(kitten, sel) }} className="link">Open it in the studio</Link>
   </div>;
 }

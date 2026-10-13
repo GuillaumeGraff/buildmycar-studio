@@ -1,49 +1,46 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { toast } from 'sonner';
 import { pageHead } from '@/components/bmc/metadata';
-import { Car } from '@/components/atelier/car';
-import { MODELS, opt } from '@/components/atelier/data';
+import { Cat } from '@/components/atelier/cat';
+import { KITTENS, opt } from '@/components/atelier/data';
 import { persona, personaSearch } from '@/components/atelier/platform';
 import { DemoNote } from '@/components/atelier/personas';
-import { MembersGate, MembersRoom } from '@/components/atelier/members';
+import { AdoptionRoom } from '@/components/atelier/members';
 
 export const Route = createFileRoute('/passport')({
   validateSearch: personaSearch,
-  head: () => pageHead('Digital passport', 'Every BMC car carries a certified record of its build, its makers, its materials and its owners.'),
+  head: () => pageHead('Cat passport', 'Every BuildMyCat cat leaves with a signed record of where it was found, who fostered it, its vaccines and its humans.'),
   component: Passport,
 });
 
 function Passport() {
   const p = persona(Route.useSearch().p);
-  return <MembersGate p={p}><Certificate p={p}/></MembersGate>;
-}
-
-function Certificate({ p }: { p: ReturnType<typeof persona> }) {
   const pp = p.passport;
-  return <MembersRoom p={p} title={<>The <em>passport.</em></>}>
+  return <AdoptionRoom p={p} title={<>The <em>passport.</em></>}>
       <article className="passport">
         <header>
-          <div><span className="label">Certificate</span><h3>{pp.chassis}</h3></div>
+          <div><span className="label">Certificate · microchip</span><h3>{pp.chip}</h3></div>
           <span className="seal" aria-hidden="true">BMC</span>
         </header>
-        <Car model={p.model} paint={p.sel.paint} wheel={p.sel.wheel} leather={p.sel.leather}/>
+        <Cat kitten={p.kitten} coat={p.sel.coat} eyes={p.sel.eyes} collar={p.sel.collar} collarStyle={p.sel.style}/>
         <ul className="recap">
-          <li><span>Model</span><span>{MODELS[p.model].name}</span></li>
-          <li><span>Finish</span><span>{opt('paint', p.sel.paint).name}</span></li>
-          <li><span>Delivered</span><span>{pp.delivered}</span></li>
-          <li><span>Hand work</span><span>{pp.hours.toLocaleString('en-US')} hours</span></li>
+          <li><span>Name</span><span>{p.cat}</span></li>
+          <li><span>Temperament</span><span>{KITTENS[p.kitten].category}</span></li>
+          <li><span>Coat</span><span>{opt('coat', p.sel.coat).name} · {opt('eyes', p.sel.eyes).name} eyes</span></li>
+          <li><span>Homecoming</span><span>{pp.homecoming}</span></li>
+          <li><span>Foster cuddles</span><span>{pp.hours.toLocaleString('en-US')} hours</span></li>
         </ul>
-        <div className="pass-block"><span className="label">Origin of materials</span>
+        <div className="pass-block"><span className="label">Story</span>
           {pp.origins.map(o => <p key={o.what}><b className="ivory">{o.what}</b> · {o.from}</p>)}</div>
         <div className="pass-block"><span className="label">Signed by</span>
-          <p className="sigs"><span>Clément</span><span>{p.artisan.name.split(' ')[0]}</span><span>Karl-Henry</span></p></div>
-        <div className="pass-block"><span className="label">Owners</span>{pp.owners.map(o => <p key={o}>{o}</p>)}</div>
-        <div className="pass-block"><span className="label">Care</span>{pp.services.map(s => <p key={s}>{s}</p>)}</div>
+          <p className="sigs"><span>Clément</span><span>{p.foster.name.split(' ')[0] === 'The' ? p.foster.name.split(' ')[1] : p.foster.name.split(' ')[0]}</span><span>Karl-Henry</span></p></div>
+        <div className="pass-block"><span className="label">Humans</span>{pp.humans.map(o => <p key={o}>{o}</p>)}</div>
+        <div className="pass-block"><span className="label">Care</span>{pp.care.map(s => <p key={s}>{s}</p>)}</div>
         <div className="row-gap">
-          <button className="btn solid" onClick={() => toast('Passport verified', { description: `${pp.chassis} · signed by the BMC atelier` })}>Verify</button>
-          <button className="link" onClick={() => toast('Private link created', { description: 'Shared read-only with the insurer for 30 days.' })}>Share with an insurer</button>
+          <button className="btn solid" onClick={() => toast('Passport verified', { description: `${pp.chip} · signed by the BuildMyCat house vet` })}>Verify</button>
+          <button className="link" onClick={() => toast('Private link created', { description: 'Shared read-only with your cat sitter for 30 days, feeding notes included.' })}>Share with the cat sitter</button>
         </div>
       </article>
       <DemoNote/>
-  </MembersRoom>;
+  </AdoptionRoom>;
 }

@@ -4,7 +4,7 @@ import { pageHead } from '@/components/bmc/metadata';
 import { Portrait } from '@/components/atelier/portrait';
 import { TEAM } from '@/components/atelier/data';
 
-export const Route = createFileRoute('/maison')({ head: () => pageHead('The Maison', 'The six people who look after BuildMyCar clients, each in their own language.'), component: Maison });
+export const Route = createFileRoute('/maison')({ head: () => pageHead('The Maison', 'The six people who look after BuildMyCat adopters, each in their own language.'), component: Maison });
 
 function Maison() {
   const track = useRef<HTMLDivElement>(null);
@@ -36,8 +36,8 @@ function Maison() {
   return <div className="page">
     <div className="wrap page-head">
       <span className="label">The Maison</span>
-      <h2>The people behind <em>every car.</em></h2>
-      <p className="lead">A small house by design. Six people look after our clients, in their own language, from Munich to Los Angeles, Dubai and Shanghai.</p>
+      <h2>The people behind <em>every cat.</em></h2>
+      <p className="lead">A small house by design. Six people look after our adopters, in their own language, from Munich to Los Angeles, Dubai and Shanghai. None of them is allergic.</p>
     </div>
     <div className="wrap team-wrap">
       <div className="team" ref={track}>
@@ -55,7 +55,7 @@ function Maison() {
         <span className="count"><b>{String(active + 1).padStart(2, '0')}</b> / {String(TEAM.length).padStart(2, '0')}</span>
         <button className="arrow" aria-label="Next person" onClick={() => go(active + 1)}>›</button>
       </div>
-      <div className="team-cta"><h3>Begin a project with the team.</h3><Link to="/book" className="btn solid">Start your creation</Link></div>
+      <div className="team-cta"><h3>Begin an adoption with the team.</h3><Link to="/book" className="btn solid">Meet a cat</Link></div>
     </div>
   </div>;
 }

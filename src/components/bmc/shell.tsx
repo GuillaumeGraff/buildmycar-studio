@@ -1,22 +1,17 @@
 import { Link } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
-import { Car } from '@/components/atelier/car';
+import { Cat } from '@/components/atelier/cat';
 
 const links = [
   { to: '/heritage', label: 'Heritage' },
   { to: '/configure', label: 'Configure' },
-  { to: '/maison', label: 'The Maison' },
-  { to: '/press', label: 'Press' },
-] as const;
-
-// Owners' rooms, listed under the Owners' Circle in the menu; each asks for the member login.
-const members = [
-  { to: '/studio', label: 'Your car' },
+  { to: '/studio', label: 'Your kitten' },
   { to: '/passport', label: 'Passport' },
+  { to: '/maison', label: 'The Maison' },
 ] as const;
 
-export function Header({ signedIn }: { signedIn: boolean }) {
+export function Header() {
   const [open, setOpen] = useState(false);
   const btn = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLElement>(null);
@@ -30,18 +25,16 @@ export function Header({ signedIn }: { signedIn: boolean }) {
     return () => { window.clearTimeout(t); window.removeEventListener('keydown', onKey); window.removeEventListener('resize', onWide); };
   }, [open]);
   const close = () => setOpen(false);
-  const circle = signedIn ? '/circle' : '/owners-circle';
   return <>
     <a className="skip" href="#content">Skip to content</a>
     <header className={open ? 'menu-open' : undefined}>
       <div className="wrap bar">
-        <Link to="/" className="mark" aria-label="BuildMyCar home"><b>BMC</b><span>BuildMyCar · Est. 1981</span></Link>
+        <Link to="/" className="mark" aria-label="BuildMyCat home"><b>BMC</b><span>BuildMyCat · Est. 1981</span></Link>
         <nav className="main" aria-label="Main">
           {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }}>{l.label}</Link>)}
-          <Link to={circle} activeProps={{ 'aria-current': 'page' }}>Owners’ Circle</Link>
         </nav>
         <div className="bar-end">
-          <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}><span className="long">Private rendezvous</span><span className="short">Rendezvous</span></Link>
+          <Link to="/book" className="book-btn" activeProps={{ 'aria-current': 'page' }}><span className="long">Meet a cat</span><span className="short">Meet</span></Link>
           <button ref={btn} className="burger" aria-expanded={open} aria-controls="menu-panel" aria-label={open ? 'Close menu' : 'Open menu'} onClick={() => setOpen(o => !o)}><i/><i/><i/></button>
         </div>
       </div>
@@ -49,9 +42,7 @@ export function Header({ signedIn }: { signedIn: boolean }) {
       <nav ref={panel} id="menu-panel" className={`menu-panel${open ? ' open' : ''}`} aria-label="Menu" aria-hidden={!open} inert={!open}>
         <Link to="/" onClick={close}>Home</Link>
         {links.map(l => <Link key={l.to} to={l.to} activeProps={{ 'aria-current': 'page' }} onClick={close}>{l.label}</Link>)}
-        <Link to={circle} activeProps={{ 'aria-current': 'page' }} onClick={close}>Owners’ Circle</Link>
-        {members.map(l => <Link key={l.to} to={l.to} className="menu-sub" activeProps={{ 'aria-current': 'page' }} onClick={close}>{l.label}</Link>)}
-        <Link to="/book" className="menu-rdv" onClick={close}>Private rendezvous</Link>
+        <Link to="/book" className="menu-rdv" onClick={close}>Meet a cat</Link>
       </nav>
     </header>
     <div className={`menu-backdrop${open ? ' open' : ''}`} onClick={close} aria-hidden="true"/>
@@ -67,7 +58,7 @@ export function Footer() {
   useEffect(() => { if (!readChoice()) setShowCookies(true); }, []);
   const choose = (choice: 'all' | 'essential') => {
     try { localStorage.setItem(COOKIE_KEY, choice); } catch { /* storage blocked */ }
-    // The little car drives off with the choice, then the card closes.
+    // The little cat strolls off with the choice, then the card closes.
     const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     setLeaving(true);
     window.setTimeout(() => { setShowCookies(false); setLeaving(false); }, still ? 0 : 1100);
@@ -77,17 +68,17 @@ export function Footer() {
     <footer>
       <div className="wrap">
         <div className="foot">
-          <div><h4>BuildMyCar</h4><span>Coachbuilders since 1981</span><span>Atelier by appointment, Munich</span><span>atelier@buildmycar.example</span></div>
-          <div><h4>The house</h4>{links.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}<Link to="/book">Start your creation</Link><Link to="/owners-circle">Owners’ Circle</Link></div>
+          <div><h4>BuildMyCat</h4><span>Matchmakers since 1981</span><span>Cat house by appointment, Munich</span><span>hello@buildmycat.example</span></div>
+          <div><h4>The house</h4>{links.map(l => <Link key={l.to} to={l.to}>{l.label}</Link>)}<Link to="/book">Meet a cat</Link></div>
           <div><h4>Information</h4><Link to="/privacy">Privacy policy</Link><Link to="/legal">Legal notice</Link><button onClick={() => setShowCookies(true)}>Cookie settings</button></div>
         </div>
-        <div className="fine-print"><span>© 2026 BuildMyCar. All rights reserved.</span><span>Prototype by Yellow Team, ESSEC · illustrative content</span></div>
+        <div className="fine-print"><span>© 2026 BuildMyCat. All rights reserved. No kitten was configured in the making of this site.</span><span>Prototype by Yellow Team, ESSEC · illustrative content</span></div>
       </div>
     </footer>
     {showCookies && <div className={`cookie${leaving ? ' leaving' : ''}`} role="dialog" aria-label="Cookie consent">
-      <div className="cookie-car" aria-hidden="true"><Car animated/></div>
+      <div className="cookie-cat" aria-hidden="true"><Cat kitten="explorer" coat="ginger" animated/></div>
       <span className="label">Your privacy</span>
-      <p>We use essential cookies to run this site and, with your consent, measurement cookies to improve it. <Link to="/privacy" className="link">Read the policy</Link></p>
+      <p>We use essential cookies to run this site and, with your consent, measurement cookies to improve it. The cat has already eaten two. <Link to="/privacy" className="link">Read the policy</Link></p>
       <div className="row"><button className="btn solid" onClick={() => choose('all')}>Accept</button><button className="btn" onClick={() => choose('essential')}>Essential only</button></div>
     </div>}
   </>;

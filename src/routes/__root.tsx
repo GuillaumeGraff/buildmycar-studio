@@ -9,8 +9,6 @@ import {
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { Header, Footer } from "@/components/bmc/shell";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -117,23 +115,11 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const router = useRouter();
-  const [signedIn, setSignedIn] = useState(false);
-  useEffect(() => {
-    void supabase.auth.getUser().then(({data}) => setSignedIn(Boolean(data.user)));
-    const {data: {subscription}} = supabase.auth.onAuthStateChange((event, session) => {
-      setSignedIn(Boolean(session?.user));
-      if (event !== 'SIGNED_IN' && event !== 'SIGNED_OUT' && event !== 'USER_UPDATED') return;
-      void router.invalidate();
-      if (event !== 'SIGNED_OUT') void queryClient.invalidateQueries();
-    });
-    return () => subscription.unsubscribe();
-  }, [router, queryClient]);
 
   return (
     <QueryClientProvider client={queryClient}>
       <div className="atelier">
-        <Header signedIn={signedIn} />
+        <Header />
         <main id="content" tabIndex={-1}><Outlet /></main>
         <Footer />
       </div>

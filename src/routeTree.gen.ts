@@ -10,33 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as ConfigureRouteImport } from './routes/configure'
 import { Route as HeritageRouteImport } from './routes/heritage'
 import { Route as LegalRouteImport } from './routes/legal'
 import { Route as MaisonRouteImport } from './routes/maison'
-import { Route as OwnersCircleRouteImport } from './routes/owners-circle'
 import { Route as PassportRouteImport } from './routes/passport'
-import { Route as PressRouteImport } from './routes/press'
 import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StudioRouteImport } from './routes/studio'
-import { Route as AuthenticatedCircleRouteImport } from './routes/_authenticated/circle'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookRoute = BookRouteImport.update({
@@ -64,19 +49,9 @@ const MaisonRoute = MaisonRouteImport.update({
   path: '/maison',
   getParentRoute: () => rootRouteImport,
 } as any)
-const OwnersCircleRoute = OwnersCircleRouteImport.update({
-  id: '/owners-circle',
-  path: '/owners-circle',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PassportRoute = PassportRouteImport.update({
   id: '/passport',
   path: '/passport',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PressRoute = PressRouteImport.update({
-  id: '/press',
-  path: '/press',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -84,138 +59,91 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const StudioRoute = StudioRouteImport.update({
   id: '/studio',
   path: '/studio',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedCircleRoute = AuthenticatedCircleRouteImport.update({
-  id: '/circle',
-  path: '/circle',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/configure': typeof ConfigureRoute
   '/heritage': typeof HeritageRoute
   '/legal': typeof LegalRoute
   '/maison': typeof MaisonRoute
-  '/owners-circle': typeof OwnersCircleRoute
   '/passport': typeof PassportRoute
-  '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
-  '/reset-password': typeof ResetPasswordRoute
   '/studio': typeof StudioRoute
-  '/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/configure': typeof ConfigureRoute
   '/heritage': typeof HeritageRoute
   '/legal': typeof LegalRoute
   '/maison': typeof MaisonRoute
-  '/owners-circle': typeof OwnersCircleRoute
   '/passport': typeof PassportRoute
-  '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
-  '/reset-password': typeof ResetPasswordRoute
   '/studio': typeof StudioRoute
-  '/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
-  '/auth': typeof AuthRoute
   '/book': typeof BookRoute
   '/configure': typeof ConfigureRoute
   '/heritage': typeof HeritageRoute
   '/legal': typeof LegalRoute
   '/maison': typeof MaisonRoute
-  '/owners-circle': typeof OwnersCircleRoute
   '/passport': typeof PassportRoute
-  '/press': typeof PressRoute
   '/privacy': typeof PrivacyRoute
-  '/reset-password': typeof ResetPasswordRoute
   '/studio': typeof StudioRoute
-  '/_authenticated/circle': typeof AuthenticatedCircleRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/auth'
     | '/book'
     | '/configure'
     | '/heritage'
     | '/legal'
     | '/maison'
-    | '/owners-circle'
     | '/passport'
-    | '/press'
     | '/privacy'
-    | '/reset-password'
     | '/studio'
-    | '/circle'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/auth'
     | '/book'
     | '/configure'
     | '/heritage'
     | '/legal'
     | '/maison'
-    | '/owners-circle'
     | '/passport'
-    | '/press'
     | '/privacy'
-    | '/reset-password'
     | '/studio'
-    | '/circle'
   id:
     | '__root__'
     | '/'
-    | '/_authenticated'
-    | '/auth'
     | '/book'
     | '/configure'
     | '/heritage'
     | '/legal'
     | '/maison'
-    | '/owners-circle'
     | '/passport'
-    | '/press'
     | '/privacy'
-    | '/reset-password'
     | '/studio'
-    | '/_authenticated/circle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
-  AuthRoute: typeof AuthRoute
   BookRoute: typeof BookRoute
   ConfigureRoute: typeof ConfigureRoute
   HeritageRoute: typeof HeritageRoute
   LegalRoute: typeof LegalRoute
   MaisonRoute: typeof MaisonRoute
-  OwnersCircleRoute: typeof OwnersCircleRoute
   PassportRoute: typeof PassportRoute
-  PressRoute: typeof PressRoute
   PrivacyRoute: typeof PrivacyRoute
-  ResetPasswordRoute: typeof ResetPasswordRoute
   StudioRoute: typeof StudioRoute
 }
 
@@ -226,20 +154,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book': {
@@ -277,25 +191,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MaisonRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/owners-circle': {
-      id: '/owners-circle'
-      path: '/owners-circle'
-      fullPath: '/owners-circle'
-      preLoaderRoute: typeof OwnersCircleRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/passport': {
       id: '/passport'
       path: '/passport'
       fullPath: '/passport'
       preLoaderRoute: typeof PassportRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/press': {
-      id: '/press'
-      path: '/press'
-      fullPath: '/press'
-      preLoaderRoute: typeof PressRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -305,13 +205,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/studio': {
       id: '/studio'
       path: '/studio'
@@ -319,41 +212,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudioRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/circle': {
-      id: '/_authenticated/circle'
-      path: '/circle'
-      fullPath: '/circle'
-      preLoaderRoute: typeof AuthenticatedCircleRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
   }
 }
 
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedCircleRoute: typeof AuthenticatedCircleRoute
-}
-
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedCircleRoute: AuthenticatedCircleRoute,
-}
-
-const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
-  AuthRoute: AuthRoute,
   BookRoute: BookRoute,
   ConfigureRoute: ConfigureRoute,
   HeritageRoute: HeritageRoute,
   LegalRoute: LegalRoute,
   MaisonRoute: MaisonRoute,
-  OwnersCircleRoute: OwnersCircleRoute,
   PassportRoute: PassportRoute,
-  PressRoute: PressRoute,
   PrivacyRoute: PrivacyRoute,
-  ResetPasswordRoute: ResetPasswordRoute,
   StudioRoute: StudioRoute,
 }
 export const routeTree = rootRouteImport
